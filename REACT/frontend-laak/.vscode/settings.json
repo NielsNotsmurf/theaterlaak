@@ -1,0 +1,16 @@
+{
+    "editor.formatOnPaste": true,
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+        "source.fixAll.eslint": true
+    },
+    "files.exclude": {
+        "**/.git": true,
+        "node_modules": true,
+    },
+    "npm.packageManager": "npm",
+    "workbench.colorCustomizations": {
+        "titleBar.activeBackground": "#333399",
+        "titleBar.activeForeground": "#fff"
+    }
+}
