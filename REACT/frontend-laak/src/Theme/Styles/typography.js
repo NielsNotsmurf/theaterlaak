@@ -5,6 +5,6 @@ const typography = {
         fontWeight: 500,
         color: '#FFFFFF'
     }
-}
+};
 
 export default typography;
