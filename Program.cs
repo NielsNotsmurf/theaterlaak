@@ -2,8 +2,8 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.EntityFrameworkCore;
-using theaterlaak.Data;
-using theaterlaak.Models;
+using testmap.Data;
+using testmap.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
