@@ -78,9 +78,6 @@ const responsive = {
     items: 2
   }
 };
-export default Programmering;
-
-
 const voorstellingen = [
   {
     datum:"19-12-2022", 
@@ -359,3 +356,6 @@ const voorstellingen = [
     ]
   }
 ]
+export default Programmering;
+
+
