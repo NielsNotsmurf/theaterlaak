@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
 using Microsoft.AspNetCore.Mvc;
 
-namespace testmap.Controllers;
+namespace theaterlaak.Controllers;
 
 public class OidcConfigurationController : Controller
 {

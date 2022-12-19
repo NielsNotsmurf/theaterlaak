@@ -2,9 +2,9 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Duende.IdentityServer.EntityFramework.Options;
-using testmap.Models;
+using theaterlaak.Models;
 
-namespace testmap.Data;
+namespace theaterlaak.Data;
 
 public class ApplicationDbContext : ApiAuthorizationDbContext<ApplicationUser>
 {

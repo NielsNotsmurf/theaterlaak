@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
-namespace testmap.Models;
+namespace theaterlaak.Models;
 
 public class ApplicationUser : IdentityUser
 {

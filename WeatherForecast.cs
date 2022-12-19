@@ -1,4 +1,4 @@
-namespace testmap;
+namespace theaterlaak;
 
 public class WeatherForecast
 {
