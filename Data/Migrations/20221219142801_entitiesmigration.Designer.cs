@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using theaterlaak.Data;
 
@@ -10,9 +11,10 @@ using theaterlaak.Data;
 namespace theaterlaak.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221219142801_entitiesmigration")]
+    partial class entitiesmigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "6.0.11");
@@ -321,20 +323,7 @@ namespace theaterlaak.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("UserId1")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("VoorstellingId")
-                        .HasColumnType("INTEGER");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("UserId1");
-
-                    b.HasIndex("VoorstellingId");
 
                     b.ToTable("Reserveringen");
                 });
@@ -381,10 +370,6 @@ namespace theaterlaak.Data.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("Datum")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Titel")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<int>("ZaalId")
@@ -521,23 +506,6 @@ namespace theaterlaak.Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("theaterlaak.Entities.Reservering", b =>
-                {
-                    b.HasOne("theaterlaak.Models.ApplicationUser", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId1");
-
-                    b.HasOne("theaterlaak.Entities.Voorstelling", "Voorstelling")
-                        .WithMany()
-                        .HasForeignKey("VoorstellingId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-
-                    b.Navigation("Voorstelling");
                 });
 
             modelBuilder.Entity("theaterlaak.Entities.Stoel", b =>
