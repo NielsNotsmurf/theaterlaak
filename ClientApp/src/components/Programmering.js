@@ -2,30 +2,49 @@ import React, { Component } from 'react';
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 import { MeerInfo } from './MeerInfo';
-function getMaand(sum) {
-  const today = new Date();
-  const maandNamen = ["Januari", "Februari", "Maart", "April", "Mei", "Juni",
-  "July", "Augustus", "September", "October", "November", "December"];
-  if (today.getMonth()+sum > 11) {
-    return maandNamen[today.getMonth()+sum-12]
-  } else {
-    return maandNamen[today.getMonth()+sum]
-  } 
-}
-
-
 
 export class Programmering extends Component {
-  onClickMeer(voorstelling) {
-    <MeerInfo vs={voorstelling}/>
+  constructor(props) {
+    super(props);
+    this.state = {
+      moment: {},
+      type: ""
+    };
+
+    this.handleInputChange = this.handleInputChange.bind(this);
+  }
+  handleInputChange(event) {
+    const target = event.target;
+    const value = target.value;
+    const name = target.name;
+
+    this.setState({
+      ...this.state,
+      [name]: value,
+    });
+  }
+  getMaand(sum) {
+    const today = new Date();
+    const maandNamen = ["Januari", "Februari", "Maart", "April", "Mei", "Juni",
+    "July", "Augustus", "September", "October", "November", "December"];
+    if (today.getMonth()+sum > 11) {
+      return maandNamen[today.getMonth()+sum-12]
+    } else {
+      return maandNamen[today.getMonth()+sum]
+    } 
+  }
+
+  onClickMeer(moment) {
+    this.setState({...this.state, moment: moment})
   }
   render() {
     return (
       <div>
+        <MeerInfo moment={this.state.moment}/>
         <div className='maanden'>
           {maandMomenten ? maandMomenten.map((momenten, index) => (
             <div key={index} className="maand">
-              <b><p style={{fontSize: 35}}>{getMaand(index)}</p></b>
+              <b><p style={{fontSize: 35}}>{this.getMaand(index)}</p></b>
               <div style={{padding: 20}}>
                 <Carousel responsive={responsive} centerMode={true}>
                 {momenten ? momenten.map((moment, index) => {
@@ -37,7 +56,7 @@ export class Programmering extends Component {
                         <p>{moment.dateTime}</p>
                         <p>{moment.zaal.zaalNr}</p>
                       </div>
-                      <button style={{width: 220, border:1, backgroundColor: 'whitesmoke', boxShadow: '0px 0px 2px gray'}}>Meer over: {moment.voorstelling.titel}</button>
+                      <button style={{width: 220, border:1, backgroundColor: 'whitesmoke', boxShadow: '0px 0px 2px gray'}} onClick={(a)=>this.onClickMeer(moment)}>Meer over: {moment.voorstelling.titel}</button>
                     </div>
                   );
                 }) : <div />}
