@@ -38,7 +38,7 @@ export class Login extends Component {
         this.redirectToRegister();
         break;
       default:
-        throw new Error(`Invalid action '${action}'`);
+        throw new Error(`Ongeldige interactie '${action}'`);
     }
   }
 
@@ -51,14 +51,14 @@ export class Login extends Component {
     } else {
       switch (action) {
         case LoginActions.Login:
-          return (<div>Processing login</div>);
+          return (<div>Loginscherm laden...</div>);
         case LoginActions.LoginCallback:
-          return (<div>Processing login callback</div>);
+          return (<div>Login poging verwerken...</div>);
         case LoginActions.Profile:
         case LoginActions.Register:
           return (<div></div>);
         default:
-          throw new Error(`Invalid action '${action}'`);
+          throw new Error(`Ongeldige interactie '${action}'`);
       }
     }
   }
@@ -76,7 +76,7 @@ export class Login extends Component {
         this.setState({ message: result.message });
         break;
       default:
-        throw new Error(`Invalid status result ${result.status}.`);
+        throw new Error(`Ongeldig status resultaat ${result.status}.`);
     }
   }
 
@@ -87,7 +87,7 @@ export class Login extends Component {
       case AuthenticationResultStatus.Redirect:
         // There should not be any redirects as the only time completeSignIn finishes
         // is when we are doing a redirect sign in flow.
-        throw new Error('Should not redirect.');
+        throw new Error('Moet niet navigeren.');
       case AuthenticationResultStatus.Success:
         await this.navigateToReturnUrl(this.getReturnUrl(result.state));
         break;
@@ -95,7 +95,7 @@ export class Login extends Component {
         this.setState({ message: result.message });
         break;
       default:
-        throw new Error(`Invalid authentication result status '${result.status}'.`);
+        throw new Error(`Ongeldige authenticatie status '${result.status}'.`);
     }
   }
 
@@ -104,7 +104,7 @@ export class Login extends Component {
     const fromQuery = params.get(QueryParameterNames.ReturnUrl);
     if (fromQuery && !fromQuery.startsWith(`${window.location.origin}/`)) {
       // This is an extra check to prevent open redirects.
-      throw new Error("Invalid return url. The return url needs to have the same origin as the current page.")
+      throw new Error("Ongeldige url (URL mag niet anders zijn dan origin pagina).")
     }
     return (state && state.returnUrl) || fromQuery || `${window.location.origin}/`;
   }

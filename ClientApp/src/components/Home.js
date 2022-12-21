@@ -7,18 +7,10 @@ export class Home extends Component {
 
   render() {
     return (
-      <div className='flex-container'>
+      <div>
         <div className='flex-item-main'>
           <img src={logoLaak} alt='Theater Laak logo' />
           <button id='ProgrammeringBtn'>Programmering</button>
-        </div>
-        <div className='flex-item'>
-          <img src={Photo1} alt='afbeelding van een theather' />
-          <p>test</p>
-        </div>
-        <div className='flex-item'>
-          <img src={Photo1} alt='afbeelding van een theather' />
-          <p>test</p>
         </div>
       </div>
     );

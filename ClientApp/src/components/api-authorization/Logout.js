@@ -26,17 +26,17 @@ export class Logout extends Component {
           this.logout(this.getReturnUrl());
         } else {
           // This prevents regular links to <app>/authentication/logout from triggering a logout
-          this.setState({ isReady: true, message: "The logout was not initiated from within the page." });
+          this.setState({ isReady: true, message: "Loguit niet uitgevoerd vanaf initiele pagina." });
         }
         break;
       case LogoutActions.LogoutCallback:
         this.processLogoutCallback();
         break;
       case LogoutActions.LoggedOut:
-        this.setState({ isReady: true, message: "You successfully logged out!" });
+        this.setState({ isReady: true, message: "Succesvol uitgelogd!" });
         break;
       default:
-        throw new Error(`Invalid action '${action}'`);
+        throw new Error(`Ongeldige interactie '${action}'`);
     }
 
     this.populateAuthenticationState();
@@ -53,13 +53,13 @@ export class Logout extends Component {
       const action = this.props.action;
       switch (action) {
         case LogoutActions.Logout:
-          return (<div>Processing logout</div>);
+          return (<div>loguit verwerken...</div>);
         case LogoutActions.LogoutCallback:
-          return (<div>Processing logout callback</div>);
+          return (<div>Loguit verzoek verwerken...</div>);
         case LogoutActions.LoggedOut:
           return (<div>{message}</div>);
         default:
-          throw new Error(`Invalid action '${action}'`);
+          throw new Error(`Ongeldige interactie '${action}'`);
       }
     }
   }
@@ -79,10 +79,10 @@ export class Logout extends Component {
           this.setState({ message: result.message });
           break;
         default:
-          throw new Error("Invalid authentication result status.");
+          throw new Error("Ongeldige authenticatie 'result' status.");
       }
     } else {
-      this.setState({ message: "You successfully logged out!" });
+      this.setState({ message: "Succesvol uitgelgd!" });
     }
   }
 
@@ -93,7 +93,7 @@ export class Logout extends Component {
       case AuthenticationResultStatus.Redirect:
         // There should not be any redirects as the only time completeAuthentication finishes
         // is when we are doing a redirect sign in flow.
-        throw new Error('Should not redirect.');
+        throw new Error('Verwerking moet op de zelfde pagina plaatsvinden.');
       case AuthenticationResultStatus.Success:
         await this.navigateToReturnUrl(this.getReturnUrl(result.state));
         break;
@@ -101,7 +101,7 @@ export class Logout extends Component {
         this.setState({ message: result.message });
         break;
       default:
-        throw new Error("Invalid authentication result status.");
+        throw new Error("Ongeldig autheticatie 'result' status.");
     }
   }
 
@@ -115,7 +115,7 @@ export class Logout extends Component {
     const fromQuery = params.get(QueryParameterNames.ReturnUrl);
     if (fromQuery && !fromQuery.startsWith(`${window.location.origin}/`)) {
       // This is an extra check to prevent open redirects.
-      throw new Error("Invalid return url. The return url needs to have the same origin as the current page.")
+      throw new Error("Return URL moet hetzelfde zijn als initiele pagina.")
     }
     return (state && state.returnUrl) ||
       fromQuery ||

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
-
+import { MeerInfo } from './MeerInfo';
 function getMaand(sum) {
   const today = new Date();
   const maandNamen = ["Januari", "Februari", "Maart", "April", "Mei", "Juni",
@@ -16,10 +16,12 @@ function getMaand(sum) {
 
 
 export class Programmering extends Component {
+  onClickMeer(voorstelling) {
+    <MeerInfo vs={voorstelling}/>
+  }
   render() {
     return (
       <div>
-        <div className="placeholderTopField"></div>
         <div className='maanden'>
           {maandMomenten ? maandMomenten.map((momenten, index) => (
             <div key={index} className="maand">
@@ -35,7 +37,7 @@ export class Programmering extends Component {
                         <p>{moment.dateTime}</p>
                         <p>{moment.zaal.zaalNr}</p>
                       </div>
-                      <button>Lees Meer</button>
+                      <button style={{width: 220, border:1, backgroundColor: 'whitesmoke', boxShadow: '0px 0px 2px gray'}}>Meer over: {moment.voorstelling.titel}</button>
                     </div>
                   );
                 }) : <div />}
