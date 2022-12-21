@@ -55,7 +55,7 @@ const responsive = {
   mobile: {breakpoint: { max: 464, min: 0 }, items: 1}
 };
 //examplefetch
-const maandMomenten = 
+const maandMomenten =
 [ 
   [
     {
