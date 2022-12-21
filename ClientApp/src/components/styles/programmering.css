@@ -8,11 +8,10 @@
 }
 .meerinfo-contentbox-child1 {
     position: absolute;
-    top: 2%;
-    left: 0.5%;
+
     margin: 0 auto;
-    width: 49.0%;
-    height: 288px;
+    width: 50.0%;
+    height: 300px;
     background-color: rgb(88, 88, 88); 
     opacity:90%;
 }
