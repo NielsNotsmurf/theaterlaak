@@ -35,28 +35,40 @@ export class Programmering extends Component {
   }
 
   onClickMeer(moment) {
-    this.setState({...this.state, moment: moment})
+    this.setState({...this.state, moment: moment, type: "meerInfo"})
+  }
+  renderSwitch() {
+    switch(this.state.type) {
+      case "meerInfo" :
+      return <MeerInfo moment={this.state.moment}/>;
+      case "koopTicket" :
+        return <></>;
+      case "" :
+      return <></>;
+    }
   }
   render() {
     return (
       <div>
-        <MeerInfo moment={this.state.moment}/>
+        <div id="topfield">
+          {this.renderSwitch()}
+        </div>
         <div className='maanden'>
           {maandMomenten ? maandMomenten.map((momenten, index) => (
             <div key={index} className="maand">
               <b><p style={{fontSize: 35}}>{this.getMaand(index)}</p></b>
               <div style={{padding: 20}}>
-                <Carousel responsive={responsive} centerMode={true}>
+                <Carousel responsive={responsive} centerMode={true} showDots={true}>
                 {momenten ? momenten.map((moment, index) => {
                   return (
-                    <div key={index} style={{height: 350, width: 220, textAlign: 'center', }}>
-                      <div style={{height: 275, width: 220, backgroundColor: 'whitesmoke', boxShadow: '0px 0px 2px gray'}}>
+                    <div key={index} style={{height: 350, width: 320, textAlign: 'center' }}>
+                      <div style={{height: 300, width: 320, backgroundColor: 'white', boxShadow: '0px 0px 2px gray'}}>
                         <p>{moment.voorstelling.titel}</p>
-                        <img src={moment.voorstelling.img} style={{height: 200, width: 200}}></img>
+                        <img src={moment.voorstelling.img} style={{height: 180, width: 320}}></img>
                         <p>{moment.dateTime}</p>
                         <p>{moment.zaal.zaalNr}</p>
                       </div>
-                      <button style={{width: 220, border:1, backgroundColor: 'whitesmoke', boxShadow: '0px 0px 2px gray'}} onClick={(a)=>this.onClickMeer(moment)}>Meer over: {moment.voorstelling.titel}</button>
+                      <button style={{width: 320, border:1, backgroundColor: 'white', boxShadow: '0px 0px 2px gray'}} onClick={(a)=>this.onClickMeer(moment)}>Meer over: {moment.voorstelling.titel}</button>
                     </div>
                   );
                 }) : <div />}
@@ -70,9 +82,9 @@ export class Programmering extends Component {
   }
 }
 const responsive = {
-  superLargeDesktop: {breakpoint: { max: 4000, min: 3000 }, items: 4},
-  desktop: {breakpoint: { max: 3000, min: 1024 }, items: 3},
-  tablet: {breakpoint: { max: 1024, min: 464 }, items: 2},
+  superLargeDesktop: {breakpoint: { max: 4000, min: 3000 }, items: 3},
+  desktop: {breakpoint: { max: 3000, min: 1024 }, items: 2},
+  tablet: {breakpoint: { max: 1024, min: 464 }, items: 1},
   mobile: {breakpoint: { max: 464, min: 0 }, items: 1}
 };
 //examplefetch
@@ -83,7 +95,7 @@ const maandMomenten =
       id: 1,
       dateTime:"19-12-2022 01:30:00", 
       voorstelling:{
-        titel: "elvis",
+        titel: "Elvis",
         omschrijving: "elvis gaat zingen",
         img: "https://imgur.com/p6nUEDX.jpg",
       },
@@ -106,8 +118,8 @@ const maandMomenten =
       id: 2,
       dateTime:"19-12-2022 02:00:00", 
       voorstelling:{
-        titel: "jan",
-        omschrijving: "jan eet steen",
+        titel: "Jantje",
+        omschrijving: "Jantje eet steen",
         img: "https://imgur.com/QJTWyqA.jpg",
       },
       zaal:
@@ -129,8 +141,8 @@ const maandMomenten =
       id: 3,
       dateTime:"19-12-2022 02:30:00", 
       voorstelling:{
-        titel: "jan",
-        omschrijving: "jan eet steen",
+        titel: "Jantje",
+        omschrijving: "Jantje eet steen",
         img: "https://imgur.com/QJTWyqA.jpg",
       },
       zaal:
@@ -152,7 +164,7 @@ const maandMomenten =
       id: 4,
       dateTime:"19-12-2022 02:30:00", 
       voorstelling:{
-        titel: "elvis",
+        titel: "Elvis",
         omschrijving: "elvis gaat zingen",
         img: "https://imgur.com/p6nUEDX.jpg",
       },
@@ -175,8 +187,8 @@ const maandMomenten =
       id: 5,
       dateTime:"19-12-2022 02:00:00", 
       voorstelling:{
-        titel: "jan",
-        omschrijving: "jan eet steen",
+        titel: "Jantje",
+        omschrijving: "Jantje eet steen",
         img: "https://imgur.com/QJTWyqA.jpg",
       },
       zaal:
@@ -200,7 +212,7 @@ const maandMomenten =
       id: 6,
       dateTime:"19-12-2022 03:00:00", 
       voorstelling:{
-        titel: "elvis",
+        titel: "Elvis",
         omschrijving: "elvis gaat zingen",
         img: "https://imgur.com/p6nUEDX.jpg",
       },
@@ -223,8 +235,8 @@ const maandMomenten =
       id: 7,
       dateTime:"19-12-2022 03:00:00", 
       voorstelling:{
-        titel: "jan",
-        omschrijving: "jan eet steen",
+        titel: "Jantje",
+        omschrijving: "Jantje eet steen",
         img: "https://imgur.com/QJTWyqA.jpg",
       },
       zaal:
@@ -246,8 +258,8 @@ const maandMomenten =
       id: 8,
       dateTime:"19-12-2022 03:00:00", 
       voorstelling:{
-        titel: "jan",
-        omschrijving: "jan eet steen",
+        titel: "Jantje",
+        omschrijving: "Jantje eet steen",
         img: "https://imgur.com/QJTWyqA.jpg",
       },
       zaal:
@@ -269,7 +281,7 @@ const maandMomenten =
       id: 9,
       dateTime:"19-12-2022 03:00:00", 
       voorstelling:{
-        titel: "elvis",
+        titel: "Elvis",
         omschrijving: "elvis gaat zingen",
         img: "https://imgur.com/p6nUEDX.jpg",
       },
@@ -292,8 +304,8 @@ const maandMomenten =
       id: 10,
       dateTime:"19-12-2022 03:00:00", 
       voorstelling:{
-        titel: "jan",
-        omschrijving: "jan eet steen",
+        titel: "Jantje",
+        omschrijving: "Jantje eet steen",
         img: "https://imgur.com/QJTWyqA.jpg",
       },
       zaal:
@@ -317,7 +329,7 @@ const maandMomenten =
       id: 11,
       dateTime:"19-12-2022 03:00:00", 
       voorstelling:{
-        titel: "elvis",
+        titel: "Elvis",
         omschrijving: "elvis gaat zingen",
         img: "https://imgur.com/p6nUEDX.jpg",
       },
@@ -340,8 +352,8 @@ const maandMomenten =
       id: 12,
       dateTime:"19-12-2022 03:00:00", 
       voorstelling:{
-        titel: "jan",
-        omschrijving: "jan eet steen",
+        titel: "Jantje",
+        omschrijving: "Jantje eet steen",
         img: "https://imgur.com/QJTWyqA.jpg",
       },
       zaal:
@@ -363,8 +375,8 @@ const maandMomenten =
       id: 13,
       dateTime:"19-12-2022 03:00:00", 
       voorstelling:{
-        titel: "jan",
-        omschrijving: "jan eet steen",
+        titel: "Jantje",
+        omschrijving: "Jantje eet steen",
         img: "https://imgur.com/QJTWyqA.jpg",
       },
       zaal:
@@ -386,7 +398,7 @@ const maandMomenten =
       id: 14,
       dateTime:"19-12-2022 03:00:00", 
       voorstelling:{
-        titel: "elvis",
+        titel: "Elvis",
         omschrijving: "elvis gaat zingen",
         img: "https://imgur.com/p6nUEDX.jpg",
       },
@@ -409,8 +421,8 @@ const maandMomenten =
       id: 15,
       dateTime:"19-12-2022 03:00:00", 
       voorstelling:{
-        titel: "jan",
-        omschrijving: "jan eet steen",
+        titel: "Jantje",
+        omschrijving: "Jantje eet steen",
         img: "https://imgur.com/QJTWyqA.jpg",
       },
       zaal:
