@@ -52,10 +52,14 @@ export class Contact extends Component {
 
   async populateState() {
     const [isAuthenticated, user] = await Promise.all([authService.isAuthenticated(), authService.getUser()])
-    this.setState({
-      isAuthenticated,
-      from_email: user && user.name
-    });
+    if (user) {
+      this.setState({
+        isAuthenticated,
+        from_email: user && user.name
+      });
+    } else {
+      this.setState({ ...this.state, from_email:"" });
+    }
   }
 
   render() {
@@ -68,15 +72,25 @@ export class Contact extends Component {
           </div>
           <div className='Contact'>
             <form onSubmit={this.onSubmit}>
-              <p>E-mail adres invoeren:</p>
+              <p>Uw email-adres invoeren:</p>
               <input
+                id='inputName'
+                type='text'
+                name='from_name'
+                placeholder='Uw Naam...'
+                value={this.state.from_name}
+                onChange={this.handleChange}
+              />
+              <input
+                required
+                id='inputMail'
                 type='email'
                 name='from_email'
                 placeholder='Uw email-adres...'
                 value={this.state.from_email}
                 onChange={this.handleChange}
               />
-              <p>Vraag en/of proleemstelling:</p>
+              <p>Uw vraag en/of proleemstelling:</p>
               <textarea
                 id='inputMessage'
                 type='text'
