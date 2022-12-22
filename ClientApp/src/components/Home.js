@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import logoLaak from '../images/laak.jpeg';
-import Photo1 from '../images/photo1.jpg';
 
 export class Home extends Component {
   static displayName = Home.name;

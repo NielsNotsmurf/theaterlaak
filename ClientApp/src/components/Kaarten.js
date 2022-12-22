@@ -2,10 +2,6 @@ import { Component } from "react";
 import kaarten from "./kaarten.json";
  
 export class Kaarten extends Component {
-    constructor(props) 
-    {
-        super(props);
-    }
     render() 
     {
         return (

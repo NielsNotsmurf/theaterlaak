@@ -34,6 +34,8 @@ export class Contact extends Component {
   render() {
     return (
       <div>
+        <h1>Contact formulier</h1>
+        <p>Vul hieronder uw vraag in en we laten zo snel mogelijk van ons horen!</p>
         <form id="contact-form" onSubmit={this.handleSubmit.bind(this)} method="POST">
           <div className="form-group">
               <label htmlFor="name">Name</label>
@@ -47,6 +49,7 @@ export class Contact extends Component {
               <label htmlFor="message">Message</label>
               <textarea className="form-control" rows="5" id="message" value={this.state.message} onChange={this.onMessageChange.bind(this)} />
           </div>
+          <br />
           <button type="submit" className="btn btn-primary">Submit</button>
         </form>
       </div>
