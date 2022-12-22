@@ -20,9 +20,9 @@ const Checkout = (props) => (
             <h5>Persoonlijke Gegevens</h5>
             <Input label="* Voornaam" type="text" name="voornaam" />
             <Input label="Tussenvoegsel(s)" type="text" name="tussenvoegsel" />
-            <Input label="* Achternaam" type="number" name="achternaam" />
-            <Input label="* Rekeningnummer" type="text" name="straatnaam" />
-            <Button text="Place order" />
+            <Input label="* Achternaam" type="text" name="achternaam" />
+            <Input label="* Rekeningnummer" type="text" name="rekeningnummer" />
+            <Button text="Bevestig Bestelling" />
         </div>
     </div>
 );
