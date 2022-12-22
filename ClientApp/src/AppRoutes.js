@@ -3,7 +3,6 @@ import { Programmering } from "./components/Programmering";
 import { Home } from "./components/Home";
 import { Contact } from "./components/Contact";
 import { Kaarten } from "./components/Kaarten";
-import { Afrekenen } from "./components/Afrekenen";
 
 const AppRoutes = [
   {
@@ -24,12 +23,6 @@ const AppRoutes = [
     path: '/kaarten',
     requireAuth: true,
     element: <Kaarten />
-  },
-  // tijdelijk
-  {
-    path: '/afrekenen',
-    requireAuth: false,
-    element: <Afrekenen />
   },
   ...ApiAuthorzationRoutes
 ];
