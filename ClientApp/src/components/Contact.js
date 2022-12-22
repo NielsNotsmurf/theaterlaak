@@ -1,71 +1,104 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
+import { send } from 'emailjs-com';
+import authService from './api-authorization/AuthorizeService';
+import './styles/contact.css';
+import logoLaak from '../images/laak.jpeg';
 
 export class Contact extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: '',
-      email: '',
-      message: ''
-    }
-  }
+      from_name: '',
+      from_email: '',
+      to_name: 'TheaterLaak Contact',
+      message: '',
+      reply_to: 'theaterlaakhhs@gmail.com',
+      succes: "",
+    };
 
-  handleSubmit(e) {
+    this.handleChange = this.handleChange.bind(this);
+  }
+  onSubmit = (e) => {
     e.preventDefault();
-    fetch('https://localhost:3002/send', {
-      method: 'POST',
-      body: JSON.stringify(this.state),
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-    })
-      .then(res => res.json())
-      .then(data => {
-        console.log(data);
-      })
-      .catch(err => console.log(err));
+    if (this.state.message.length < 50) {
+      alert("Het bericht moet minimaal 50 tekens bevatten" );
+    } else {
+      send(
+        'service_340sddt',
+        'template_06pij8x',
+        this.state,
+        'K1WEyrm-Zn9CbldYw'
+      )
+        .then((response) => {
+          this.setState({ ...this.state, message: "", succes: "succesvol" });
+        })
+        .catch((err) => {
+          alert("Invoer onjuist [TIP: Controleer of uw email-adres klopt" );
+        });
+    }
+  };
+
+  handleChange = (e) => {
+    this.setState({ ...this.state, [e.target.name]: e.target.value });
+  };
+  componentDidMount() {
+    this._subscription = authService.subscribe(() => this.populateState());
+    this.populateState();
   }
 
-  resetForm() {
-    this.setState({ name: '', email: '', message: '' })
+  componentWillUnmount() {
+    authService.unsubscribe(this._subscription);
+  }
+
+  async populateState() {
+    const [isAuthenticated, user] = await Promise.all([authService.isAuthenticated(), authService.getUser()])
+    this.setState({
+      isAuthenticated,
+      from_email: user && user.name
+    });
   }
 
   render() {
-    return (
-      <div>
-        <h1>Contact formulier</h1>
-        <p>Vul hieronder uw vraag in en we laten zo snel mogelijk van ons horen!</p>
-        <form id="contact-form" onSubmit={this.handleSubmit.bind(this)} method="POST">
-          <div className="form-group">
-              <label htmlFor="name">Name</label>
-              <input type="text" className="form-control" id="name" value={this.state.name} onChange={this.onNameChange.bind(this)} />
+    switch(this.state.succes) {
+      case "":
+        return(
+          <>
+          <div className='flex-item-main'>
+            <img src={logoLaak} alt='Theater Laak logo' />
           </div>
-          <div className="form-group">
-              <label htmlFor="exampleInputEmail1">Email address</label>
-              <input type="email" className="form-control" id="email" aria-describedby="emailHelp" value={this.state.email} onChange={this.onEmailChange.bind(this)} />
+          <div className='Contact'>
+            <form onSubmit={this.onSubmit}>
+              <p>E-mail adres invoeren:</p>
+              <input
+                type='email'
+                name='from_email'
+                placeholder='Uw email-adres...'
+                value={this.state.from_email}
+                onChange={this.handleChange}
+              />
+              <p>Vraag en/of proleemstelling:</p>
+              <textarea
+                id='inputMessage'
+                type='text'
+                name='message'
+                placeholder='Uw bericht...'
+                value={this.state.message}
+                onChange={this.handleChange}
+              />
+              <button type='submit'>Versturen</button>
+            </form>
           </div>
-          <div className="form-group">
-              <label htmlFor="message">Message</label>
-              <textarea className="form-control" rows="5" id="message" value={this.state.message} onChange={this.onMessageChange.bind(this)} />
-          </div>
-          <br />
-          <button type="submit" className="btn btn-primary">Submit</button>
-        </form>
-      </div>
-    );
-  }
-
-  onNameChange(event) {
-    this.setState({ name: event.target.value })
-  }
-  
-  onEmailChange(event) {
-    this.setState({ email: event.target.value })
-  }
-  
-  onMessageChange(event) {
-    this.setState({ message: event.target.value })
+          </>
+          );
+      case "succesvol" :
+        return(
+          <>
+            <p>Bericht is succesvol verzonden!</p>
+            <p>Bedankt voor het contact opnemen met de klantenservice van Theaterlaak.</p>
+          </>
+        );
+    }
+    
   }
 }
 

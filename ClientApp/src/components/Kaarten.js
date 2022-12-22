@@ -8,7 +8,11 @@ export class Kaarten extends Component {
             <div>
                 <h1>Kaarten</h1>
                 <ul>
-                    {kaarten.map((record) => <p><b>Voorstelling:</b> {record.voorstelling} <b>Stoel:</b> {record.Stoel}{record.Rang} <b>Datum:</b> {record.datum} </p>)}
+                    {kaarten.map((record, index) => 
+                    <div key={index}>
+                        <p><b>Voorstelling:</b> {record.voorstelling} <b>Stoel:</b> {record.Stoel}{record.Rang} <b>Datum:</b> {record.datum} </p>
+                    </div>
+                    )}
                 </ul>
             </div>
         );
