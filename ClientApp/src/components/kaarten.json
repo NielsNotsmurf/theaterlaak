@@ -1,0 +1,14 @@
+[{
+    "Stoel": 25,
+    "Rang": "a",
+    "voorstelling": "Elvis", 
+    "naam": "Henk Krol", 
+    "datum": "2023-02-01"
+},
+{
+    "Stoel": 15,
+    "Rang": "b", 
+    "voorstelling": "Jan", 
+    "naam": "Henk Krol", 
+    "datum": "2023-01-01"
+}]

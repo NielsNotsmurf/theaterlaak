@@ -2,6 +2,7 @@ import ApiAuthorzationRoutes from './components/api-authorization/ApiAuthorizati
 import { Programmering } from "./components/Programmering";
 import { Home } from "./components/Home";
 import { Contact } from "./components/Contact";
+import Kaarten from "./components/Kaarten";
 
 const AppRoutes = [
   {
@@ -17,6 +18,11 @@ const AppRoutes = [
     path: '/Contact',
     requireAuth: false,
     element: <Contact />
+  },
+  {
+    path: '/kaarten',
+    requireAuth: true,
+    element: <Kaarten />
   },
   ...ApiAuthorzationRoutes
 ];
