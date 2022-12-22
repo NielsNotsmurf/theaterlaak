@@ -1,25 +1,18 @@
 import { Component } from "react";
+import kaarten from "./kaarten.json";
  
 export class Kaarten extends Component {
-
-    async getData()
+    constructor(props) 
     {
-        const response = await fetch('./kaarten.json');
-        const data = await response.json();
-        return this.setState({data});
+        super(props);
     }
-
-    componentDidMount() 
-    {
-        this.getData();
-    }
-
     render() 
     {
         return (
             <div>
+                <h1>Kaarten</h1>
                 <ul>
-                    {this.state.data.map((x, i) => <li key={i}>x.title</li>)}
+                    {kaarten.map((record) => <p><b>Voorstelling:</b> {record.voorstelling} <b>Stoel:</b> {record.Stoel}{record.Rang} <b>Datum:</b> {record.datum} </p>)}
                 </ul>
             </div>
         );
