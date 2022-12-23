@@ -1,5 +1,4 @@
 import React from "react";
-import { Component } from "react";
 import { useState } from "react";
 import { useEffect } from "react";
 import "./styles/programmering.css";

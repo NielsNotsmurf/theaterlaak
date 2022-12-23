@@ -1,0 +1,10 @@
+.Contact #inputName {
+    width: 100%;
+}
+.Contact #inputMail {
+    width: 100%;
+}
+.Contact #inputMessage {
+    width: 100%;
+    height: 350px;
+}

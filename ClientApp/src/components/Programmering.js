@@ -25,8 +25,7 @@ export class Programmering extends Component {
   }
   getMaand(sum) {
     const today = new Date();
-    const maandNamen = ["Januari", "Februari", "Maart", "April", "Mei", "Juni",
-    "July", "Augustus", "September", "October", "November", "December"];
+    const maandNamen = ["Januari", "Februari", "Maart", "April", "Mei", "Juni", "July", "Augustus", "September", "October", "November", "December"];
     if (today.getMonth()+sum > 11) {
       return maandNamen[today.getMonth()+sum-12]
     } else {
