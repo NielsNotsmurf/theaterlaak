@@ -63,7 +63,7 @@ export class Programmering extends Component {
                 <Carousel responsive={responsive} centerMode={true} showDots={true}>
                 {momenten ? momenten.map((moment, index) => {
                   return (
-                    <div key={index} style={{height: 350, width: 320, textAlign: 'center' }}>
+                    <div key={index} style={{height: 370, width: 320, textAlign: 'center' }}>
                       <div style={{height: 300, width: 320, backgroundColor: 'white', boxShadow: '0px 0px 2px gray'}}>
                         <p>{moment.voorstelling.titel}</p>
                         <img src={moment.voorstelling.img} style={{height: 180, width: 320}}></img>
