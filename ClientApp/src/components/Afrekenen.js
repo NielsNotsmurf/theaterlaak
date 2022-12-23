@@ -17,10 +17,7 @@ export class Afrekenen extends Component {
 const Checkout = (props) => (
     <div className="checkout">
         <div className="checkout-container">
-            <h5>Persoonlijke Gegevens</h5>
-            <Input label="* Voornaam" type="text" name="voornaam" />
-            <Input label="Tussenvoegsel(s)" type="text" name="tussenvoegsel" />
-            <Input label="* Achternaam" type="text" name="achternaam" />
+            <h5>betalen</h5>
             <Input label="* Rekeningnummer" type="text" name="rekeningnummer" />
             <Button text="Bevestig Bestelling" />
         </div>
