@@ -1,4 +1,4 @@
-import '../master.css';
+import '../../master.css';
 import styled from '@mui/material/styles/styled';
 import { Typography } from '@mui/material';
 
