@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 import { MeerInfo } from './MeerInfo';
+import { KoopTicket } from './koopTicket';
 
 export class Programmering extends Component {
   constructor(props) {
@@ -32,16 +33,18 @@ export class Programmering extends Component {
       return maandNamen[today.getMonth()+sum]
     } 
   }
-
+  onClickBestellen(moment) {
+    this.setState({...this.state, moment: moment, type: "koopTicket"})
+  }
   onClickMeer(moment) {
     this.setState({...this.state, moment: moment, type: "meerInfo"})
   }
   renderSwitch() {
     switch(this.state.type) {
       case "meerInfo" :
-      return <MeerInfo moment={this.state.moment}/>;
+      return <MeerInfo callback={(e) => {this.setState({...this.state, type:e})}} moment={this.state.moment}/>;
       case "koopTicket" :
-        return <></>;
+        return <KoopTicket moment={this.state.moment}/>;
       case "" :
       return <></>;
     }
@@ -67,7 +70,7 @@ export class Programmering extends Component {
                         <p>{moment.dateTime}</p>
                         <p>{moment.zaal.zaalNr}</p>
                       </div>
-                      <button style={{width: 320, border:1, backgroundColor: 'white', boxShadow: '0px 0px 2px gray'}} onClick={(a)=>this.onClickMeer(moment)}>Meer over: {moment.voorstelling.titel}</button>
+                      <button id="meerButton" onClick={(a)=>this.onClickMeer(moment)}>Meer over {moment.voorstelling.titel}</button>
                     </div>
                   );
                 }) : <div />}

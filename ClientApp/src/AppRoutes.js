@@ -1,8 +1,8 @@
 import ApiAuthorzationRoutes from './components/api-authorization/ApiAuthorizationRoutes';
-import { Programmering } from "./components/Programmering";
+import { Programmering } from "./components/Programmering/Programmering";
 import { Home } from "./components/Home";
-import { Contact } from "./components/Contact";
-import { Kaarten } from "./components/Kaarten";
+import { Contact } from "./components/Contact/Contact";
+import { Kaarten } from "./components/Profiel/Kaarten";
 
 const AppRoutes = [
   {
@@ -10,7 +10,7 @@ const AppRoutes = [
     element: <Home />
   },
   {
-    path: '/Program',
+    path: '/Programmering',
     requireAuth: false,
     element: <Programmering />
   },

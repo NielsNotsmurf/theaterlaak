@@ -6,6 +6,24 @@
     height: 300px;
     position: relative;
 }
+
+.KoopTicket-contentbox {
+    margin: 0 auto;
+    color: white;
+    background-color: rgb(88, 88, 88); 
+    width: 85%;
+    height: 300px;
+    position: relative;
+}
+
+.empty-contentbox {
+    margin: 0 auto;
+    width: 85%;
+    height: 300px;
+    position: relative;
+    background-color: rgb(88, 88, 88); 
+}
+
 .meerinfo-contentbox-child1 {
     position: absolute;
 
@@ -51,4 +69,11 @@
     margin-top: 10%;
     font-style:italic;
     text-align: center;
+}
+
+#meerButton {
+    width: 320;
+    border:1;
+    background-color: 'white';
+    box-shadow: '0px 0px 2px gray';
 }
