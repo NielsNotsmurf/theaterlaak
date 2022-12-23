@@ -1,38 +1,64 @@
-import { Component } from "react";
- 
-export class Kaarten extends Component {
-    render() 
-    {
-        return (
-            <div>
-                <h1>Kaarten</h1>
-                <ul>
-                    {fetchlist.map((record, index) => 
-                    <div key={index}>
-                        <p><b>Voorstelling:</b> {record.voorstelling} <b>Stoel:</b> {record.Stoel}{record.Rang} <b>Datum:</b> {record.datum} </p>
-                    </div>
-                    )}
-                </ul>
-            </div>
-        );
-    }
-}
+import React from "react";
+import { useState } from "react";
+import { useEffect } from "react";
+import KaartenComponent from "./KaartenComponent";
 
-const fetchlist = [{
-    id : 1,
-    Stoel: 25,
-    Rang: "a",
-    voorstelling: "Elvis", 
-    naam: "Henk Krol", 
-    datum: "2023-02-01"
-},
+const fetchlist = 
+[{
+                id: 1,
+                Stoel: 25,
+                Rang: "a",
+                Zaal: "Zaal 1",
+                voorstelling: "Elvis",
+                naam: "Henk Krol",
+                datum: "2023-02-01"
+            },
+            {
+                id: 2,
+                Stoel: 15,
+                Rang: "b",
+                Zaal: "Zaal 3",
+                voorstelling: "Jan",
+                naam: "Henk Krol",
+                datum: "2023-01-01"
+            }]
+
+export function Kaarten(props) 
 {
-    id : 2,
-    Stoel: 15,
-    Rang: "b", 
-    voorstelling: "Jan", 
-    naam: "Henk Krol", 
-    datum: "2023-01-01"
-}]
+    const [isLoading, setIsLoading] = useState(false);
+    const [kaartenLijst, setKaartenLijst] = useState([]);
 
-export default Kaarten;
+    useEffect(() => {
+        fetchKaartenList();
+    }, [])
+
+    function fetchKaartenList() {
+        setIsLoading(true);
+
+        try {
+            setKaartenLijst(fetchlist);
+        } catch (error) {
+            console.log(error);
+        } finally {
+            setIsLoading(false);
+        }
+    }
+
+    if (isLoading) {
+        return <div className="Loading" style={{color:"grey"}}>Kaarten laden...</div>;
+    }
+
+
+    return (
+        <div>
+            <h1>Kaarten</h1>
+            <ul>
+                {kaartenLijst.map((record, index) =>
+                    <div key={index}>
+                        <KaartenComponent kaart={record} />
+                    </div>
+                )}
+            </ul>
+        </div>
+    );
+}

@@ -41,3 +41,20 @@
     margin: 4px 2px;
     cursor: pointer;
 }
+
+#kaart-design {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    border: 1px solid #000814;
+    border-radius: 15px;
+    box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.2);
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+#kaart-design p {
+    font-size: 12pt;
+}
+  
