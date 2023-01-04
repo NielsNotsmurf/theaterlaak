@@ -5,6 +5,8 @@ import AuthorizeRoute from './components/api-authorization/AuthorizeRoute';
 import { Layout } from './components/Layout';
 import './custom.css';
 
+const Doneer = React.lazy(() => import('./components/Doneer/Doneer'));
+
 export default class App extends Component {
   static displayName = App.name;
 
@@ -16,6 +18,7 @@ export default class App extends Component {
             const { element, requireAuth, ...rest } = route;
             return <Route key={index} {...rest} element={requireAuth ? <AuthorizeRoute {...rest} element={element} /> : element} />;
           })}
+          <Route path='/doneren' element={<Doneer />} />
         </Routes>
       </Layout>
     );
