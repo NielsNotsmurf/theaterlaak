@@ -1,4 +1,6 @@
 import { styled, Typography } from '@mui/material';
+import { useEffect } from 'react';
+import DoneerHelper from '../DoneerHelper';
 
 const StyledDiv = styled('div')(({ theme }) => ({
     padding: theme.spacing(2),
@@ -6,6 +8,15 @@ const StyledDiv = styled('div')(({ theme }) => ({
 }));
 
 export default function DoneerOverzicht() {
+    useEffect(() => {
+        async function getGedoneerdGeld() {
+            await DoneerHelper.countDonatieTotaal();
+        }
+
+        console.log(getGedoneerdGeld());
+        
+    }, []);
+
     return (
         <StyledDiv>
             <Typography variant='h1'>Wil je vervroegd inzicht krijgen in shows?</Typography>
