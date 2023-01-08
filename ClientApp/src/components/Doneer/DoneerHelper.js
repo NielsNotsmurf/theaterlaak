@@ -1,13 +1,12 @@
 
 
 export default class DoneerHelper {
-    static async getDonaties() {
-
+    static async getDonaties(userAuthToken) {
         const response = await fetch('https://ikdoneer.azurewebsites.net/api/donatie', {
             method: 'GET',
             headers: {
                 'Accept': 'application/json',
-                'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIzOWExODA2Zi1hYmYxLTRjMGYtODgyMS0xZGQzYjA3M2Q0ODYiLCJqdGkiOiJhMGQ0NDgxMi0yMDYzLTQxNzQtOTliZC1lYmE5NDc5NTM4YjciLCJpYXQiOiIwMS8wNC8yMDIzIDIyOjUxOjQ5IiwiVXNlcklkIjoiMzlhMTgwNmYtYWJmMS00YzBmLTg4MjEtMWRkM2IwNzNkNDg2IiwiRW1haWwiOiJ0ZXN0YmV0YWFsQGdtYWlsLmNvbSIsImV4cCI6MTk4ODQ5MTkwOSwiaXNzIjoiSWtEb25lZXIiLCJhdWQiOiIqIn0.dZRYBinGpeG3E_rKqR8AquLK6qsZ8cEPm4Z4NPTD-Pk',
+                'Authorization': `Bearer ${userAuthToken}`,
                 'Content-Type': 'application/json',
             }
         });
@@ -16,18 +15,17 @@ export default class DoneerHelper {
             throw new Error(`Http error! status: ${response.status}`)
         }
 
-        const data = await response.json();
-        console.log(data)
-        return data;
+        return await response.json();
     }
 
-    static postDonatie(doelId, hoeveelheid, tekst) {
-        const body = { Doel: doelId, Hoeveelheid: hoeveelheid, Tekst: tekst };
+    static async postDonatie(userAuthToken, doelId, hoeveelheid, tekst) {
+        const body = { Doel: parseInt(doelId), Hoeveelheid: parseInt(hoeveelheid), Tekst: tekst };
+        console.log(body);
         fetch('https://ikdoneer.azurewebsites.net/api/donatie', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
-                'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIzOWExODA2Zi1hYmYxLTRjMGYtODgyMS0xZGQzYjA3M2Q0ODYiLCJqdGkiOiJhMGQ0NDgxMi0yMDYzLTQxNzQtOTliZC1lYmE5NDc5NTM4YjciLCJpYXQiOiIwMS8wNC8yMDIzIDIyOjUxOjQ5IiwiVXNlcklkIjoiMzlhMTgwNmYtYWJmMS00YzBmLTg4MjEtMWRkM2IwNzNkNDg2IiwiRW1haWwiOiJ0ZXN0YmV0YWFsQGdtYWlsLmNvbSIsImV4cCI6MTk4ODQ5MTkwOSwiaXNzIjoiSWtEb25lZXIiLCJhdWQiOiIqIn0.dZRYBinGpeG3E_rKqR8AquLK6qsZ8cEPm4Z4NPTD-Pk',
+                'Authorization': `Bearer ${userAuthToken}`,
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify(body),
@@ -37,8 +35,8 @@ export default class DoneerHelper {
         }).catch((error) => console.log(error));
     }
 
-    static async countDonatieTotaal() {
-        const donaties = await this.getDonaties();
+    static async countDonatieTotaal(userAuthToken) {
+        const donaties = await this.getDonaties(userAuthToken);
 
         if (donaties.length > 0) {
             let aantal = 0;
@@ -49,5 +47,39 @@ export default class DoneerHelper {
         } else {
             return 0;
         }
+    }
+
+    static async getGoedeDoelen(userAuthToken) {
+        const response = await fetch('https://ikdoneer.azurewebsites.net/api/goededoelen', {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+                'Authorization': `Bearer ${userAuthToken}`,
+                'Content-Type': 'application/json',
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error(`Http error! status: ${response.status}`)
+        }
+
+        return await response.json();
+    }
+
+    static async getGoedDoelById(userAuthToken, doelId) {
+        const response = await fetch(`https://ikdoneer.azurewebsites.net/api/goededoelen/${doelId}`, {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+                'Authorization': `Bearer ${userAuthToken}`,
+                'Content-Type': 'application/json',
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error(`Http error! status: ${response.status}`)
+        }
+
+        return await response.json();
     }
 }

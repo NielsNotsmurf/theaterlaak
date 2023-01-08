@@ -1,26 +1,32 @@
-import { styled, Typography } from '@mui/material';
-import { useEffect } from 'react';
-import DoneerHelper from '../DoneerHelper';
+import { useContext, useEffect } from 'react';
+import { useLocation, useParams } from 'react-router-dom';
+import WithContext from '../../Componenten/ContextHelpers/WithContext';
+import DoneerContextProvider, { DoneerContext } from '../DoneerContext';
+import DonatieGoedDoelPagina from './Scenes/DonatieGoedDoelPagina';
+import GoedeDoelenPagina from './Scenes/GoedeDoelenPagina';
+import VerleenToegangPagina from './Scenes/VerleenToegangPagina';
 
-const StyledDiv = styled('div')(({ theme }) => ({
-    padding: theme.spacing(2),
-    textAlign: 'center',
-}));
+function DoneerOverzicht() {
+    const doneerContext = useContext(DoneerContext);
+    const { userAccesToken } = doneerContext;
 
-export default function DoneerOverzicht() {
+    const location = useLocation();
+    const { goedDoelId } = useParams();
+
+
     useEffect(() => {
-        async function getGedoneerdGeld() {
-            await DoneerHelper.countDonatieTotaal();
-        }
 
-        console.log(getGedoneerdGeld());
-        
-    }, []);
+    }, [location.pathname]);
 
-    return (
-        <StyledDiv>
-            <Typography variant='h1'>Wil je vervroegd inzicht krijgen in shows?</Typography>
-            <Typography variant='h2'>Op het moment dat je 100 euro gedoneerd hebt zijn er vele voordelen!</Typography>
-        </StyledDiv>
-    );
+    if (userAccesToken === null) {
+        return (<VerleenToegangPagina />)
+    }
+    
+    if (goedDoelId) {
+        return (<DonatieGoedDoelPagina goedDoelId={goedDoelId} />)
+    }
+
+    return (<GoedeDoelenPagina accesToken={userAccesToken} />);
 }
+
+export default WithContext(DoneerContextProvider, DoneerOverzicht);

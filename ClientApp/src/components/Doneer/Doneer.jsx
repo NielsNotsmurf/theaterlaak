@@ -5,6 +5,8 @@ export default function Doneer() {
     return (    
         <Routes>
             <Route path='/' element={<DoneerOverzicht />} />
+            <Route path='/:goedDoelId' element={<DoneerOverzicht />} />
+            
         </Routes>
     );
 }
