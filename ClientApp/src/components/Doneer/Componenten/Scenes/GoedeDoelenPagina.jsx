@@ -1,4 +1,4 @@
-import { Box, Grid, styled, Typography } from '@mui/material';
+import { Box, Grid, styled, Typography, useMediaQuery } from '@mui/material';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import DoneerHelper from '../../DoneerHelper';
@@ -15,6 +15,8 @@ export default function GoedeDoelenPagina(props) {
     const [goedeDoelen, setGoedeDoelen] = useState([]);
 
     const navigate = useNavigate();
+
+    const isLargeScreen = useMediaQuery((theme) => theme.breakpoints.up('sm'));
 
     useState(async () => {
         const bedrag = await DoneerHelper.countDonatieTotaal(accesToken);
@@ -38,7 +40,7 @@ export default function GoedeDoelenPagina(props) {
                             key={index} 
                             item 
                             onClick={() => navigate(`/doneren/${doel.id}`)}
-                            xs={4} 
+                            xs={isLargeScreen ? 4 : 12} 
                             sx={{ display: 'flex', width: '100%'}}
                         >
                             <GoedDoelComponent doel={doel} />
