@@ -18,6 +18,10 @@ const typography = {
     h4: {
         fontSize: 25
     },
+    h5: {
+        fontSize: 20,
+        fontWeight: 600,
+    },
     subtitle2: {
         color: '#2a99ff'
     }
