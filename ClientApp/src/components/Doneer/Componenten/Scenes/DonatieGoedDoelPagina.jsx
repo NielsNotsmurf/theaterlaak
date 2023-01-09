@@ -40,12 +40,19 @@ export default function DonatieGoedDoelPagina(props) {
     }, [])
 
     async function fetchGoedDoel() {
-        const gevondenDoel = await DoneerHelper.getGoedDoelById(userAccesToken, goedDoelId);
-        setDoel(gevondenDoel);
+        setIsSaving(true);
+
+        try {
+            const gevondenDoel = await DoneerHelper.getGoedDoelById(userAccesToken, goedDoelId);
+            setDoel(gevondenDoel);
+        } catch (error) {
+            console.log(error);
+        } finally {
+            setIsSaving(false);
+        }
     }
 
     async function handleSubmit(event) {
-        console.log(event)
         setIsSaving(true);
 
         try {
@@ -60,8 +67,12 @@ export default function DonatieGoedDoelPagina(props) {
         }
     }
 
+    if (isSaving) {
+        return (<>Aan het laden...</>);
+    }
+    
     if (!doel) {
-        return (<> gefaald</>)
+        return (<> gefaald</>);
     }
 
     return (
