@@ -1,13 +1,13 @@
 import React from "react";
 import { useState } from "react";
 
-export function Login(props) 
+export function Register(props) 
 {
     const [isLoading, setIsLoading] = useState(false);
     
     return (
         <div>
-            <h1>Login</h1>
+            <h1>Register</h1>
         </div>
     );
 }

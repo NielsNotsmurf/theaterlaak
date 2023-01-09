@@ -3,6 +3,8 @@ import { Programmering } from "./components/Programmering/Programmering";
 import { Home } from "./components/Home";
 import { Contact } from "./components/Contact/Contact";
 import { Kaarten } from "./components/Profiel/Kaarten";
+import { Login } from "./components/Profiel/Login";
+import { Register } from "./components/Profiel/Register";
 
 const AppRoutes = [
   {
@@ -27,12 +29,12 @@ const AppRoutes = [
   {
     path: '/register',
     requireAuth: true,
-    element: <Kaarten />
+    element: <Register />
   },
   {
     path: '/login',
     requireAuth: true,
-    element: <Kaarten />
+    element: <Login />
   },
   ...ApiAuthorzationRoutes
 ];
