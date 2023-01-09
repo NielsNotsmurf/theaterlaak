@@ -1,6 +1,5 @@
 import { Component } from 'react';
 import { send } from 'emailjs-com';
-import authService from '../api-authorization/AuthorizeService';
 import '../styles/contact.css';
 import logoLaak from '../../images/laak.jpeg';
 
