@@ -24,6 +24,16 @@ const AppRoutes = [
     requireAuth: true,
     element: <Kaarten />
   },
+  {
+    path: '/register',
+    requireAuth: true,
+    element: <Kaarten />
+  },
+  {
+    path: '/login',
+    requireAuth: true,
+    element: <Kaarten />
+  },
   ...ApiAuthorzationRoutes
 ];
 
