@@ -2,7 +2,6 @@ import './custom.css';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { Kaarten } from './components/Profiel/Kaarten';
 import { Layout } from './components/Layout';
-import ApiAuthorizationRoutes from './components/api-authorization/ApiAuthorizationRoutes';
 import Contact from './components/Contact/Contact';
 import Doneer  from './components/Doneer/Doneer';
 import Home from './components/Home';
@@ -19,9 +18,6 @@ function App() {
                     <Route path='/contact' element={<Contact />} />
                     <Route path='/kaarten' element={<Kaarten />} />
                     <Route path='/doneren/*' element={<Doneer />} />
-                     {ApiAuthorizationRoutes.map((route, index) => {
-                        return <Route key={index} path={route.path} element={route.element} />
-                     })}
                 </Routes>
             </Layout>
         </BrowserRouter>
