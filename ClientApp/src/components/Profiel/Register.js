@@ -1,7 +1,7 @@
 import React from "react";
 import { useState } from "react";
 
-export function Register(props) 
+export default function Register(props) 
 {
     const [isLoading, setIsLoading] = useState(false);
     

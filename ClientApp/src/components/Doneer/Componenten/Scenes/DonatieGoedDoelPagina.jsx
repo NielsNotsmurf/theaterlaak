@@ -1,8 +1,9 @@
-import { Button, FormLabel, styled, TextField, Typography } from '@mui/material';
+import { Button, FormLabel, IconButton, styled, TextField, Typography } from '@mui/material';
 import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { DoneerContext } from '../../DoneerContext';
 import DoneerHelper from '../../DoneerHelper';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 const StyledDiv = styled('div')(({ theme }) => ({
     display: 'flex',
@@ -70,14 +71,19 @@ export default function DonatieGoedDoelPagina(props) {
     if (isSaving) {
         return (<>Aan het laden...</>);
     }
-    
+
     if (!doel) {
         return (<> gefaald</>);
     }
 
     return (
         <StyledDiv>
-            <Typography variant='h2' sx={{ mb: 2}}>{doel.naam}</Typography>
+            <div>
+                <IconButton onClick={() => navigate('/doneren')}>
+                    <ArrowBackIcon />
+                </IconButton>
+                <Typography variant='h2' sx={{ mb: 2}}>{doel.naam}</Typography>
+            </div>
             <Typography variant='body1'>{doel.beschrijving}</Typography>
 
             <StyledFormDiv>

@@ -1,7 +1,7 @@
 import React from "react";
 import { useState } from "react";
 
-export function Login(props) {
+export default function Login(props) {
     const [isLoading, setIsLoading] = useState(false);
     const [email, setEmail] = useState();
     const [password, setPassword] = useState();

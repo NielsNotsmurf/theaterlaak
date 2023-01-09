@@ -7,6 +7,8 @@ import Doneer  from './components/Doneer/Doneer';
 import Home from './components/Home';
 import Programmering from './components/Programmering/Programmering';
 import React from 'react';
+import Register from './components/Profiel/Register';
+import Login from './components/Profiel/Login';
 
 function App() {
     return (
@@ -18,47 +20,12 @@ function App() {
                     <Route path='/contact' element={<Contact />} />
                     <Route path='/kaarten' element={<Kaarten />} />
                     <Route path='/doneren/*' element={<Doneer />} />
+                    <Route path='/registreren' element={<Register />} />
+                    <Route path='/login' element={<Login />} />
                 </Routes>
             </Layout>
         </BrowserRouter>
     );
 }
-const AppRoutes = [
-  {
-    index: true,
-    element: <Home />
-  },
-  {
-    path: '/',
-    requireAuth: false,
-    element: <Home />
-  },
-  {
-    path: '/Programmering',
-    requireAuth: false,
-    element: <Programmering />
-  },
-  {
-    path: '/Contact',
-    requireAuth: false,
-    element: <Contact />
-  },
-  {
-    path: '/kaarten',
-    requireAuth: true,
-    element: <Kaarten />
-  },
-  {
-    path: '/register',
-    requireAuth: true,
-    // element: <Register />
-  },
-  {
-    path: '/login',
-    requireAuth: true,
-    // element: <Login />
-  },
-];
-
 
 export default App;
