@@ -26,6 +26,7 @@ const AppRoutes = [
     requireAuth: true,
     element: <Kaarten />
   },
+<<<<<<< HEAD
   {
     path: '/register',
     requireAuth: true,
@@ -36,6 +37,8 @@ const AppRoutes = [
     requireAuth: true,
     element: <Login />
   },
+=======
+>>>>>>> parent of 93306da (delete scaffold)
   ...ApiAuthorzationRoutes
 ];
 
