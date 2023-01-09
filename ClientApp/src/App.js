@@ -23,6 +23,42 @@ function App() {
         </BrowserRouter>
     );
 }
+const AppRoutes = [
+  {
+    index: true,
+    element: <Home />
+  },
+  {
+    path: '/',
+    requireAuth: false,
+    element: <Home />
+  },
+  {
+    path: '/Programmering',
+    requireAuth: false,
+    element: <Programmering />
+  },
+  {
+    path: '/Contact',
+    requireAuth: false,
+    element: <Contact />
+  },
+  {
+    path: '/kaarten',
+    requireAuth: true,
+    element: <Kaarten />
+  },
+  {
+    path: '/register',
+    requireAuth: true,
+    // element: <Register />
+  },
+  {
+    path: '/login',
+    requireAuth: true,
+    // element: <Login />
+  },
+];
 
 
 export default App;
