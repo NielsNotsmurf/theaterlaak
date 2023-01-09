@@ -10,5 +10,8 @@
     "nodemailer": "^6.8.0",
     "package": "^1.0.1",
     "react-bootstrap": "^2.7.0"
+  },
+  "devDependencies": {
+    "cypress": "^12.3.0"
   }
 }
