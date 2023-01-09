@@ -1,31 +1,27 @@
-import React, { Component } from 'react';
-import { Route, Routes } from 'react-router-dom';
-import { Layout } from './components/Layout';
 import './custom.css';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { Kaarten } from './components/Profiel/Kaarten';
+import { Layout } from './components/Layout';
+import Contact from './components/Contact/Contact';
+import Doneer  from './components/Doneer/Doneer';
+import Home from './components/Home';
+import Programmering from './components/Programmering/Programmering';
+import React from 'react';
 
-//routes
-import { Programmering } from "./components/Programmering/Programmering";
-import { Home } from "./components/Home";
-import { Contact } from "./components/Contact/Contact";
-import { Kaarten } from "./components/Profiel/Kaarten";
-import { Login } from "./components/Profiel/Login";
-import { Register } from "./components/Profiel/Register";
-
-export default class App extends Component {
-  static displayName = App.name;
-
-  render() {
+function App() {
     return (
-      <Layout>
-        <Routes>
-          {AppRoutes.map((route, index) => {
-            const { element, requireAuth, ...rest } = route;
-            return <Route key={index} {...rest} element={requireAuth} />;
-          })}
-        </Routes>
-      </Layout>
+        <BrowserRouter>
+            <Layout>
+                <Routes>
+                    <Route path='/' element={<Home />} />
+                    <Route path='/programmering' element={<Programmering />} />
+                    <Route path='/contact' element={<Contact />} />
+                    <Route path='/kaarten' element={<Kaarten />} />
+                    <Route path='/doneren/*' element={<Doneer />} />
+                </Routes>
+            </Layout>
+        </BrowserRouter>
     );
-  }
 }
 const AppRoutes = [
   {
@@ -55,11 +51,14 @@ const AppRoutes = [
   {
     path: '/register',
     requireAuth: true,
-    element: <Register />
+    // element: <Register />
   },
   {
     path: '/login',
     requireAuth: true,
-    element: <Login />
+    // element: <Login />
   },
 ];
+
+
+export default App;
