@@ -65,12 +65,12 @@ export class Programmering extends Component {
                   return (
                     <div key={index} style={{height: 370, width: 320, textAlign: 'center' }}>
                       <div style={{height: 300, width: 320, backgroundColor: 'white', boxShadow: '0px 0px 2px gray'}}>
-                        <p>{moment.voorstelling.titel}</p>
-                        <img src={moment.voorstelling.img} style={{height: 180, width: 320}}></img>
-                        <p>{moment.dateTime}</p>
-                        <p>{moment.zaal.zaalNr}</p>
+                        <p alt="Voorstelling titel">{moment.voorstelling.titel}</p>
+                        <img src={moment.voorstelling.img} style={{height: 180, width: 320}} alt="Foto voorstelling"></img>
+                        <p alt="datum voorstelling">{moment.dateTime}</p>
+                        <p alt="zaalnummer">{moment.zaal.zaalNr}</p>
                       </div>
-                      <button id="meerButton" onClick={(a)=>this.onClickMeer(moment)}>Meer over {moment.voorstelling.titel}</button>
+                      <button id="meerButton" onClick={(a)=>this.onClickMeer(moment)} alt="Meer informatie button">Meer over {moment.voorstelling.titel}</button>
                     </div>
                   );
                 }) : <div />}

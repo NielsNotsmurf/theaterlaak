@@ -2,7 +2,8 @@
   "dependencies": {
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
-    "@mui/material": "^5.11.1",
+    "@mui/icons-material": "^5.11.0",
+    "@mui/material": "^5.11.3",
     "bootstrap": "^5.2.3",
     "cors": "^2.8.5",
     "emailjs-com": "^3.2.0",

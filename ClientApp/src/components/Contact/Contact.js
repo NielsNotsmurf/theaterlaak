@@ -1,6 +1,6 @@
+import authService from '../../components/api-authorization/AuthorizeService'
 import { Component } from 'react';
 import { send } from 'emailjs-com';
-import authService from '../api-authorization/AuthorizeService';
 import '../styles/contact.css';
 import logoLaak from '../../images/laak.jpeg';
 
@@ -72,7 +72,7 @@ export class Contact extends Component {
           </div>
           <div className='Contact'>
             <form onSubmit={this.onSubmit}>
-              <p>Uw email-adres invoeren:</p>
+              <p alt="invoerveld email">Uw email-adres invoeren:</p>
               <input
                 id='inputName'
                 type='text'
@@ -90,7 +90,7 @@ export class Contact extends Component {
                 value={this.state.from_email}
                 onChange={this.handleChange}
               />
-              <p>Uw vraag en/of proleemstelling:</p>
+              <p alt="invoerveld vraag/probleemstelling">Uw vraag en/of proleemstelling:</p>
               <textarea
                 id='inputMessage'
                 type='text'
@@ -99,7 +99,7 @@ export class Contact extends Component {
                 value={this.state.message}
                 onChange={this.handleChange}
               />
-              <button type='submit'>Versturen</button>
+              <button type='submit' alt="button versturen">Versturen</button>
             </form>
           </div>
           </>
