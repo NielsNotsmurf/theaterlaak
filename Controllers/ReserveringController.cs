@@ -21,9 +21,6 @@ public class ReserveringController : ControllerBase
     {
         var reserveringQuery = _dbContext.Reserveringen
             .AsNoTracking()
-            .Include(p => p.Voorstelling)
-                .ThenInclude(p => p.Zaal)
-                    .ThenInclude(p => p.EersteRangsPlekken)
             .AsQueryable();
 
         var reserveringen = await reserveringQuery.ToListAsync();
@@ -35,9 +32,6 @@ public class ReserveringController : ControllerBase
     {
         var reservering = await _dbContext.Reserveringen
             .AsNoTracking()
-            .Include(p => p.Voorstelling)
-                .ThenInclude(p => p.Zaal)
-                    .ThenInclude(p => p.EersteRangsPlekken)
             .FirstOrDefaultAsync(v => v.Id == id);
 
         if (reservering == null)

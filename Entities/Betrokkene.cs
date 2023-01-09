@@ -7,7 +7,7 @@ public class Betrokkene
 {
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     [Required]
-    public int Id { get; set; }
+    public int Id { get; init; }
 
     public TypePersoon TypePersoon { get; set; }
 

@@ -14,8 +14,9 @@ public class ApplicationDbContext : ApiAuthorizationDbContext<Models.Application
     }
 
     public DbSet<Reservering> Reserveringen => Set<Reservering>();
-    public DbSet<Betrokkene> Betrokkenen => Set<Betrokkene>();
-    public DbSet<Stoel> Stoelen => Set<Stoel>();
     public DbSet<Voorstelling> Voorstellingen => Set<Voorstelling>();
+    public DbSet<Stoel> Stoelen => Set<Stoel>();
     public DbSet<Zaal> Zalen => Set<Zaal>();
+    public DbSet<Moment> Momenten => Set<Moment>();
+    // public DbSet<Betrokkene> Betrokkenen => Set<Betrokkene>();
 }

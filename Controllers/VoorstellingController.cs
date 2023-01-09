@@ -16,29 +16,27 @@ public class VoorstellingController : ControllerBase
         _dbContext = dbContext;
     }
 
-    [HttpGet]
-    public async Task<List<Models.Voorstelling>> GetVoorstellingen()
-    {
-        var voorstellingQuery = _dbContext.Voorstellingen
-            .AsNoTracking()
-            .Include(p => p.Zaal)
-            .AsQueryable();
+    // [HttpGet]
+    // public async Task<List<Models.Voorstelling>> GetVoorstellingen()
+    // {
+    //     var voorstellingQuery = _dbContext.Voorstellingen
+    //         .AsNoTracking()
+    //         .AsQueryable();
 
-        var voorstellingen = await voorstellingQuery.ToListAsync();
-        return voorstellingen.ConvertAll(v => v.ToDto());
-    }
+    //     var voorstellingen = await voorstellingQuery.ToListAsync();
+    //     return voorstellingen.ConvertAll(v => v.ToDto());
+    // }
 
-    [HttpGet("{id}")]
-    public async Task<ActionResult<Models.Voorstelling>> GetVoorstelling(int id)
-    {
-        var voorstelling = await _dbContext.Voorstellingen
-            .AsNoTracking()
-            .Include(v => v.Zaal)
-            .FirstOrDefaultAsync(v => v.Id == id);
+    // [HttpGet("{id}")]
+    // public async Task<ActionResult<Models.Voorstelling>> GetVoorstelling(int id)
+    // {
+    //     var voorstelling = await _dbContext.Voorstellingen
+    //         .AsNoTracking()
+    //         .FirstOrDefaultAsync(v => v.Id == id);
 
-        if (voorstelling == null)
-            throw new NotFoundException();
+    //     if (voorstelling == null)
+    //         throw new NotFoundException();
 
-        return voorstelling.ToDto(); 
-    }
+    //     return voorstelling.ToDto(); 
+    // }
 }
