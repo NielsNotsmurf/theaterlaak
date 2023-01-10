@@ -99,7 +99,7 @@ export class Contact extends Component {
                 value={this.state.message}
                 onChange={this.handleChange}
               />
-              <button type='submit' alt="button versturen">Versturen</button>
+              <button id='submitBtn' type='submit' alt="knop om contactformulier te versturen">Versturen</button>
             </form>
           </div>
           </>
