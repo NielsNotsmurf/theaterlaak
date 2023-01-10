@@ -16,8 +16,7 @@ export default function GoedeDoelenPagina(props) {
 
     const navigate = useNavigate();
 
-    const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.up('sm'));
-    const isMediumScreen = useMediaQuery((theme) => theme.breakpoints.up('md'));
+    const isLargeScreen = useMediaQuery((theme) => theme.breakpoints.up('sm'));
 
     useState(async () => {
         const bedrag = await DoneerHelper.countDonatieTotaal(accesToken);
@@ -25,16 +24,6 @@ export default function GoedeDoelenPagina(props) {
         setGoedeDoelen(doelen);
         setDonaties(bedrag);
     }, [])
-
-    function screenSize() {
-        if (!isSmallScreen) {
-            return 12;
-        } else if (!isMediumScreen) {
-            return 6;
-        } else {
-            return 4;
-        }
-    }
 
     return (
         <StyledDiv>
@@ -51,7 +40,7 @@ export default function GoedeDoelenPagina(props) {
                             key={index} 
                             item 
                             onClick={() => navigate(`/doneren/${doel.id}`)}
-                            xs={screenSize()} 
+                            xs={isLargeScreen ? 4 : 12} 
                             sx={{ display: 'flex', width: '100%'}}
                         >
                             <GoedDoelComponent doel={doel} />
