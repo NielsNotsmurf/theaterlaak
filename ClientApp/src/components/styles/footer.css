@@ -1,0 +1,19 @@
+.footer
+{
+    margin-top: 1rem;
+    padding: 1rem;
+    background-color: #000000;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+}
+
+.p
+{
+  display: inline-block;
+  color: #ffffff;
+  text-align: center;
+  font-size: 1.25rem;
+  width: 20%;
+}

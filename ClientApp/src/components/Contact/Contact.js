@@ -67,9 +67,6 @@ export class Contact extends Component {
       case "":
         return(
           <>
-          <div className='flex-item-main'>
-            <img src={logoLaak} alt='Theater Laak logo' />
-          </div>
           <div className='Contact'>
             <form onSubmit={this.onSubmit}>
               <p alt="invoerveld email">Uw email-adres invoeren:</p>
