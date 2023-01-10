@@ -296,7 +296,10 @@ namespace theaterlaak.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTime>("Datum")
+                    b.Property<DateTime>("EndDateTime")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("StartDateTime")
                         .HasColumnType("TEXT");
 
                     b.Property<int>("VoorstellingId")
@@ -379,9 +382,8 @@ namespace theaterlaak.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Naam")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
+                    b.Property<int>("ZaalType")
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 

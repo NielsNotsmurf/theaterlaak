@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using theaterlaak.Converters;
 using theaterlaak.Data;
 using theaterlaak.Exceptions;
+using theaterlaak.Entities;
 
 namespace theaterlaak.Controllers;
 
@@ -22,7 +23,6 @@ public class MomentController : ControllerBase
         var momentenQuery = _dbContext.Momenten
             .AsNoTracking()
             .Include(m => m.Zaal)
-                .ThenInclude(z => z.Stoelen)
             .Include(m => m.Voorstelling)
             .AsQueryable();
 
@@ -36,7 +36,7 @@ public class MomentController : ControllerBase
         var moment = await _dbContext.Momenten
             .AsNoTracking()
             .Include(m => m.Zaal)
-                .ThenInclude(z => z.Stoelen)
+                .ThenInclude(z => z!.Stoelen)
             .Include(m => m.Voorstelling)
             .FirstOrDefaultAsync(v => v.Id == id);
 
@@ -44,5 +44,96 @@ public class MomentController : ControllerBase
             throw new NotFoundException();
 
         return moment.ToDto(); 
+    }
+
+    [HttpPost]
+    public async Task<ActionResult> AddMoment([FromBody] Models.Moment moment)
+    {
+        if (moment.StartDateTime >= moment.EndDateTime)
+            throw new BadRequestException();
+
+        var zaal = new Zaal() { ZaalType = moment.ZaalType };
+        _dbContext.Zalen.Add(zaal);
+        await _dbContext.SaveChangesAsync();
+
+        var stoelen = generateStoelen(moment.ZaalType, zaal.Id);
+
+        _dbContext.Stoelen.AddRange(stoelen);
+        await _dbContext.SaveChangesAsync();
+
+        var newMoment = new Moment
+        {
+            StartDateTime = moment.StartDateTime,
+            EndDateTime = moment.EndDateTime,
+            VoorstellingId = moment.VoorstellingId,
+            ZaalId = zaal.Id,
+        };
+
+        _dbContext.Momenten.Add(newMoment);
+        await _dbContext.SaveChangesAsync();
+        return Ok(newMoment.ToDto());
+    }
+
+    private static List<Stoel> generateStoelen(ZaalType zaalType, int zaalId) {
+        var stoelen = new List<Stoel>();
+        if (zaalType == ZaalType.Zaal_1)
+        {
+            for (int i = 1; i <= 20; i++) 
+            {
+                stoelen.Add(new Stoel { Rij = 1, ZitPlaats = i, StoelRang = TypeStoel.EersteRangs, ZaalId = zaalId });
+                for (int j = 2; j <= 6; j++) 
+                {
+                    stoelen.Add(new Stoel { Rij = j, ZitPlaats = i, StoelRang = TypeStoel.TweedeRangs, ZaalId = zaalId });
+                }
+                for (int j = 7; j <= 1; j++) 
+                {
+                    stoelen.Add(new Stoel { Rij = j, ZitPlaats = i, StoelRang = TypeStoel.DerdeRangs, ZaalId = zaalId });
+                }
+            }
+        } else if (zaalType == ZaalType.Zaal_2) {
+            for (int i = 1; i <= 20; i++) 
+            {
+                stoelen.Add(new Stoel { Rij = 1, ZitPlaats = i, StoelRang = TypeStoel.EersteRangs, ZaalId = zaalId });
+                for (int j = 2; j <= 9; j++) 
+                {
+                    stoelen.Add(new Stoel { Rij = j, ZitPlaats = i, StoelRang = TypeStoel.TweedeRangs, ZaalId = zaalId });
+                }
+            }
+        } else if (zaalType == ZaalType.Zaal_3) {
+            for (int i = 1; i <= 10; i++) 
+            {
+                stoelen.Add(new Stoel { Rij = 1, ZitPlaats = i, StoelRang = TypeStoel.EersteRangs, ZaalId = zaalId });
+                for (int j = 2; j <= 9; j++) 
+                {
+                    stoelen.Add(new Stoel { Rij = j, ZitPlaats = i, StoelRang = TypeStoel.TweedeRangs, ZaalId = zaalId });
+                }
+            }
+        } else if (zaalType == ZaalType.Zaal_4) {
+            for (int i = 1; i <= 20; i++) 
+            {
+                for (int j = 1; j <= 2; j++) 
+                {
+                    stoelen.Add(new Stoel { Rij = j, ZitPlaats = i, StoelRang = TypeStoel.EersteRangs, ZaalId = zaalId });
+                }
+                for (int j = 3; j <= 12; j++) 
+                {
+                    stoelen.Add(new Stoel { Rij = j, ZitPlaats = i, StoelRang = TypeStoel.TweedeRangs, ZaalId = zaalId });
+                }
+                for (int j = 13; j <= 22; j++) 
+                {
+                    stoelen.Add(new Stoel { Rij = j, ZitPlaats = i, StoelRang = TypeStoel.DerdeRangs, ZaalId = zaalId });
+                }
+            }
+        } else {
+            for (int i = 1; i <= 10; i++) 
+            {
+                for (int j = 1; j <= 3; j++) 
+                {
+                    stoelen.Add(new Stoel { Rij = j, ZitPlaats = i, StoelRang = TypeStoel.Geen_Rang, ZaalId = zaalId });
+                }
+            }
+        }
+
+        return stoelen;
     }
 }

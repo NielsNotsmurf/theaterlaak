@@ -10,7 +10,7 @@ public class Zaal
     public int Id { get; init; }
 
     [Required]
-    public string Naam { get; set; } = String.Empty;
+    public ZaalType ZaalType { get; set; }
 
     [Required]
     public List<Stoel> Stoelen { get; set; } = new List<Stoel>();

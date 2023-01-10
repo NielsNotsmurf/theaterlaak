@@ -11,8 +11,8 @@ using theaterlaak.Data;
 namespace theaterlaak.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230109200935_entitiesmigration")]
-    partial class entitiesmigration
+    [Migration("20230109235850_datetimemigrations")]
+    partial class datetimemigrations
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -298,7 +298,10 @@ namespace theaterlaak.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTime>("Datum")
+                    b.Property<DateTime>("EndDateTime")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("StartDateTime")
                         .HasColumnType("TEXT");
 
                     b.Property<int>("VoorstellingId")
@@ -381,9 +384,8 @@ namespace theaterlaak.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Naam")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
+                    b.Property<int>("ZaalType")
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 

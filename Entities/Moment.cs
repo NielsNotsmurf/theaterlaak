@@ -19,7 +19,11 @@ public class Moment
     public int ZaalId { get; set; }
     public Zaal? Zaal { get; set; }
 
-    
+    [DisplayFormat(DataFormatString = "{0:MMM dd, yyyy}")]    
     [Required]
-    public DateTime Datum { get; set; }
+    public DateTime StartDateTime { get; set; }
+
+    [DisplayFormat(DataFormatString = "{0:MMM dd, yyyy}")]    
+    [Required]
+    public DateTime EndDateTime { get; set; }
 }

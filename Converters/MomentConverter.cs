@@ -8,9 +8,10 @@ public static class MomentConverter
     {
         Id = moment.Id,
         ZaalId = moment.ZaalId,
-        ZaalNaam = moment.Zaal?.Naam,
-        ZaalPlaatsen = moment.Zaal?.Stoelen.Select(ToDto).ToList(),
-        Datum = moment.Datum,
+        ZaalType = moment.Zaal.ZaalType,
+        ZaalPlaatsen = moment.Zaal?.Stoelen.OrderBy(m => m.Rij).Select(ToDto).ToList(),
+        StartDateTime = moment.StartDateTime,
+        EndDateTime = moment.EndDateTime,
         VoorstellingId = moment.VoorstellingId,
         VoorstellingNaam = moment.Voorstelling?.Titel,
     };
