@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.EntityFrameworkCore;
 using theaterlaak.Data;
 using theaterlaak.Models;
+using theaterlaak.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -37,6 +38,8 @@ else
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
+
+app.UseMiddleware<DomainExceptionMiddleware>();
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();

@@ -49,12 +49,11 @@ public class MomentController : ControllerBase
     [HttpPost]
     public async Task<ActionResult> AddMoment([FromBody] Models.Moment moment)
     {
-        if (moment.StartDateTime >= moment.EndDateTime)
-            throw new BadRequestException();
-
         var zaal = new Zaal() { ZaalType = moment.ZaalType };
         _dbContext.Zalen.Add(zaal);
         await _dbContext.SaveChangesAsync();
+
+        checkDateAvailability(moment);
 
         var stoelen = generateStoelen(moment.ZaalType, zaal.Id);
 
@@ -135,5 +134,17 @@ public class MomentController : ControllerBase
         }
 
         return stoelen;
+    }
+
+    private void checkDateAvailability(Models.Moment moment)
+    {
+        if (moment.StartDateTime >= moment.EndDateTime)
+            throw new BadRequestException("Start tijd is later dan de eind tijd en dit kan niet.");
+
+        if (_dbContext.Momenten.Any(m => m.VoorstellingId == moment.VoorstellingId && ((moment.StartDateTime >= m.StartDateTime && moment.StartDateTime < m.EndDateTime) || (moment.EndDateTime > m.StartDateTime && moment.EndDateTime <= m.EndDateTime))))
+            throw new BadRequestException("De voorstelling kan niet op hetzelfde moment worden gemaakt.");
+
+        if (_dbContext.Momenten.Include(m => m.Zaal).Any(m => m.Zaal!.ZaalType == moment.ZaalType && ((moment.StartDateTime >= m.StartDateTime && moment.StartDateTime < m.EndDateTime) || (moment.EndDateTime > m.StartDateTime && moment.EndDateTime <= m.EndDateTime))))
+            throw new BadRequestException("De zaal kan niet op hetzelfde moment worden gebruikt.");
     }
 }

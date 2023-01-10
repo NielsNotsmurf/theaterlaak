@@ -7,7 +7,8 @@ public static class ReserveringConverter
     public static Models.Reservering ToDto(this Reservering reservering) => new()
     {
         Id = reservering.Id,
-        // UserEmail = reservering.User.Email,
-        // ZaalPlaats = 11,
+        MomentId = reservering.MomentId,
+        UserId = reservering.UserId,
+        UserEmail = reservering.User?.Email,
     };
 }

@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using theaterlaak.Converters;
 using theaterlaak.Data;
 using theaterlaak.Exceptions;
+using theaterlaak.Entities;
 
 namespace theaterlaak.Controllers;
 
@@ -38,5 +39,23 @@ public class ReserveringController : ControllerBase
             throw new NotFoundException();
 
         return reservering.ToDto(); 
+    }
+
+    [HttpPost]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult> AddReservering([FromBody] Models.Reservering reservering)
+    {
+        var newReservering = new Reservering()
+        {
+            MomentId = reservering.MomentId,
+            UserId = reservering.UserId,
+        };
+
+        _dbContext.Add(newReservering);
+        await _dbContext.SaveChangesAsync();
+
+        return Ok(newReservering);
     }
 }

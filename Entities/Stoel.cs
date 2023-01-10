@@ -18,4 +18,7 @@ public class Stoel
 
     [ForeignKey(nameof(Zaal))]
     public int ZaalId { get; set; }
+
+    [ForeignKey(nameof(Reservering))]
+    public int? ReserveringId { get; set; }
 }

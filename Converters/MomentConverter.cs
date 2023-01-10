@@ -8,7 +8,7 @@ public static class MomentConverter
     {
         Id = moment.Id,
         ZaalId = moment.ZaalId,
-        ZaalType = moment.Zaal.ZaalType,
+        ZaalType = moment.Zaal!.ZaalType,
         ZaalPlaatsen = moment.Zaal?.Stoelen.OrderBy(m => m.Rij).Select(ToDto).ToList(),
         StartDateTime = moment.StartDateTime,
         EndDateTime = moment.EndDateTime,
