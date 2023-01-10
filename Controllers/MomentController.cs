@@ -47,7 +47,9 @@ public class MomentController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult> AddMoment([FromBody] Models.Moment moment)
+    [ProducesResponseType(StatusCodes.Status200OK)]
+	[ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult> AddMoment(Commands.AddMoment moment)
     {
         var zaal = new Zaal() { ZaalType = moment.ZaalType };
         _dbContext.Zalen.Add(zaal);
@@ -136,7 +138,7 @@ public class MomentController : ControllerBase
         return stoelen;
     }
 
-    private void checkDateAvailability(Models.Moment moment)
+    private void checkDateAvailability(Commands.AddMoment moment)
     {
         if (moment.StartDateTime >= moment.EndDateTime)
             throw new BadRequestException("Start tijd is later dan de eind tijd en dit kan niet.");
