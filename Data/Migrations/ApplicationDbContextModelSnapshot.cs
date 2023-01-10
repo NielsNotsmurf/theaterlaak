@@ -465,6 +465,66 @@ namespace theaterlaak.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
+            modelBuilder.Entity("theaterlaak.Models.Reservering", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("ApplicationUserId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("MomentId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("UserEmail")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int?>("ZaalId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("ZaalPlaats")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ApplicationUserId");
+
+                    b.ToTable("Reservering");
+                });
+
+            modelBuilder.Entity("theaterlaak.Models.Stoel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("Bezet")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("ReserveringId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("Rij")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("StoelRang")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("ZitPlaats")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ReserveringId");
+
+                    b.ToTable("Stoel");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -567,6 +627,20 @@ namespace theaterlaak.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("theaterlaak.Models.Reservering", b =>
+                {
+                    b.HasOne("theaterlaak.Models.ApplicationUser", null)
+                        .WithMany("Reserveringen")
+                        .HasForeignKey("ApplicationUserId");
+                });
+
+            modelBuilder.Entity("theaterlaak.Models.Stoel", b =>
+                {
+                    b.HasOne("theaterlaak.Models.Reservering", null)
+                        .WithMany("GereserveerdeStoelen")
+                        .HasForeignKey("ReserveringId");
+                });
+
             modelBuilder.Entity("theaterlaak.Entities.Reservering", b =>
                 {
                     b.Navigation("GereserveerdeStoelen");
@@ -575,6 +649,16 @@ namespace theaterlaak.Migrations
             modelBuilder.Entity("theaterlaak.Entities.Zaal", b =>
                 {
                     b.Navigation("Stoelen");
+                });
+
+            modelBuilder.Entity("theaterlaak.Models.ApplicationUser", b =>
+                {
+                    b.Navigation("Reserveringen");
+                });
+
+            modelBuilder.Entity("theaterlaak.Models.Reservering", b =>
+                {
+                    b.Navigation("GereserveerdeStoelen");
                 });
 #pragma warning restore 612, 618
         }

@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using theaterlaak.Data;
 using theaterlaak.Exceptions;
+using theaterlaak.Converters;
 
 namespace theaterlaak.Controllers;
 
@@ -39,6 +40,8 @@ public class ApplicationUserController : ControllerBase
 
         if (user == null)
             throw new NotFoundException();
+
+        user.Reserveringen = await _dbContext.Reserveringen.Where(r => r.UserId == id).Select(s => s.ToDto()).ToListAsync();
 
         return user; 
     }

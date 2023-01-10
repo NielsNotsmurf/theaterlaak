@@ -4,5 +4,5 @@ namespace theaterlaak.Models;
 
 public class ApplicationUser : IdentityUser
 {
-    
+    public List<Reservering>? Reserveringen { get; set; }
 }
