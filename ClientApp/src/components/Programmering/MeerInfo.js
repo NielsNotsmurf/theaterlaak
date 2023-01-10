@@ -19,13 +19,14 @@ export function MeerInfo(props) {
       }
       return (
         <div className="meerinfo-contentbox">
-            <img src={moment.voorstelling.img} style={{height: 300, width: '50%', position: "absolute"}}></img>
+            <img src={moment.voorstelling.img} style={{height: 300, position: "absolute"}}></img>
             <div className="meerinfo-contentbox-child1">
                 <p id="titel">{moment.voorstelling.titel}</p>
                 <p>Exclusief in theater laak</p>
             </div>
             <div className="meerinfo-contentbox-child2">
-                <p id="omschrijving">{moment.voorstelling.omschrijving}</p>
+                <p id="omschrijving">Omschrijving:</p>
+                <p>{moment.voorstelling.omschrijving}</p>
                 <button id="bestellen" alt="bestel tickets" onClick={(a)=>props.callback("koopTicket")}>Tickets Bestellen</button>
             </div>
         </div>

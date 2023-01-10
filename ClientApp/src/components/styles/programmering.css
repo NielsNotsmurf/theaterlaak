@@ -25,22 +25,22 @@
 }
 
 .meerinfo-contentbox-child1 {
-    position: absolute;
+    position: relative;
 
     margin: 0 auto;
-    width: 50.0%;
+    width: 100.0%;
     height: 300px;
     background-color: rgb(88, 88, 88); 
     opacity:90%;
 }
 
 .meerinfo-contentbox-child2 {
-    position: absolute;
-    top: 2%;
-    left: 50.5%;
+    position: relative;
+    top: 7%;
+    left: 0%;
     margin: 0 auto;
-    width: 49.0%;
-    height: 288px;
+    width: 100%;
+    height: 260px;
     background-color: rgb(88, 88, 88); 
     opacity:90%;
 }
@@ -61,6 +61,7 @@
 .meerinfo-contentbox-child1 #titel {
     opacity:90%;
     font-size: 100px;
+    word-wrap: break-word;
     font-style:inherit;
     text-align:unset;
     text-align: center;
@@ -72,8 +73,16 @@
 }
 
 #meerButton {
-    width: 320;
-    border:1;
-    background-color: 'white';
-    box-shadow: '0px 0px 2px gray';
+    margin-top:2%;
+    width: 200px;
+    border-color:lightgrey;
+    background-color: white;
+}
+
+#momentBox {
+
+}
+
+#bestellen {
+    left: 0%;
 }
