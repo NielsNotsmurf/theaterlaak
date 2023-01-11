@@ -34,10 +34,10 @@ public class ReserveringController : ControllerBase
         var reservering = await _dbContext.Reserveringen
             .AsNoTracking()
             .Include(r => r.Moment)
-                .ThenInclude(m => m.Zaal)
-                    .ThenInclude(z => z.Stoelen)
+                .ThenInclude(m => m!.Zaal)
+                    .ThenInclude(z => z!.Stoelen)
              .Include(r => r.Moment)
-                .ThenInclude(m => m.Voorstelling)
+                .ThenInclude(m => m!.Voorstelling)
             .Include(r => r.User)
             .FirstOrDefaultAsync(v => v.Id == id);
 

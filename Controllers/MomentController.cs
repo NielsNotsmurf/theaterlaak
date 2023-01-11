@@ -49,8 +49,11 @@ public class MomentController : ControllerBase
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status200OK)]
 	[ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult> AddMoment(Commands.AddMoment moment)
+    public async Task<ActionResult> AddMoment([FromBody]Commands.AddMoment moment)
     {
+        if (moment.StartDateTime < DateTime.Now || moment.EndDateTime < DateTime.Now)
+            throw new BadRequestException("De meegegeven waarden zijn fout.");
+
         var zaal = new Zaal() { ZaalType = moment.ZaalType };
         _dbContext.Zalen.Add(zaal);
         await _dbContext.SaveChangesAsync();
