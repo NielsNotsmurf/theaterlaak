@@ -1,4 +1,4 @@
-import './custom.css';
+import '../src/./components/./styles/custom.css';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { Kaarten } from './components/Profiel/Kaarten';
 import { Layout } from './components/Layout';
