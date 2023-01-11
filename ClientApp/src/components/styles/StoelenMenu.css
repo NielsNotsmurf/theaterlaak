@@ -1,12 +1,23 @@
 .StoelenMenu {
     font-family: sans-serif;
     text-align: center;
+    width: 100%;
+    
   }
 
   #screen {
     background-color: rgb(1, 126, 221);
+    height: 25px;
+    width: 50%;
+    margin-left:25%;    
   }
-
+  #entrance {
+    margin-top: 5%;
+    background-color: rgb(1, 126, 221);
+    height: 25px;
+    width: 50%;
+    margin-left:25%;
+  }
   .row {
     background-color:rgb(88, 88, 88);
   }
