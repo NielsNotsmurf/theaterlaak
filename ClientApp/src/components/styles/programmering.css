@@ -7,12 +7,16 @@
     position: relative;
 }
 
+.meerinfo-contentbox #filmfoto {
+    width: 220px;
+    height:300px;
+}
+
 .KoopTicket-contentbox {
     margin: 0 auto;
-    color: white;
-    background-color: rgb(88, 88, 88); 
+    background-color: rgb(255, 255, 255); 
     width: 85%;
-    height: 300px;
+    height: 500px;
     position: relative;
 }
 
@@ -24,65 +28,9 @@
     background-color: rgb(88, 88, 88); 
 }
 
-.meerinfo-contentbox-child1 {
-    position: relative;
-
-    margin: 0 auto;
-    width: 100.0%;
-    height: 300px;
-    background-color: rgb(88, 88, 88); 
-    opacity:90%;
-}
-
-.meerinfo-contentbox-child2 {
-    position: relative;
-    top: 7%;
-    left: 0%;
-    margin: 0 auto;
-    width: 100%;
-    height: 260px;
-    background-color: rgb(88, 88, 88); 
-    opacity:90%;
-}
-
-.meerinfo-contentbox-child2 #omschrijving {
-    margin:2% 0 0 5%;
-    opacity:90%;
-    font-size: 21px;
-    text-align: left;
-}
-
-.meerinfo-contentbox-child2 button {
-    position:relative;
-    top: 70%;
-    left: 38%;
-    border: 0px;
-}
-.meerinfo-contentbox-child1 #titel {
-    opacity:90%;
-    font-size: 100px;
-    word-wrap: break-word;
-    font-style:inherit;
-    text-align:unset;
-    text-align: center;
-}
-.meerinfo-contentbox-child1 p {
-    margin-top: 10%;
-    font-style:italic;
-    text-align: center;
-}
-
 #meerButton {
     margin-top:2%;
     width: 200px;
     border-color:lightgrey;
     background-color: white;
-}
-
-#momentBox {
-
-}
-
-#bestellen {
-    left: 0%;
 }

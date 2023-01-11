@@ -45,7 +45,7 @@ export class Programmering extends Component {
       case "meerInfo" :
       return <MeerInfo callback={(e) => {this.setState({...this.state, type:e})}} moment={this.state.moment}/>;
       case "koopTicket" :
-        return <KoopTicket moment={this.state.moment}/>;
+        return <KoopTicket  callback={(e) => {this.setState({...this.state, type:e})}} moment={this.state.moment}/>;
       case "" :
         return (
           <div>
@@ -60,9 +60,9 @@ export class Programmering extends Component {
                         <div id="momentBox" key={index} style={{height: 370, width: 200, textAlign: 'center' }}>
                           <div style={{height: 300, width: 200, backgroundColor: 'white', boxShadow: '0px 0px 2px gray'}}>
                             <p alt="Voorstelling titel">{moment.voorstelling.titel}</p>
-                            <img src={moment.voorstelling.img} style={{height: 180, width: 200}} alt="Foto voorstelling"></img>
-                            <p alt="datum voorstelling">{moment.dateTime}</p>
+                            <img src={moment.voorstelling.img} style={{height: 150, width: 110}} alt="Foto voorstelling"></img>
                             <p alt="zaalnummer">{moment.zaal.zaalNr}</p>
+                            <p alt="datum voorstelling">{moment.dateTime}</p>
                           </div>
                           <button id="meerButton" onClick={(a)=>this.onClickMeer(moment)} alt="Meer informatie button">Meer over {moment.voorstelling.titel}</button>
                         </div>
