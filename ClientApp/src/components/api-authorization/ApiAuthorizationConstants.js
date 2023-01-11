@@ -1,4 +1,4 @@
-export const ApplicationName = 'theaterlaak';
+export const ApplicationName = 'test';
 
 export const QueryParameterNames = {
   ReturnUrl: 'returnUrl',
