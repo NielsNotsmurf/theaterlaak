@@ -9,6 +9,7 @@ public record Betrokkene
     public int Id { get; init; }
 
     public TypePersoon TypePersoon { get; init; }
+    public string Naam { get; init; } = string.Empty;
 
     public string Beschrijving { get; init; } = string.Empty;
 

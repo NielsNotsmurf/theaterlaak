@@ -12,11 +12,15 @@ public class Betrokkene
     public TypePersoon TypePersoon { get; set; }
 
     [Required]
-    public string Beschrijving { get; set; } = String.Empty;
+    public string Naam { get; set; } = string.Empty;
 
     [Required]
-    public string Afbeelding { get; set; } = String.Empty;
+    public string Beschrijving { get; set; } = string.Empty;
+
+    [Required]
+    public string Afbeelding { get; set; } = string.Empty;
 
     public string? GeboorteDatum { get; set; }   
 
+    public List<Voorstelling>? Voorstellingen { get; set; }
 }

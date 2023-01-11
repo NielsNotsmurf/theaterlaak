@@ -11,8 +11,8 @@ using theaterlaak.Data;
 namespace theaterlaak.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230110223151_finalmigrationfornow")]
-    partial class finalmigrationfornow
+    [Migration("20230111200114_newMigration")]
+    partial class newMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -292,6 +292,35 @@ namespace theaterlaak.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("theaterlaak.Entities.Betrokkene", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Afbeelding")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Beschrijving")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("GeboorteDatum")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Naam")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("TypePersoon")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Betrokkenen");
+                });
+
             modelBuilder.Entity("theaterlaak.Entities.Moment", b =>
                 {
                     b.Property<int>("Id")
@@ -380,11 +409,16 @@ namespace theaterlaak.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<int>("BetrokkeneId")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("Titel")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("BetrokkeneId");
 
                     b.ToTable("Voorstellingen");
                 });
@@ -476,8 +510,14 @@ namespace theaterlaak.Migrations
                     b.Property<string>("ApplicationUserId")
                         .HasColumnType("TEXT");
 
+                    b.Property<DateTime?>("EindTijd")
+                        .HasColumnType("TEXT");
+
                     b.Property<int>("MomentId")
                         .HasColumnType("INTEGER");
+
+                    b.Property<DateTime?>("StartTijd")
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("UserEmail")
                         .HasColumnType("TEXT");
@@ -486,10 +526,10 @@ namespace theaterlaak.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<int?>("ZaalId")
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("VoorstellingTitle")
+                        .HasColumnType("TEXT");
 
-                    b.Property<int?>("ZaalPlaats")
+                    b.Property<int?>("ZaalNummer")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
@@ -629,6 +669,17 @@ namespace theaterlaak.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("theaterlaak.Entities.Voorstelling", b =>
+                {
+                    b.HasOne("theaterlaak.Entities.Betrokkene", "Betrokkene")
+                        .WithMany("Voorstellingen")
+                        .HasForeignKey("BetrokkeneId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Betrokkene");
+                });
+
             modelBuilder.Entity("theaterlaak.Models.Reservering", b =>
                 {
                     b.HasOne("theaterlaak.Models.ApplicationUser", null)
@@ -641,6 +692,11 @@ namespace theaterlaak.Migrations
                     b.HasOne("theaterlaak.Models.Reservering", null)
                         .WithMany("GereserveerdeStoelen")
                         .HasForeignKey("ReserveringId");
+                });
+
+            modelBuilder.Entity("theaterlaak.Entities.Betrokkene", b =>
+                {
+                    b.Navigation("Voorstellingen");
                 });
 
             modelBuilder.Entity("theaterlaak.Entities.Reservering", b =>

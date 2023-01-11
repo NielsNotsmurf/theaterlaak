@@ -46,6 +46,19 @@ public class MomentController : ControllerBase
         return moment.ToDto(); 
     }
 
+    [HttpGet("[action]")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<List<Models.Moment>> GetKaartjesHoudersOverzicht()
+    {
+        var momentenQuery = _dbContext.Momenten
+            .AsNoTracking()
+            .AsQueryable();
+
+        var momenten = await momentenQuery.ToListAsync();
+        return momenten.ConvertAll(m => m.ToDto());
+    }
+
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status200OK)]
 	[ProducesResponseType(StatusCodes.Status400BadRequest)]
