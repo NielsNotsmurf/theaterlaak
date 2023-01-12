@@ -1,10 +1,13 @@
 using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc;
 using theaterlaak.Data;
 using theaterlaak.Models;
 using theaterlaak.Middleware;
+using Newtonsoft.Json;
+using NSwag;
+using NSwag.Generation.Processors.Security;
+using Newtonsoft.Json.Converters;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,8 +26,30 @@ builder.Services.AddIdentityServer()
 builder.Services.AddAuthentication()
     .AddIdentityServerJwt();
 
-builder.Services.AddControllersWithViews();
-builder.Services.AddRazorPages();
+builder.Services.AddControllers().AddNewtonsoftJson(options =>
+{
+    options.SerializerSettings.Converters.Add(new StringEnumConverter());
+    options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+});
+
+builder.Services.AddSwagger(document => 
+{
+    document.AddSecurity("JWT", Enumerable.Empty<string>(), new OpenApiSecurityScheme
+    {
+        Type = OpenApiSecuritySchemeType.ApiKey,
+        Name = "Authorization",
+        In = OpenApiSecurityApiKeyLocation.Header,
+        Description = "Type into the text box: Bearer {jour JWT token}."
+    });
+
+    document.OperationProcessors.Add(new AspNetCoreOperationSecurityScopeProcessor("JWT"));
+    
+    document.Title = "TheatherlaakApi";
+    document.Version = "v1";
+    document.Description = "The ASP.NET Core web API for Theather Laak";
+
+    document.RequireParametersWithoutDefault = true;
+});
 
 var app = builder.Build();
 
@@ -41,19 +66,13 @@ else
 
 app.UseMiddleware<DomainExceptionMiddleware>();
 
-app.UseHttpsRedirection();
+app.UseOpenApi();
+app.UseSwaggerUi3(o => o.DocumentTitle = "TheatherLaak");
+
+app.UseCors();
+
 app.UseStaticFiles();
-app.UseRouting();
 
-app.UseAuthentication();
-app.UseIdentityServer();
-app.UseAuthorization();
-
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller}/{action=Index}/{id?}");
-app.MapRazorPages();
-
-app.MapFallbackToFile("index.html");;
+app.MapControllers();
 
 app.Run();

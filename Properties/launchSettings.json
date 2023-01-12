@@ -11,6 +11,7 @@
     "theaterlaak": {
       "commandName": "Project",
       "launchBrowser": true,
+      "launchUrl": "swagger/index.html",
       "applicationUrl": "https://localhost:7242;http://localhost:5212",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
@@ -20,6 +21,7 @@
     "IIS Express": {
       "commandName": "IISExpress",
       "launchBrowser": true,
+      "launchUrl": "swagger/index.html",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
         "ASPNETCORE_HOSTINGSTARTUPASSEMBLIES": "Microsoft.AspNetCore.SpaProxy"
