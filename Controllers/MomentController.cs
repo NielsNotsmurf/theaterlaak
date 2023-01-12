@@ -62,7 +62,7 @@ public class MomentController : ControllerBase
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status200OK)]
 	[ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult> AddMoment([FromBody]Commands.AddMoment moment)
+    public async Task<ActionResult> AddMoment([FromBody]Commands.AddOrUpdateMoment moment)
     {
         if (moment.StartDateTime < DateTime.Now || moment.EndDateTime < DateTime.Now)
             throw new BadRequestException("De meegegeven waarden zijn fout.");
@@ -154,7 +154,7 @@ public class MomentController : ControllerBase
         return stoelen;
     }
 
-    private void checkDateAvailability(Commands.AddMoment moment)
+    private void checkDateAvailability(Commands.AddOrUpdateMoment moment)
     {
         if (moment.StartDateTime >= moment.EndDateTime)
             throw new BadRequestException("Start tijd is later dan de eind tijd en dit kan niet.");
@@ -164,5 +164,36 @@ public class MomentController : ControllerBase
 
         if (_dbContext.Momenten.Include(m => m.Zaal).Any(m => m.Zaal!.ZaalType == moment.ZaalType && ((moment.StartDateTime >= m.StartDateTime && moment.StartDateTime < m.EndDateTime) || (moment.EndDateTime > m.StartDateTime && moment.EndDateTime <= m.EndDateTime))))
             throw new BadRequestException("De zaal kan niet op hetzelfde moment worden gebruikt.");
+    }
+
+    //delete momenten endpoint
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteMoment(int id)
+    {
+        var momentToDelete = await _dbContext.Momenten.FindAsync(id);
+        if (momentToDelete == null)
+            throw new NotFoundException("Het moment is niet gevonden.");
+
+        _dbContext.Momenten.Remove(momentToDelete);
+        await _dbContext.SaveChangesAsync();
+        return Ok();
+    }
+
+    //update momenten endpoint
+    [HttpPut("{id}")]
+    public async Task<IActionResult> UpdateMoment(int id, Commands.AddOrUpdateMoment moment)
+    {
+        var momentToUpdate = await _dbContext.Momenten.FindAsync(id);
+        if (momentToUpdate == null)
+            throw new NotFoundException("Het moment is niet gevonden.");
+
+        momentToUpdate.StartDateTime = moment.StartDateTime;
+        momentToUpdate.EndDateTime = moment.EndDateTime;
+        // momentToUpdate.ZaalId = moment.ZaalId;
+        momentToUpdate.VoorstellingId = moment.VoorstellingId;
+
+        _dbContext.Momenten.Update(momentToUpdate);
+        await _dbContext.SaveChangesAsync();
+        return Ok(momentToUpdate.ToDto());
     }
 }

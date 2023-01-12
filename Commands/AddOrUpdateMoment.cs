@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace theaterlaak.Commands;
 
-public record AddMoment
+public record AddOrUpdateMoment
 {
     [Required]
     public DateTime StartDateTime { get; init; }
