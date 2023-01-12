@@ -11,8 +11,8 @@ using theaterlaak.Data;
 namespace theaterlaak.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230111200114_newMigration")]
-    partial class newMigration
+    [Migration("20230111231942_CorrectDateTimeUse")]
+    partial class CorrectDateTimeUse
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -306,7 +306,7 @@ namespace theaterlaak.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("GeboorteDatum")
+                    b.Property<DateTime?>("GeboorteDatum")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Naam")

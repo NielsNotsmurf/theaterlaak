@@ -9,4 +9,10 @@ public record Voorstelling
     public int Id { get; init; }
 
     public string Titel { get; init; } = string.Empty;
+
+    public int BetrokkeneId { get; init; }
+
+    public string BetrokkeneNaam { get; init; } = string.Empty;
+
+    public string BetrokkeneBeschrijving { get; init; } = string.Empty;
 }

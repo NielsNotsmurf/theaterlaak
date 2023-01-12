@@ -20,7 +20,8 @@ public class Betrokkene
     [Required]
     public string Afbeelding { get; set; } = string.Empty;
 
-    public string? GeboorteDatum { get; set; }   
+    [DisplayFormat(DataFormatString = "{MMM dd, yyyy}")] 
+    public DateTime? GeboorteDatum { get; set; }   
 
     public List<Voorstelling>? Voorstellingen { get; set; }
 }

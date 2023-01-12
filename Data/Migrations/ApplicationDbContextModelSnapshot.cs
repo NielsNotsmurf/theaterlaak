@@ -304,7 +304,7 @@ namespace theaterlaak.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("GeboorteDatum")
+                    b.Property<DateTime?>("GeboorteDatum")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Naam")
