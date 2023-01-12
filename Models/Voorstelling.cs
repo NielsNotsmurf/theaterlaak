@@ -5,11 +5,14 @@ namespace theaterlaak.Models;
 
 public record Voorstelling 
 {
-    [Required]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; init; }
 
-    [Required]
-    public DateTime Datum { get; init; }
-    public int ZaalNummer { get; init; }
-    public int StoelNummer { get; init; }
+    public string Titel { get; init; } = string.Empty;
+
+    public int BetrokkeneId { get; init; }
+
+    public string BetrokkeneNaam { get; init; } = string.Empty;
+
+    public string BetrokkeneBeschrijving { get; init; } = string.Empty;
 }
