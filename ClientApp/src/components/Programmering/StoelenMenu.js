@@ -18,12 +18,10 @@ export default function StoelenMenu(props) {
       setLoading(true)
       if (removeCb) {
         await new Promise(resolve => setTimeout(resolve, 750))
-        console.log(`Removed seat ${params.number}, row ${params.row}, id ${params.id}`)
         removeCb(params.row, params.number)
       }
       await new Promise(resolve => setTimeout(resolve, 750))
-      console.log(`Added seat ${number}, row ${row}, id ${id}`)
-      const newTooltip = `tooltip for id-${id} added by callback`
+      const newTooltip = `Deze stoel heeft u gereserveerd`
       addCb(row, number, id, newTooltip)
       setLoading(false)
     })();
@@ -131,15 +129,15 @@ export default function StoelenMenu(props) {
       ],
       [
         { id: 70, number: "1. [♿]", tooltip: "Invalide Zitplaats"},
-        { id: 71, number: "2. [♿]" },
+        { id: 71, number: "2. [♿]", tooltip: "Invalide Zitplaats" },
         { id: 72, number: 3 },
         { id: 73, number: 4 },
         { id: 74, number: 5 },
         { id: 76, number: 6 },
         { id: 77, number: 7 },
         { id: 78,number: 8 },
-        { id: 79,number: "9. [♿]" },
-        { id: 79,number: "10. [♿]" }
+        { id: 79,number: "9. [♿]", tooltip: "Invalide Zitplaats" },
+        { id: 79,number: "10. [♿]", tooltip: "Invalide Zitplaats" },
       ]
     ];
     if (loadingPage) {
@@ -151,7 +149,7 @@ export default function StoelenMenu(props) {
         <div className='StoelenMenu'>
           <h1 id='filmtitel'>{props.moment.voorstelling.titel}</h1>
           <p style={{marginBottom: '25px'}} id='filmdatetime'>{props.moment.dateTime}</p>
-          <div id='screen'>Beeldscherm</div>
+          <div id='screen'>Podium</div>
           <div style={{marginTop: '75px'}}>
             <SeatPicker
               addSeatCallback={addSeatCallbackContinousCase}
@@ -166,6 +164,7 @@ export default function StoelenMenu(props) {
               continuous
             />
           </div>
+          <div id='entrance'>Ingang     |    Ingang</div>
         </div>
       )
   }
