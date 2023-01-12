@@ -6,7 +6,7 @@ import Contact from './components/Contact/Contact';
 import Doneer  from './components/Doneer/Doneer';
 import Home from './components/Home';
 import Programmering from './components/Programmering/Programmering';
-import React from 'react';
+import React, {useState} from 'react';
 import Register from './components/Profiel/Register';
 import Login from './components/Profiel/Login';
 
