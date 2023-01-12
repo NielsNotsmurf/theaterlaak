@@ -22,5 +22,6 @@ public static class ReserveringConverter
         Id = stoel.Id,
         Rij = stoel.Rij,
         ZitPlaats = stoel.ZitPlaats,
+        Bezet = stoel.Bezet,
     };
 }

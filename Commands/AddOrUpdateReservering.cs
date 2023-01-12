@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace theaterlaak.Commands;
 
-public record AddReservering
+public record AddOrUpdateReservering
 {
     [Required]
     public string UserId { get; init; } = string.Empty;
