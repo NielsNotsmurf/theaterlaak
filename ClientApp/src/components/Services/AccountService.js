@@ -1,6 +1,5 @@
 import { authHeader, config, handleError, handleResponse } from '../Helpers';
 
-//moet ik dit veranderen naar AccountService?
 const AccountService = {
     login,
     logout,
@@ -19,7 +18,8 @@ function login(username, password) {
         body: JSON.stringify({ username, password })
     };
 
-    return fetch(config.apiUrl + '/api/users/authenticate', requestOptions)
+    //fetch aanpassen naar de juiste endpoint
+    return fetch(config.apiUrl + '/Account/authenticate', requestOptions)
         .then(handleResponse, handleError)
         .then(user => {
             // login successful if there's a jwt token in the response
@@ -32,7 +32,7 @@ function login(username, password) {
 }
 
 function logout() {
-    // remove user from local storage to log user out
+    // remove user van local storage om user uit te loggen
     localStorage.removeItem('user');
 }
 
@@ -42,7 +42,7 @@ function getAll() {
         headers: authHeader()
     };
 
-    return fetch(config.apiUrl + '/api/users', requestOptions).then(handleResponse, handleError);
+    return fetch(config.apiUrl + '/Account/', requestOptions).then(handleResponse, handleError);
 }
 
 function getById(id) {
@@ -51,7 +51,7 @@ function getById(id) {
         headers: authHeader()
     };
 
-    return fetch(config.apiUrl + '/api/users/' + id, requestOptions).then(handleResponse, handleError);
+    return fetch(config.apiUrl + '/Account/' + id, requestOptions).then(handleResponse, handleError);
 }
 
 function register(user) {
@@ -61,7 +61,7 @@ function register(user) {
         body: JSON.stringify(user)
     };
 
-    return fetch(config.apiUrl + '/api/users/register', requestOptions).then(handleResponse, handleError);
+    return fetch(config.apiUrl + '/Account/register', requestOptions).then(handleResponse, handleError);
 }
 
 function update(user) {
@@ -71,15 +71,15 @@ function update(user) {
         body: JSON.stringify(user)
     };
 
-    return fetch(config.apiUrl + '/users/' + user.id, requestOptions).then(handleResponse, handleError);
+    return fetch(config.apiUrl + '/Account/' + user.id, requestOptions).then(handleResponse, handleError);
 }
 
-// prefixed function name with underscore because delete is a reserved word in javascript
+// functienaam met lage streep omdat delete een gereserveerd woord is in javascript
 function _delete(id) {
     const requestOptions = {
         method: 'DELETE',
         headers: authHeader()
     };
 
-    return fetch(config.apiUrl + '/api/users/' + id, requestOptions).then(handleResponse, handleError);
+    return fetch(config.apiUrl + '/Account/' + id, requestOptions).then(handleResponse, handleError);
 }

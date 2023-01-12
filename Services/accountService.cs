@@ -43,10 +43,10 @@ public class accountService : IAccountService
     {
         // validation
         if (string.IsNullOrWhiteSpace(password))
-            throw new Exception("Password is required");
+            throw new Exception("Password is verplicht");
 
         if (_context.Users.Any(x => x.Email == user.Email))
-            throw new Exception("Email '" + user.Email + "' is already taken");
+            throw new Exception("Email '" + user.Email + "' is al in gebruik");
 
         byte[] passwordHash, passwordSalt;
         CreatePasswordHash(password, out passwordHash, out passwordSalt);
@@ -85,13 +85,13 @@ public class accountService : IAccountService
         var user = _context.Users.Find(userParam.Id);
 
         if (user == null)
-            throw new Exception("User not found");
+            throw new Exception("Gebruiker niet gevonden");
 
         if (userParam.Email != user.Email)
         {
             // username has changed so check if the new username is already taken
             if (_context.Users.Any(x => x.Email == userParam.Email))
-                throw new Exception("Username " + userParam.Email + " is already taken");
+                throw new Exception("Username " + userParam.Email + " is al in gebruik");
         }
 
         // update user properties
@@ -114,7 +114,7 @@ public class accountService : IAccountService
     private static void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
     {
         if (password == null) throw new ArgumentNullException("password");
-        if (string.IsNullOrWhiteSpace(password)) throw new ArgumentException("Value cannot be empty or whitespace only string.", "password");
+        if (string.IsNullOrWhiteSpace(password)) throw new ArgumentException("Waarde mag niet leeg zijn of string met alleen witruimte.", "password");
 
         using (var hmac = new System.Security.Cryptography.HMACSHA512())
         {
@@ -126,8 +126,8 @@ public class accountService : IAccountService
     private static bool VerifyPasswordHash(string password, byte[] storedHash)
     {
         if (password == null) throw new ArgumentNullException("password");
-        if (string.IsNullOrWhiteSpace(password)) throw new ArgumentException("Value cannot be empty or whitespace only string.", "password");
-        if (storedHash.Length != 64) throw new ArgumentException("Invalid length of password hash (64 bytes expected).", "passwordHash");
+        if (string.IsNullOrWhiteSpace(password)) throw new ArgumentException("Waarde mag niet leeg zijn of string met alleen witruimte.", "password");
+        if (storedHash.Length != 64) throw new ArgumentException("Ongeldige lengte van wachtwoord-hash (64 bytes verwacht).", "passwordHash");
 
         return true;
     }

@@ -1,5 +1,4 @@
 import React from "react";
-import { useState } from "react";
 import AccountService from '../Services/AccountService';
 
 
@@ -20,12 +19,12 @@ export default class Login extends React.Component {
     await AccountService.login(this.state.UserName, this.state.passwordHash).then(() => {
       this.setState({ succes: "succesvol" });
     });
-    // console.log(authService.getUser());
   };
 
   handleChange = (e) => {
     this.setState({ ...this.state, [e.target.name]: e.target.value });
   };
+  
   // componentDidMount() {
   //   this._subscription = authService.subscribe(() => this.populateState());
   //   this.populateState();
@@ -86,25 +85,28 @@ export default class Login extends React.Component {
   //     }
   //   }
 
+  //value moet nog in de input maar doet voorlopig raar
   render() {
     return (
       <div>
         <h1>Inloggen</h1>
         <form onSubmit={this.onSubmit}>
-          <label>
-            <p>UserName</p>
-            <input 
+            <p>Email</p>
+            <input
+            required={true}
             type="email" 
-            alt="invoerveld UserName" 
+            alt="invoerveld email" 
             placeholder="Email"
+            onChange={this.handleChange}
             />
-          </label>
-          <label>
             <p>Wachtwoord</p>
-            <input type="password" alt="invoerveld wachtwoord"
+            <input 
+            required={true}
+            type="password" 
+            alt="invoerveld wachtwoord"
             placeholder="Wachtwoord"
+            onChange={this.handleChange}
             />
-          </label>
           <div>
             <button type="submit">Login</button>
           </div>

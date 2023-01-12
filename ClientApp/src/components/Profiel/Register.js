@@ -1,6 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import authService from '../../components/api-authorization/AuthorizeService'
+import AccountService from "../Services/AccountService";
 
 export default class Register extends React.Component {
     constructor(props) {
@@ -8,91 +9,104 @@ export default class Register extends React.Component {
         this.state = {
             firstName: "",
             lastName: "",
-            email: "",
+            UserName: "",
             password: "",
             confirmPassword: "",
-            phonenumber: null
+            PhoneNumber: null,
+            error: "",
         }
         this.handleChange = this.handleChange.bind(this);
     }
+
+
 
     handleChange = (e) => {
         this.setState({ ...this.state, [e.target.name]: e.target.value });
     };
 
     //aanpassen
-    onSubmit = (e) => {
+    onSubmit = async (e) => {
         e.preventDefault();
-        authService.login(this.state.email, this.state.password).then(() => {
-
+        await AccountService.register(this.state.firstName, this.state.lastName, this.state.UserName, this.state.password, this.state.confirmPassword, this.state.PhoneNumber).then(() => {
+            this.setState({ succes: "succesvol" });
         });
-        console.log(authService.getUser());
     };
+
+    validateConfirmPassword = e => {
+        let { name, value } = e.target;
+        this.setState(prev => {
+            const stateObj = { ...prev, [name]: "" };
+            if (this.state.password && value !== this.state.password) {
+                stateObj[name] = "Wachtwoorden komen niet overeen.";
+            }
+            return stateObj;
+        });
+    }
 
     //aanpassen
     render() {
         return (
             <>
                 <div>
+                    <h1>Registeren</h1>
                     <form onSubmit={this.onSubmit}>
-                        <p alt="invoerveld email">Uw email-adres invoeren:</p>
+                        <p alt="invoerveld Voornaam">Voornaam:</p>
                         <input
                             required={true}
                             message="Dit veld is verplicht"
-                            id='inputMail'
-                            type='email'
-                            placeholder='Email'
-                            value={this.state.email}
-                            onChange={e => this.setState({ email: e.target.value })}
+                            type="text"
+                            name="firstName"
+                            value={this.state.firstName || ""}
+                            onChange={this.handleChange}
                         />
-                        <p alt="invoerveld wachtwoord">Wachtwoord:</p>
+                        <p alt="invoerveld Achternaam">Achternaam:</p>
                         <input
                             required={true}
                             message="Dit veld is verplicht"
-                            id='inputPassword'
-                            type='Password'
-                            placeholder='Wachtwoord'
-                            value={this.state.password}
-                            onChange={e => this.setState({ password: e.target.value })}
+                            type="text"
+                            name="lastName"
+                            value={this.state.lastName || ""}
+                            onChange={this.handleChange}
                         />
+                        <p alt="invoerveld email">Email:</p>
                         <input
                             required={true}
                             message="Dit veld is verplicht"
-                            id='inputPassword'
-                            type='Password'
-                            placeholder='Wachtwoord'
-                            value={this.state.password}
-                            onChange={e => this.setState({ password: e.target.value })}
+                            type="email"
+                            name="UserName"
+                            value={this.state.UserName || ""}
+                            onChange={this.handleChange}
                         />
+                        <p alt="invoerveld Wachtwoord">Wachtwoord:</p>
                         <input
                             required={true}
                             message="Dit veld is verplicht"
-                            id='inputPassword'
-                            type='Password'
-                            placeholder='Wachtwoord'
-                            value={this.state.password}
-                            onChange={e => this.setState({ password: e.target.value })}
+                            type="password"
+                            name="password"
+                            value={this.state.password || ""}
+                            onChange={this.handleChange}
                         />
+                        <p alt="invoerveld bevestig wachtwoord">bevestig uw wachtwoord:</p>
                         <input
                             required={true}
                             message="Dit veld is verplicht"
-                            id='inputPassword'
-                            type='Password'
-                            placeholder='Wachtwoord'
-                            value={this.state.password}
-                            onChange={e => this.setState({ password: e.target.value })}
+                            type="password"
+                            name="password"
+                            value={this.state.password || ""}
+                            onChange={this.handleChange}
                         />
+                        <p alt="invoerveld Telefoonnummer">Telefoonnummer (optioneel):</p>
                         <input
-                            required={true}
-                            message="Dit veld is verplicht"
-                            id='inputPassword'
-                            type='Password'
-                            placeholder='Wachtwoord'
-                            value={this.state.password}
-                            onChange={e => this.setState({ password: e.target.value })}
+                            required={false}
+                            message="Dit veld is optioneel"
+                            type="number"
+                            name="PhoneNumber"
+                            value={this.state.PhoneNumber || ""}
+                            onChange={this.handleChange}
+                            onBlur={this.validateConfirmPassword}
                         />
-                        <button type='submit' alt="login button">Login</button>
                     </form>
+                    <button type='submit' alt="Registreer Knop">Registreer</button>
                 </div>
             </>
         );
