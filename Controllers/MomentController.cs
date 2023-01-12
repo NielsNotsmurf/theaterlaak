@@ -166,20 +166,30 @@ public class MomentController : ControllerBase
             throw new BadRequestException("De zaal kan niet op hetzelfde moment worden gebruikt.");
     }
 
-    //delete momenten endpoint
+    //delete moment endpoint
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteMoment(int id)
     {
         var momentToDelete = await _dbContext.Momenten.FindAsync(id);
+        var zaalToDelete = await _dbContext.Zalen.FindAsync(id);
+        var stoelenToDelete = await _dbContext.Stoelen.Where(s => s.ZaalId == id).ToListAsync();
         if (momentToDelete == null)
             throw new NotFoundException("Het moment is niet gevonden.");
 
+        if (zaalToDelete == null)
+            throw new NotFoundException("De zaal is niet gevonden.");
+
+        if (stoelenToDelete == null)
+            throw new NotFoundException("De stoelen zijn niet gevonden.");
+        
         _dbContext.Momenten.Remove(momentToDelete);
+        _dbContext.Zalen.Remove(zaalToDelete);
+        _dbContext.Stoelen.RemoveRange(stoelenToDelete);
         await _dbContext.SaveChangesAsync();
         return Ok();
     }
 
-    //update momenten endpoint
+    //update moment endpoint
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateMoment(int id, Commands.AddOrUpdateMoment moment)
     {
@@ -187,11 +197,17 @@ public class MomentController : ControllerBase
         if (momentToUpdate == null)
             throw new NotFoundException("Het moment is niet gevonden.");
 
+        if (momentToUpdate.Zaal == null)
+            throw new NotFoundException("De zaal is niet gevonden.");
+
         momentToUpdate.StartDateTime = moment.StartDateTime;
         momentToUpdate.EndDateTime = moment.EndDateTime;
-        // momentToUpdate.ZaalId = moment.ZaalId;
         momentToUpdate.VoorstellingId = moment.VoorstellingId;
+        momentToUpdate.Zaal!.ZaalType = moment.ZaalType;
 
+        checkDateAvailability(moment);
+
+        _dbContext.Zalen.Update(momentToUpdate.Zaal);
         _dbContext.Momenten.Update(momentToUpdate);
         await _dbContext.SaveChangesAsync();
         return Ok(momentToUpdate.ToDto());
