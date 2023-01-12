@@ -39,55 +39,63 @@ export class Programmering extends Component {
   onClickMeer(moment) {
     this.setState({...this.state, moment: moment, type: "meerInfo"})
   }
-  renderSwitch() {
+
+  render() {
     switch(this.state.type) {
       case "meerInfo" :
       return <MeerInfo callback={(e) => {this.setState({...this.state, type:e})}} moment={this.state.moment}/>;
       case "koopTicket" :
-        return <KoopTicket moment={this.state.moment}/>;
+        return <KoopTicket  callback={(e) => {this.setState({...this.state, type:e})}} moment={this.state.moment}/>;
       case "" :
-      return <></>;
-    }
-  }
-  render() {
-    return (
-      <div>
-        <div id="topfield">
-          {this.renderSwitch()}
-        </div>
-        <div className='maanden'>
-          {maandMomenten ? maandMomenten.map((momenten, index) => (
-            <div key={index} className="maand">
-              <b><p style={{fontSize: 35}}>{this.getMaand(index)}</p></b>
-              <div style={{padding: 20}}>
-                <Carousel responsive={responsive} centerMode={true} showDots={true}>
-                {momenten ? momenten.map((moment, index) => {
-                  return (
-                    <div key={index} style={{height: 370, width: 320, textAlign: 'center' }}>
-                      <div style={{height: 300, width: 320, backgroundColor: 'white', boxShadow: '0px 0px 2px gray'}}>
-                        <p alt="Voorstelling titel">{moment.voorstelling.titel}</p>
-                        <img src={moment.voorstelling.img} style={{height: 180, width: 320}} alt="Foto voorstelling"></img>
-                        <p alt="datum voorstelling">{moment.dateTime}</p>
-                        <p alt="zaalnummer">{moment.zaal.zaalNr}</p>
-                      </div>
-                      <button id="meerButton" onClick={(a)=>this.onClickMeer(moment)} alt="Meer informatie button">Meer over {moment.voorstelling.titel}</button>
-                    </div>
-                  );
-                }) : <div />}
-                </Carousel>
-              </div>
+        return (
+          <div>
+            <div className='maanden'>
+              {maandMomenten ? maandMomenten.map((momenten, index) => (
+                <div key={index} className="maand">
+                  <b><p style={{fontSize: 35}}>{this.getMaand(index)}</p></b>
+                  <div style={{padding: 20}}>
+                    <Carousel responsive={responsive} centerMode={true} showDots={true}>
+                    {momenten ? momenten.map((moment, index) => {
+                      return (
+                        <div id="momentBox" key={index} style={{height: 370, width: 200, textAlign: 'center' }}>
+                          <div style={{height: 300, width: 200, backgroundColor: 'white', boxShadow: '0px 0px 2px gray'}}>
+                            <p alt="Voorstelling titel">{moment.voorstelling.titel}</p>
+                            <img src={moment.voorstelling.img} style={{height: 150, width: 110}} alt="Foto voorstelling"></img>
+                            <p alt="zaalnummer">{moment.zaal.zaalNr}</p>
+                            <p alt="datum voorstelling">{moment.dateTime}</p>
+                          </div>
+                          <button id="meerButton" onClick={(a)=>this.onClickMeer(moment)} alt="Meer informatie button">Meer over {moment.voorstelling.titel}</button>
+                        </div>
+                      );
+                    }) : <div />}
+                    </Carousel>
+                  </div>
+                </div>
+              )):<div/>}
             </div>
-          )):<div/>}
-        </div>
-      </div>
-    )
+          </div>
+        );
+    }
   }
 }
 const responsive = {
-  superLargeDesktop: {breakpoint: { max: 4000, min: 3000 }, items: 3},
-  desktop: {breakpoint: { max: 3000, min: 1024 }, items: 2},
-  tablet: {breakpoint: { max: 1024, min: 464 }, items: 1},
-  mobile: {breakpoint: { max: 464, min: 0 }, items: 1}
+  superLargeDesktop: {
+    // the naming can be any, depends on you.
+    breakpoint: { max: 4000, min: 3000 },
+    items: 5
+  },
+  desktop: {
+    breakpoint: { max: 3000, min: 1500 },
+    items: 3
+  },
+  tablet: {
+    breakpoint: { max: 1500, min: 800 },
+    items: 2
+  },
+  mobile: {
+    breakpoint: { max: 800, min: 0 },
+    items: 1
+  }
 };
 //examplefetch
 const maandMomenten =

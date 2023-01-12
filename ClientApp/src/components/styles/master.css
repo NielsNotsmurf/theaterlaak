@@ -28,7 +28,7 @@
     height: 25%;
 }
 
-#ProgrammeringBtn {
+/* #ProgrammeringBtn {
     background: #000814;
     border: none;
     border-radius: 15px;
@@ -40,7 +40,7 @@
     font-size: 16px;
     margin: 4px 2px;
     cursor: pointer;
-}
+} */
 
 #kaart-design {
     display: flex;
@@ -57,4 +57,38 @@
 #kaart-design p {
     font-size: 12pt;
 }
-  
+
+.flex-item-main-agenda
+{
+    background: #FFC300;
+}
+
+.flex-item-main-agenda label 
+{
+    color: #000000;
+    font-size: 1.62rem;
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
+.voorstellingCard img
+{
+    width: 50%;
+    height: 100%;
+    float: left;
+}
+
+#ticketsBtn 
+{
+    background: #000814;
+    border: none;
+    border-radius: 10px;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
