@@ -44,7 +44,10 @@ public class BetrokkeneController : ControllerBase
         return betrokkene.ToDto(); 
     }
 
+    // POST api/<BetrokkeneController>
     [HttpPost]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult> addBetrokkene([FromBody] Models.Betrokkene betrokkene)
     {
         var newBetrokkene = new Betrokkene() {
@@ -60,7 +63,11 @@ public class BetrokkeneController : ControllerBase
         return CreatedAtAction(nameof(GetBetrokkene), new { id = newBetrokkene.Id }, newBetrokkene.ToDto());
     }
 
+
+    // PUT api/<BetrokkeneController>
     [HttpPut("{id}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult> updateBetrokkene(int id, [FromBody] Models.Betrokkene betrokkene)
     {
         var existingBetrokkene = await _dbContext.Betrokkenen.FirstOrDefaultAsync(v => v.Id == id);
@@ -80,7 +87,10 @@ public class BetrokkeneController : ControllerBase
         return Ok(existingBetrokkene.ToDto());
     }
 
+    // DELETE api/<BetrokkeneController>
     [HttpDelete("{id}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult> deleteBetrokkene(int id)
     {
         var existingBetrokkene = await _dbContext.Betrokkenen.FirstOrDefaultAsync(v => v.Id == id);
