@@ -21,6 +21,8 @@ builder.Services.AddIdentityServer()
 builder.Services.AddAuthentication()
     .AddIdentityServerJwt();
 
+builder.Services.AddScoped<IAccountService, accountService>();
+
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 
