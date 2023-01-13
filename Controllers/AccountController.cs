@@ -59,20 +59,18 @@ public class AccountController : ControllerBase
         });
     }
 
-    [AllowAnonymous]
     [HttpPost("register")]
-    public IActionResult Register([FromBody] String username, String password)
+    public IActionResult Register([FromBody] ApplicationUser applicationUser)
     {
-        ApplicationUser applicationUser = new ApplicationUser();
         var user = new ApplicationUser
         {
-            UserName = username
+            UserName = applicationUser.UserName
         };
 
         try
         {
             // save 
-            applicationUser = _userService.Create(user, password);
+            applicationUser = _userService.Create(user, applicationUser.UserName);
             return Ok();
         }
         catch (Exception ex)
