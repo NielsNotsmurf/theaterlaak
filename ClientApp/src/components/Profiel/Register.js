@@ -1,6 +1,5 @@
 import React from "react";
 import { useState } from "react";
-import authService from '../../components/api-authorization/AuthorizeService'
 import AccountService from "../Services/AccountService";
 
 export default class Register extends React.Component {

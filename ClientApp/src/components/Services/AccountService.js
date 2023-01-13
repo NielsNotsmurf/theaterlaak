@@ -22,7 +22,7 @@ function login(username, password) {
     return fetch(config.apiUrl + '/api/Account/authenticate', requestOptions)
         .then(handleResponse, handleError)
         .then(user => {
-            // login successful if there's a jwt token in the response
+            // login succesvol als er een jwt token in the response is
             if (user && user.token) {
                 // store user details and jwt token in local storage to keep user logged in between page refreshes
                 localStorage.setItem('user', JSON.stringify(user));
