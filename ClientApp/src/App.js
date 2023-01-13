@@ -5,10 +5,13 @@ import { Layout } from './components/Layout';
 import Contact from './components/Contact/Contact';
 import Doneer  from './components/Doneer/Doneer';
 import Home from './components/Home';
-import Programmering from './components/Programmering/Programmering';
-import React, {useState} from 'react';
-import Register from './components/Profiel/Register';
 import Login from './components/Profiel/Login';
+import MainContextProvider from './components/MainContext';
+import Profiel from './components/Profiel/Profiel';
+import Programmering from './components/Programmering/Programmering';
+import React from 'react';
+import Register from './components/Profiel/Register';
+import WithContext from './components/Componenten/ContextHelpers/WithContext';
 
 function App() {
     return (
@@ -22,10 +25,11 @@ function App() {
                     <Route path='/doneren/*' element={<Doneer />} />
                     <Route path='/registreren' element={<Register />} />
                     <Route path='/login' element={<Login />} />
+                    <Route path='/profiel/*' element={<Profiel />} />
                 </Routes>
             </Layout>
         </BrowserRouter>
     );
 }
 
-export default App;
+export default WithContext(MainContextProvider, App);

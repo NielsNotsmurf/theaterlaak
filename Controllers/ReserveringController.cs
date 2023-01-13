@@ -133,4 +133,20 @@ public class ReserveringController : ControllerBase
 
         return NoContent();
     }
+
+    [HttpGet("[action]/{userId}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<List<Models.Reservering>> GetReserveringenByUserId(string userId)
+    {
+        var reserveringQuery = _dbContext.Reserveringen
+            .AsNoTracking()
+            .Include(r => r.Moment)
+                .ThenInclude(m => m!.Voorstelling)
+            .Where(v => v.UserId == userId)
+            .AsQueryable();
+
+        var reserveringen = await reserveringQuery.ToListAsync();
+        return reserveringen.ConvertAll(r => r.ToDto());
+    }
 }
