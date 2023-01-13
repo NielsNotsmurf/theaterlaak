@@ -23,6 +23,14 @@ builder.Services.AddAuthentication()
 
 builder.Services.AddScoped<IAccountService, accountService>();
 
+builder.Services.AddCors(option => 
+{
+    option.AddDefaultPolicy(builder => 
+    {
+        builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
+    });
+});
+
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 
@@ -49,11 +57,12 @@ app.UseAuthentication();
 app.UseIdentityServer();
 app.UseAuthorization();
 
+app.UseCors();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller}/{action=Index}/{id?}");
 app.MapRazorPages();
 
-app.MapFallbackToFile("index.html");;
+app.MapFallbackToFile("index.html");
 
 app.Run();
