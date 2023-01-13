@@ -8,8 +8,10 @@ using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using theaterlaak.Models;
 
+namespace theaterlaak.Controllers;
+
 [ApiController]
-[Route("[controller]")]
+[Route("/api/[controller]")]
 public class AccountController : ControllerBase
 {
 
@@ -25,7 +27,7 @@ public class AccountController : ControllerBase
     }
 
 
-    [AllowAnonymous]
+    
     [HttpPost("authenticate")]
     public IActionResult Authenticate([FromBody] ApplicationUser applicationUser)
     {

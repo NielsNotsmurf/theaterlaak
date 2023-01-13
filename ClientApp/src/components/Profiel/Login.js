@@ -8,7 +8,7 @@ export default class Login extends React.Component {
     super(props);
     this.state = {
       UserName: "",
-      passwordHash: "",
+      password: "",
       succes: "",
     };
     this.handleChange = this.handleChange.bind(this);
@@ -16,7 +16,7 @@ export default class Login extends React.Component {
 
   onSubmit = async (e) => {
     e.preventDefault();
-    await AccountService.login(this.state.UserName, this.state.passwordHash).then(() => {
+    await AccountService.login(this.state.UserName, this.state.password).then(() => {
       this.setState({ succes: "succesvol" });
     });
   };
@@ -46,72 +46,44 @@ export default class Login extends React.Component {
   //   }
   // }
 
-  //   render() {
-  //     switch (this.state.succes) {
-  //       case "":
-  //         return (
-  //           <>
-  //             <div>
-  //               <form onSubmit={this.onSubmit}>
-  //                 <p alt="invoerveld UserName">Uw UserName invoeren:</p>
-  //                 <input
-  //                   required={true}
-  //                   message="Dit veld is verplicht"
-  //                   id='inputMail'
-  //                   type='UserName'
-  //                   placeholder='Email'
-  //                   value={this.state.UserName}
-  //                   onChange={this.handleChange}
-  //                 />
-  //                 <p alt="invoerveld wachtwoord">Wachtwoord:</p>
-  //                 <input
-  //                   required={true}
-  //                   message="Dit veld is verplicht"
-  //                   id='inputPassword'
-  //                   type='Password'
-  //                   placeholder='Wachtwoord'
-  //                   value={this.state.passwordHash}
-  //                   onChange={this.handleChange}
-  //                 />
-  //                 <button type='submit' alt="login button">Login</button>
-  //               </form>
-  //             </div>
-  //           </>
-  //         );
-  //       case "succesvol":
-  //         return (
-  //           window.location.href = "../"
-  //         );
-  //     }
-  //   }
-
-  //value moet nog in de input maar doet voorlopig raar
   render() {
-    return (
-      <div>
-        <h1>Inloggen</h1>
-        <form onSubmit={this.onSubmit}>
-            <p>Email</p>
-            <input
-            required={true}
-            type="email" 
-            alt="invoerveld email" 
-            placeholder="Email"
-            onChange={this.handleChange}
-            />
-            <p>Wachtwoord</p>
-            <input 
-            required={true}
-            type="password" 
-            alt="invoerveld wachtwoord"
-            placeholder="Wachtwoord"
-            onChange={this.handleChange}
-            />
-          <div>
-            <button type="submit">Login</button>
-          </div>
-        </form>
-      </div>
-    );
+    switch (this.state.succes) {
+      case "":
+        return (
+          <>
+            <div>
+              <form onSubmit={this.onSubmit}>
+                <p alt="invoerveld UserName">Uw UserName invoeren:</p>
+                <input
+                  required={true}
+                  message="Dit veld is verplicht"
+                  id='inputMail'
+                  type='UserName'
+                  placeholder='Email'
+                  name='UserName'
+                  value={this.state.UserName}
+                  onChange={this.handleChange}
+                ></input>
+                <p alt="invoerveld wachtwoord">Wachtwoord:</p>
+                <input
+                  required={true}
+                  message="Dit veld is verplicht"
+                  id='inputPassword'
+                  type='Password'
+                  placeholder='Wachtwoord'
+                  name="password"
+                  value={this.state.password}
+                  onChange={this.handleChange}
+                />
+                <button type='submit' alt="login button">Login</button>
+              </form>
+            </div>
+          </>
+        );
+      case "succesvol":
+        return (
+          window.location.href = "/"
+        );
+    }
   }
 }

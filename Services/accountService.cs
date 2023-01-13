@@ -21,6 +21,7 @@ public class accountService : IAccountService
     }
     public ApplicationUser Authenticate(string Email, string password)
     {
+        Console.WriteLine(Email);
         if (string.IsNullOrEmpty(Email) || string.IsNullOrEmpty(password))
             return null;
         Console.WriteLine("Users count " + _context.Users.Count());

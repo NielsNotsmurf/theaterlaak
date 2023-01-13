@@ -19,7 +19,7 @@ function login(username, password) {
     };
 
     //fetch aanpassen naar de juiste endpoint
-    return fetch(config.apiUrl + '/Account/authenticate', requestOptions)
+    return fetch(config.apiUrl + '/api/Account/authenticate', requestOptions)
         .then(handleResponse, handleError)
         .then(user => {
             // login successful if there's a jwt token in the response
@@ -42,7 +42,7 @@ function getAll() {
         headers: authHeader()
     };
 
-    return fetch(config.apiUrl + '/Account/', requestOptions).then(handleResponse, handleError);
+    return fetch(config.apiUrl + 'api/Account/', requestOptions).then(handleResponse, handleError);
 }
 
 function getById(id) {
@@ -51,7 +51,7 @@ function getById(id) {
         headers: authHeader()
     };
 
-    return fetch(config.apiUrl + '/Account/' + id, requestOptions).then(handleResponse, handleError);
+    return fetch(config.apiUrl + 'api/Account/' + id, requestOptions).then(handleResponse, handleError);
 }
 
 function register(user) {
@@ -61,7 +61,7 @@ function register(user) {
         body: JSON.stringify(user)
     };
 
-    return fetch(config.apiUrl + '/Account/register', requestOptions).then(handleResponse, handleError);
+    return fetch(config.apiUrl + 'api/Account/register', requestOptions).then(handleResponse, handleError);
 }
 
 function update(user) {
@@ -71,7 +71,7 @@ function update(user) {
         body: JSON.stringify(user)
     };
 
-    return fetch(config.apiUrl + '/Account/' + user.id, requestOptions).then(handleResponse, handleError);
+    return fetch(config.apiUrl + 'api/Account/' + user.id, requestOptions).then(handleResponse, handleError);
 }
 
 // functienaam met lage streep omdat delete een gereserveerd woord is in javascript
@@ -81,5 +81,5 @@ function _delete(id) {
         headers: authHeader()
     };
 
-    return fetch(config.apiUrl + '/Account/' + id, requestOptions).then(handleResponse, handleError);
+    return fetch(config.apiUrl + 'api/Account/' + id, requestOptions).then(handleResponse, handleError);
 }
