@@ -34,7 +34,7 @@ public class accountService : IAccountService
         // check if password is correct
         var result = System.Text.Encoding.UTF8.GetBytes(user.PasswordHash);
         if (!VerifyPasswordHash(password, result))
-            return null;
+            return user;
 
         // authentication successful
         return user;

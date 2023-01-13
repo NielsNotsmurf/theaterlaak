@@ -11,35 +11,34 @@ export default class Register extends React.Component {
             UserName: "",
             password: "",
             confirmPassword: "",
-            PhoneNumber: null,
+            PhoneNumber: "",
             error: "",
         }
         this.handleChange = this.handleChange.bind(this);
+        
     }
 
 
 
     handleChange = (e) => {
         this.setState({ ...this.state, [e.target.name]: e.target.value });
+        console.log("handlechange")
     };
 
     //aanpassen
     onSubmit = async (e) => {
+        console.writeline("submit")
         e.preventDefault();
-        await AccountService.register(this.state.firstName, this.state.lastName, this.state.UserName, this.state.password, this.state.confirmPassword, this.state.PhoneNumber).then(() => {
+        await AccountService.register({UserName: this.state.UserName, PasswordHash: this.state.password}).then(() => {
             this.setState({ succes: "succesvol" });
         });
     };
 
     validateConfirmPassword = e => {
-        let { name, value } = e.target;
-        this.setState(prev => {
-            const stateObj = { ...prev, [name]: "" };
-            if (this.state.password && value !== this.state.password) {
-                stateObj[name] = "Wachtwoorden komen niet overeen.";
-            }
-            return stateObj;
-        });
+        let {value } = e.target
+        if (this.state.password && value !== this.state.password) {
+            return "Wachtwoorden komen niet overeen.";
+        }
     }
 
     //aanpassen
@@ -55,7 +54,7 @@ export default class Register extends React.Component {
                             message="Dit veld is verplicht"
                             type="text"
                             name="firstName"
-                            value={this.state.firstName || ""}
+                            value={this.state.firstName}
                             onChange={this.handleChange}
                         />
                         <p alt="invoerveld Achternaam">Achternaam:</p>
@@ -64,7 +63,7 @@ export default class Register extends React.Component {
                             message="Dit veld is verplicht"
                             type="text"
                             name="lastName"
-                            value={this.state.lastName || ""}
+                            value={this.state.lastName}
                             onChange={this.handleChange}
                         />
                         <p alt="invoerveld email">Email:</p>
@@ -73,7 +72,8 @@ export default class Register extends React.Component {
                             message="Dit veld is verplicht"
                             type="email"
                             name="UserName"
-                            value={this.state.UserName || ""}
+                            autoComplete="new-username"
+                            value={this.state.UserName}
                             onChange={this.handleChange}
                         />
                         <p alt="invoerveld Wachtwoord">Wachtwoord:</p>
@@ -82,7 +82,8 @@ export default class Register extends React.Component {
                             message="Dit veld is verplicht"
                             type="password"
                             name="password"
-                            value={this.state.password || ""}
+                            autoComplete="new-password"
+                            value={this.state.password}
                             onChange={this.handleChange}
                         />
                         <p alt="invoerveld bevestig wachtwoord">bevestig uw wachtwoord:</p>
@@ -90,8 +91,9 @@ export default class Register extends React.Component {
                             required={true}
                             message="Dit veld is verplicht"
                             type="password"
-                            name="password"
-                            value={this.state.password || ""}
+                            name="confirmPassword"
+                            autoComplete="confirm-password"
+                            value={this.state.confirmPassword}
                             onChange={this.handleChange}
                         />
                         <p alt="invoerveld Telefoonnummer">Telefoonnummer (optioneel):</p>
@@ -100,12 +102,12 @@ export default class Register extends React.Component {
                             message="Dit veld is optioneel"
                             type="number"
                             name="PhoneNumber"
-                            value={this.state.PhoneNumber || ""}
+                            value={this.state.PhoneNumber}
                             onChange={this.handleChange}
-                            onBlur={this.validateConfirmPassword}
                         />
+                        <br></br>
+                        <button type='submit' alt="Registreer Knop">Registreer</button>
                     </form>
-                    <button type='submit' alt="Registreer Knop">Registreer</button>
                 </div>
             </>
         );
