@@ -29,7 +29,7 @@ export default class Register extends React.Component {
     onSubmit = async (e) => {
         console.writeline("submit")
         e.preventDefault();
-        await AccountService.register({UserName: this.state.UserName, PasswordHash: this.state.password}).then(() => {
+        await AccountService.register(this.state.UserName, this.state.password).then(() => {
             this.setState({ succes: "succesvol" });
         });
     };

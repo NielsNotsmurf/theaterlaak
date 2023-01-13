@@ -54,14 +54,16 @@ function getById(id) {
     return fetch(config.apiUrl + 'api/Account/' + id, requestOptions).then(handleResponse, handleError);
 }
 
-function register(user) {
-    const requestOptions = {
+function register(username, password) {
+    const body = { username: username, password: password};
+    return fetch('https://localhost:7242/api/account/register', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(user)
-    };
-
-    return fetch(config.apiUrl + 'api/Account/register', requestOptions).then(handleResponse, handleError);
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(body),
+    }).then(handleResponse, handleError);
 }
 
 function update(user) {
