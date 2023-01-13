@@ -12,23 +12,23 @@ const AccountService = {
 export default AccountService;
 
 function login(username, password) {
-    const requestOptions = {
+    const body = { UserName: username, PasswordHash: password};
+    return fetch('https://localhost:7242/api/account/authenticate', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, password })
-    };
-
-    //fetch aanpassen naar de juiste endpoint
-    return fetch(config.apiUrl + '/api/Account/authenticate', requestOptions)
-        .then(handleResponse, handleError)
-        .then(user => {
-            // login successful if there's a jwt token in the response
-            if (user && user.token) {
-                // store user details and jwt token in local storage to keep user logged in between page refreshes
-                localStorage.setItem('user', JSON.stringify(user));
-            }
-            return user;
-        });
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(body),
+    }).then(handleResponse, handleError)
+    .then(user => {
+        // login successful if there's a jwt token in the response
+        if (user && user.token) {
+            // store user details and jwt token in local storage to keep user logged in between page refreshes
+            localStorage.setItem('user', JSON.stringify(user));
+        }
+        return user;
+    });
 }
 
 function logout() {
