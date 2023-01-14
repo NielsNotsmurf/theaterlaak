@@ -471,9 +471,6 @@ namespace theaterlaak.Migrations
                     b.Property<string>("PasswordHash")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("PasswordSalt")
-                        .HasColumnType("TEXT");
-
                     b.Property<string>("PhoneNumber")
                         .HasColumnType("TEXT");
 
