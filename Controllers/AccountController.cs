@@ -32,7 +32,7 @@ public class AccountController : ControllerBase
     [HttpPost("authenticate")]
     public IActionResult Authenticate([FromBody] ApplicationUser applicationUser)
     {
-        var user = _userService.Authenticate(applicationUser.Email, applicationUser.PasswordHash);
+        var user = _userService.Authenticate(applicationUser.UserName, applicationUser.PasswordHash);
 
         if (user == null)
             return BadRequest("Email or password is incorrect");

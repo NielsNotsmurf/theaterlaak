@@ -5,5 +5,6 @@ namespace theaterlaak.Models;
 public class ApplicationUser : IdentityUser
 {
     public List<Reservering>? Reserveringen { get; set; }
-    public string? PasswordSalt { get; set; }
+    public Byte[]? PasswordSalt { get; set; }
+    public Byte[]? Password { get; set; }
 }

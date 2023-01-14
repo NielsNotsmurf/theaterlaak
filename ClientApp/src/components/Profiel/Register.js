@@ -22,17 +22,15 @@ export default class Register extends React.Component {
 
     handleChange = (e) => {
         this.setState({ ...this.state, [e.target.name]: e.target.value });
-        console.log("handlechange")
     };
 
     //aanpassen
     onSubmit = async (e) => {
-        console.log(this.state.password)
-        console.log(this.state.UserName)
         e.preventDefault();
-        await AccountService.register(this.state.UserName, this.state.password).then(() => {
+        var response = await AccountService.register(this.state.UserName, this.state.password).then(() => {
             this.setState({ succes: "succesvol" });
         });
+        console.log(response);
     };
 
     validateConfirmPassword = e => {

@@ -1,18 +1,15 @@
 using theaterlaak.Data;
 using theaterlaak.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace theaterlaak.Services
 {
     public interface IAccountService
     {
-        ApplicationUser Authenticate(string username, string password);
+        ApplicationUser Authenticate(string username, string passwordString);
         IEnumerable<ApplicationUser> GetAll();
         ApplicationUser GetById(int id);
-        ApplicationUser Create(ApplicationUser user, string password);
-        void Update(ApplicationUser user, string password = null);
+        ApplicationUser Create(ApplicationUser user, string passwordString);
+        void Update(ApplicationUser user, string passwordString = null);
         void Delete(int id);
     }
 
@@ -24,43 +21,45 @@ namespace theaterlaak.Services
         {
             _context = context;
         }
-        public ApplicationUser Authenticate(string username, string password)
+        public ApplicationUser Authenticate(string username, string passwordString)
         {
-            if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
+            if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(passwordString)) {
+                Console.WriteLine("[tijdelijke debug] input is invalid  | Password: " + passwordString + " | UserName: " + username);
                 return null;
-            Console.WriteLine("Users count " + _context.Users.Count());
+            }
             var user = _context.Users.SingleOrDefault(x => x.UserName == username);
-
-            // check if username exists
-            if (user == null)
+            if (user == null) {
+                Console.WriteLine("applicationUser bestaat niet");
                 return null;
-
-            // check if password is correct
-            if (!VerifyPasswordHash(password, user.PasswordHash, user.PasswordSalt))
+            }
+            if (!VerifyPasswordHash(passwordString, user.Password, user.PasswordSalt)) {
+                Console.WriteLine("password is incorrect");
                 return null;
-
-            // authentication successful
+            }
+            Console.WriteLine("success");
             return user;
         }
 
-        public ApplicationUser Create(ApplicationUser user, string password)
+        public ApplicationUser Create(ApplicationUser user, string passwordString)
         {
-            // validation
-            if (string.IsNullOrWhiteSpace(password))
-                throw new Exception("Password is required");
+            if (string.IsNullOrWhiteSpace(passwordString))
+                throw new Exception("Password is null");
 
             if (_context.Users.Any(x => x.UserName == user.UserName))
-                throw new Exception("UserName '" + user.UserName + "' is already taken");
+                throw new Exception("UserName '" + user.UserName + "' is al in gebruik");
 
-            string passwordHash, passwordSalt;
-            CreatePasswordHash(password, out passwordHash, out passwordSalt);
-
-            user.PasswordHash = passwordHash;
+            byte[] Password, passwordSalt;
+            CreatePasswordHash(passwordString, out Password, out passwordSalt);
+            
+            user.Email = user.UserName;
+            user.Password = Password;
+            Console.WriteLine("[tijdelijke debug] on create hash: " + user.Password[1] + user.Password[2]);
             user.PasswordSalt = passwordSalt;
+            Console.WriteLine("[tijdelijke debug] on create salt: " + user.PasswordSalt[1] + user.PasswordSalt[2]);
 
             _context.Users.Add(user);
             _context.SaveChanges();
-
+            
             return user;
         }
 
@@ -80,10 +79,11 @@ namespace theaterlaak.Services
 
         public ApplicationUser GetById(int id)
         {
-            return _context.Users.Find(id);
+            ApplicationUser user = _context.Users.Find(id);
+                return user;
         }
 
-        public void Update(ApplicationUser userParam, string password = null)
+        public void Update(ApplicationUser userParam, string passwordString = null)
         {
             var user = _context.Users.Find(userParam.Id);
 
@@ -92,21 +92,18 @@ namespace theaterlaak.Services
 
             if (userParam.UserName != user.UserName)
             {
-                // username has changed so check if the new username is already taken
                 if (_context.Users.Any(x => x.UserName == userParam.UserName))
-                    throw new Exception("UserName " + userParam.UserName + " is already taken");
+                    throw new Exception("UserName " + userParam.UserName + " is al in gebruik");
             }
 
-            // update user properties
+            user.Email = userParam.UserName;
             user.UserName = userParam.UserName;
 
-            // update password if it was entered
-            if (!string.IsNullOrWhiteSpace(password))
+            if (!string.IsNullOrWhiteSpace(passwordString))
             {
-                string passwordHash, passwordSalt;
-                CreatePasswordHash(password, out passwordHash, out passwordSalt);
-
-                user.PasswordHash = passwordHash;
+                byte[] Password, passwordSalt;
+                CreatePasswordHash(passwordString, out Password, out passwordSalt);
+                user.Password = Password;
                 user.PasswordSalt = passwordSalt;
             }
 
@@ -114,35 +111,36 @@ namespace theaterlaak.Services
             _context.SaveChanges();        
         }
 
-        private static void CreatePasswordHash(string password, out string passwordHash, out string passwordSalt)
+        private static void CreatePasswordHash(string passwordString, out byte[] Password, out byte[] passwordSalt)
         {
-            if (password == null) throw new ArgumentNullException("password");
-            if (string.IsNullOrWhiteSpace(password)) throw new ArgumentException("Value cannot be empty or whitespace only string.", "password");
+            if (passwordString == null) throw new ArgumentNullException("passwordString");
+            if (string.IsNullOrWhiteSpace(passwordString)) throw new ArgumentException("ongeldige waarde.", "passwordString");
 
             using (var hmac = new System.Security.Cryptography.HMACSHA512())
             {
-                string result = System.Text.Encoding.UTF8.GetString(hmac.Key);
-                passwordSalt = result;
-                passwordHash = password;
+                var computedHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(passwordString));
+                Password = computedHash;
+                passwordSalt = hmac.Key;
             }
         }
 
-        private static bool VerifyPasswordHash(string password, string storedHash, string storedSalt)
+        private static bool VerifyPasswordHash(string passwordString, byte[] storedHash, byte[] storedSalt)
         {
-            var passwordbyte = System.Text.Encoding.UTF8.GetBytes(password);
-            var storedHashbyte = System.Text.Encoding.UTF8.GetBytes(storedHash);
-            var storedSaltbyte = System.Text.Encoding.UTF8.GetBytes(storedSalt);
-            if (passwordbyte == null) throw new ArgumentNullException("password");
-            if (string.IsNullOrWhiteSpace(password)) throw new ArgumentException("Value cannot be empty or whitespace only string.", "password");
-            if (storedHashbyte.Length != 64) throw new ArgumentException("Invalid length of password hash (64 bytes expected).", "passwordHash");
-            if (storedSaltbyte.Length != 128) throw new ArgumentException("Invalid length of password salt (128 bytes expected).", "passwordHash");
-            
-            using (var hmac = new System.Security.Cryptography.HMACSHA512(storedSaltbyte))
+            if (passwordString == null) throw new ArgumentNullException("passwordString");
+            if (string.IsNullOrWhiteSpace(passwordString)) throw new ArgumentException("ongeldige waarde.", "passwordString");
+            if (storedHash.Length != 64) throw new ArgumentException("ongeldige lengte van storedhash (64 bytes).", "Password");
+            if (storedSalt.Length != 128) throw new ArgumentException("ongeldige lengte van storedsalt (128 bytes).", "Password");
+            using (var hmac = new System.Security.Cryptography.HMACSHA512(storedSalt))
             {
-                var computedHash = hmac.ComputeHash(passwordbyte);
+                Console.WriteLine("[tijdelijke debug] on verify hash: " + storedHash[1] + storedHash[2]);
+                Console.WriteLine("[tijdelijke debug] on verify salt: " + storedSalt[1] + storedSalt[2]);
+                var computedHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(passwordString));
                 for (int i = 0; i < computedHash.Length; i++)
                 {
-                    if (computedHash[i] != storedHash[i]) return false;
+                    if (computedHash[i] != storedHash[i])
+                        Console.WriteLine(computedHash[i] + "]  ||  [" + storedHash[i]);
+                        return false;
+                    
                 }
             }
 
