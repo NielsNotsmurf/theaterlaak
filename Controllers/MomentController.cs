@@ -23,10 +23,11 @@ public class MomentController : ControllerBase
         var momentenQuery = _dbContext.Momenten
             .AsNoTracking()
             .Include(m => m.Zaal)
-            .Include(m => m.Voorstelling);
+            .Include(m => m.Voorstelling)
+            .AsQueryable();
 
         var momenten = await momentenQuery.ToListAsync();
-        return momenten.Select(v => v.ToDto()).ToList();
+        return momenten.ConvertAll(v => v.ToDto());
     }
 
     [HttpGet("{id}")]
@@ -161,7 +162,7 @@ public class MomentController : ControllerBase
         if (_dbContext.Momenten.Any(m => m.VoorstellingId == moment.VoorstellingId && ((moment.StartDateTime >= m.StartDateTime && moment.StartDateTime < m.EndDateTime) || (moment.EndDateTime > m.StartDateTime && moment.EndDateTime <= m.EndDateTime))))
             throw new BadRequestException("De voorstelling kan niet op hetzelfde moment worden gemaakt.");
 
-        if (_dbContext.Momenten.Any(m => m.Zaal!.ZaalType == moment.ZaalType && ((moment.StartDateTime >= m.StartDateTime && moment.StartDateTime < m.EndDateTime) || (moment.EndDateTime > m.StartDateTime && moment.EndDateTime <= m.EndDateTime))))
+        if (_dbContext.Momenten.Include(m => m.Zaal).Any(m => m.Zaal!.ZaalType == moment.ZaalType && ((moment.StartDateTime >= m.StartDateTime && moment.StartDateTime < m.EndDateTime) || (moment.EndDateTime > m.StartDateTime && moment.EndDateTime <= m.EndDateTime))))
             throw new BadRequestException("De zaal kan niet op hetzelfde moment worden gebruikt.");
     }
 }
