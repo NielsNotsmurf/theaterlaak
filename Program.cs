@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using theaterlaak.Data;
 using theaterlaak.Models;
 using theaterlaak.Middleware;
+using theaterlaak.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 

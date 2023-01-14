@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using theaterlaak.Models;
+using theaterlaak.Services;
 
 namespace theaterlaak.Controllers;
 

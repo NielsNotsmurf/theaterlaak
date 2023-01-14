@@ -27,7 +27,8 @@ export default class Register extends React.Component {
 
     //aanpassen
     onSubmit = async (e) => {
-        console.writeline("submit")
+        console.log(this.state.password)
+        console.log(this.state.UserName)
         e.preventDefault();
         await AccountService.register(this.state.UserName, this.state.password).then(() => {
             this.setState({ succes: "succesvol" });
