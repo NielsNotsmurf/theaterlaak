@@ -4,6 +4,9 @@ using theaterlaak.Converters;
 using theaterlaak.Data;
 using theaterlaak.Exceptions;
 using theaterlaak.Entities;
+using theaterlaak.Services;
+using aspnet_react_auth.Helpers;
+using Microsoft.Extensions.Options;
 
 namespace theaterlaak.Controllers;
 
@@ -11,10 +14,15 @@ namespace theaterlaak.Controllers;
 [Route("/api/[controller]")]
 public class VoorstellingController : ControllerBase
 {
-    private readonly ApplicationDbContext _dbContext;
-    public VoorstellingController(ApplicationDbContext dbContext)
+    private IVoorstellingService _userService;
+    private readonly AppSettings _appSettings;
+
+    public VoorstellingController(
+        IVoorstellingService userService,
+        IOptions<AppSettings> appSettings)
     {
-        _dbContext = dbContext;
+        _userService = userService;
+        _appSettings = appSettings.Value;
     }
 
     [HttpGet]
@@ -22,13 +30,7 @@ public class VoorstellingController : ControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<List<Models.Voorstelling>> GetVoorstellingen()
     {
-        var voorstellingQuery = _dbContext.Voorstellingen
-            .AsNoTracking()
-            .Include(v => v.Betrokkene)
-            .AsQueryable();
-
-        var voorstellingen = await voorstellingQuery.ToListAsync();
-        return voorstellingen.ConvertAll(v => v.ToDto());
+        return await _userService.GetVoorstellingen();
     }
 
     [HttpGet("{id}")]
@@ -36,15 +38,7 @@ public class VoorstellingController : ControllerBase
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<Models.Voorstelling>> GetVoorstelling(int id)
     {
-        var voorstelling = await _dbContext.Voorstellingen
-            .AsNoTracking()
-            .Include(v => v.Betrokkene)
-            .FirstOrDefaultAsync(v => v.Id == id);
-
-        if (voorstelling == null)
-            throw new NotFoundException();
-
-        return voorstelling.ToDto(); 
+        return await _userService.GetVoorstelling(id); 
     }
 
     [HttpPost]
@@ -53,16 +47,7 @@ public class VoorstellingController : ControllerBase
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult> AddVoorstelling(Commands.AddOrUpdateVoorstelling voorstelling)
     {
-        var newVoorstelling = new Voorstelling
-        {
-            Titel = voorstelling.Titel,
-            BetrokkeneId = voorstelling.BetrokkeneId,
-        };
-
-        _dbContext.Add(newVoorstelling);
-        await _dbContext.SaveChangesAsync();
-
-        return Ok();
+        return await _userService.AddVoorstelling(voorstelling);
     }
 
     [HttpPut("{id}")]
@@ -71,16 +56,7 @@ public class VoorstellingController : ControllerBase
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult> UpdateVoorstelling(int id, Commands.AddOrUpdateVoorstelling voorstelling)
     {
-        var updateVoorstelling = await _dbContext.Voorstellingen.FindAsync(id);
-        if (updateVoorstelling == null)
-            throw new NotFoundException($"Voorstelling met ID '{id}' is niet gevonden.");
-
-        updateVoorstelling.Titel = voorstelling.Titel;
-        updateVoorstelling.BetrokkeneId = voorstelling.BetrokkeneId;
-
-        await _dbContext.SaveChangesAsync();
-
-        return NoContent();
+        return await _userService.UpdateVoorstelling(id, voorstelling);
     }
 
     [HttpDelete("{id}")]
@@ -89,13 +65,6 @@ public class VoorstellingController : ControllerBase
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult> DeleteVoorstelling(int id)
     {
-        var deleteVoorstelling = await _dbContext.Voorstellingen.FindAsync(id);
-        if (deleteVoorstelling == null)
-            throw new NotFoundException($"Voorstelling met ID '{id}' is niet gevonden.");
-
-        _dbContext.Voorstellingen.Remove(deleteVoorstelling);
-        await _dbContext.SaveChangesAsync();
-
-        return NoContent();
+        return await _userService.DeleteVoorstelling(id);
     }
 }
