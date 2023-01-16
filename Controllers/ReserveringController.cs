@@ -9,27 +9,27 @@ namespace theaterlaak.Controllers;
 [Route("/api/[controller]")]
 public class ReserveringController : ControllerBase
 {
-    private IReserveringService _userService;
+    private IReserveringService _reserveringService;
     private readonly AppSettings _appSettings;
 
     public ReserveringController(
-        IReserveringService userService,
+        IReserveringService reserveringService,
         IOptions<AppSettings> appSettings)
     {
-        _userService = userService;
+        _reserveringService = reserveringService;
         _appSettings = appSettings.Value;
     }
 
     [HttpGet]
     public async Task<List<Models.Reservering>> GetReserveringen()
     {
-        return await _userService.GetReserveringen();
+        return await _reserveringService.GetReserveringen();
     }
 
     [HttpGet("{id}")]
     public async Task<ActionResult<Models.Reservering>> GetReservering(int id)
     {
-        return await _userService.GetReservering(id);
+        return await _reserveringService.GetReservering(id);
     }
 
     [HttpGet("[action]/{momentId}/{userId}")]
@@ -37,7 +37,7 @@ public class ReserveringController : ControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<List<Models.Reservering>> GetKaartjesHoudersOverzicht(int momentId, string userId)
     {
-        return await _userService.GetKaartjesHoudersOverzicht(momentId, userId);
+        return await _reserveringService.GetKaartjesHoudersOverzicht(momentId, userId);
     }
 
     [HttpPost]
@@ -46,7 +46,7 @@ public class ReserveringController : ControllerBase
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult> AddReservering(Commands.AddOrUpdateReservering reservering)
     {
-        return await _userService.AddReservering(reservering);
+        return await _reserveringService.AddReservering(reservering);
     }
 
     [HttpPut("{id}")]
@@ -55,7 +55,7 @@ public class ReserveringController : ControllerBase
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult> UpdateReservering(int id, Commands.AddOrUpdateReservering reservering)
     {
-        return await _userService.UpdateReservering(id, reservering);
+        return await _reserveringService.UpdateReservering(id, reservering);
     }
 
     [HttpDelete("{id}")]
@@ -64,7 +64,7 @@ public class ReserveringController : ControllerBase
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult> DeleteReservering(int id)
     {
-        return await _userService.DeleteReservering(id);
+        return await _reserveringService.DeleteReservering(id);
     }
 
     [HttpGet("[action]/{userId}")]
@@ -72,6 +72,6 @@ public class ReserveringController : ControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<List<Models.Reservering>> GetReserveringenByUserId(string userId)
     {
-        return await _userService.GetReserveringenByUserId(userId);
+        return await _reserveringService.GetReserveringenByUserId(userId);
     }
 }
