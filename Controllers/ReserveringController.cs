@@ -1,9 +1,4 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using theaterlaak.Converters;
-using theaterlaak.Data;
-using theaterlaak.Exceptions;
-using theaterlaak.Entities;
 using aspnet_react_auth.Helpers;
 using theaterlaak.Services;
 using Microsoft.Extensions.Options;
@@ -35,6 +30,14 @@ public class ReserveringController : ControllerBase
     public async Task<ActionResult<Models.Reservering>> GetReservering(int id)
     {
         return await _userService.GetReservering(id);
+    }
+
+    [HttpGet("[action]/{momentId}/{userId}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<List<Models.Reservering>> GetKaartjesHoudersOverzicht(int momentId, string userId)
+    {
+        return await _userService.GetKaartjesHoudersOverzicht(momentId, userId);
     }
 
     [HttpPost]
