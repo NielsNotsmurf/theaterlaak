@@ -14,9 +14,9 @@ namespace theaterlaak.Services
         Task<ActionResult<Models.Reservering>> GetReservering(int id);
 
         Task<List<Models.Reservering>> GetKaartjesHoudersOverzicht(int momentId, string userId);
-        Task<ActionResult> AddReservering(Commands.AddOrUpdateReservering reservering);
-        Task<ActionResult> UpdateReservering(int id, Commands.AddOrUpdateReservering reservering);
-        Task<ActionResult> DeleteReservering(int id);
+        Task AddReservering(Commands.AddOrUpdateReservering reservering);
+        Task UpdateReservering(int id, Commands.AddOrUpdateReservering reservering);
+        Task DeleteReservering(int id);
         Task<List<Models.Reservering>> GetReserveringenByUserId(string userId);
     }
 
@@ -80,7 +80,7 @@ namespace theaterlaak.Services
             return reserveringen.Select(r => r.ToDto()).ToList();
         }
 
-        public async Task<ActionResult> AddReservering(AddOrUpdateReservering reservering)
+        public async Task AddReservering(AddOrUpdateReservering reservering)
         {
             var newReservering = new Reservering
             {
@@ -102,11 +102,8 @@ namespace theaterlaak.Services
             });
 
             await _context.SaveChangesAsync();
-
-            // return newReservering.ToDto();
-            return new OkResult();
         }
-        public async Task<ActionResult> UpdateReservering(int id, AddOrUpdateReservering reservering)
+        public async Task UpdateReservering(int id, AddOrUpdateReservering reservering)
         {
             var updateReservering = await _context.Reserveringen.Include(r => r.Moment).ThenInclude(m => m.Zaal).ThenInclude(z => z.Stoelen).FirstOrDefaultAsync(r => r.Id == id);
             if (updateReservering == null)
@@ -132,12 +129,8 @@ namespace theaterlaak.Services
             });
 
             await _context.SaveChangesAsync();
-
-            //return NoContent();
-            return new OkResult();
-
         }
-        public async Task<ActionResult> DeleteReservering(int id)
+        public async Task DeleteReservering(int id)
         {
             var deleteReservering = await _context.Reserveringen.Include(r => r.Moment).ThenInclude(m => m.Zaal).ThenInclude(z => z.Stoelen).FirstOrDefaultAsync(r => r.Id == id);
             if (deleteReservering == null)
@@ -154,9 +147,6 @@ namespace theaterlaak.Services
 
             _context.Reserveringen.Remove(deleteReservering);
             await _context.SaveChangesAsync();
-
-            // return NoContent();
-            return new OkResult();
         }
 
         public async Task<List<Models.Reservering>> GetReserveringenByUserId(string userId)

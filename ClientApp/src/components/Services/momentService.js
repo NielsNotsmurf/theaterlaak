@@ -1,17 +1,16 @@
 import { authHeader, config, handleError, handleResponse } from '../Helpers';
 
 const momentService = {
-    add,
-    getAll,
-    getById,
-    update,
-    delete: _delete
+    AddMoment,
+    GetMomenten,
+    GetMomentById,
+    DeleteMoment
 };
 export default momentService;
 
-async function add(UserId, MomentId, GereserveerdeStoelenId) {
-    const body = { UserId: UserId, MomentId: MomentId, GereserveerdeStoelenId:GereserveerdeStoelenId};
-    return await fetch('https://localhost:7242/api/moment', {
+function AddMoment(UserId, MomentId, GereserveerdeStoelenId) {
+    const body = { UserId: UserId, MomentId: MomentId, GereserveerdeStoelenId: GereserveerdeStoelenId };
+    return fetch('https://localhost:7242/api/reservering', {
         method: 'POST',
         headers: {
             'Accept': 'application/json',
@@ -21,22 +20,7 @@ async function add(UserId, MomentId, GereserveerdeStoelenId) {
     }).then(handleResponse, handleError);
 }
 
-async function getAll() {
-    const response = await fetch('https://localhost:7242/api/moment/', {
-        method: 'GET',
-        headers: {
-            'accept': 'application/json',
-            'Content-Type': 'application/json',
-        }
-    });
-    if (!response.ok) {
-            throw new Error(`http error! status: ${response.status}`)
-    }    
-
-    return await response.json();
-}
-
-async function getById(id) {
+async function GetMomenten() {
     const requestOptions = {
         method: 'GET',
         headers: authHeader()
@@ -45,21 +29,15 @@ async function getById(id) {
     return await fetch(config.apiUrl + 'api/moment/' + id, requestOptions).then(handleResponse, handleError);
 }
 
-async function update(user) {
-    const requestOptions = {
-        method: 'PUT',
-        headers: { ...authHeader(), 'Content-Type': 'application/json' },
-        body: JSON.stringify(user)
-    };
-
-    return await fetch(config.apiUrl + 'api/moment/' + user.id, requestOptions).then(handleResponse, handleError);
+async function DeleteMoment(id) {
+    return fetch(config.apiUrl + 'api/Moment/', requestOptions).then(handleResponse, handleError);
 }
 
-async function _delete(id) {
+async function GetMomentById(id) {
     const requestOptions = {
-        method: 'DELETE',
+        method: 'GET',
         headers: authHeader()
-};
+    };
 
     return await fetch(config.apiUrl + 'api/moment/' + id, requestOptions).then(handleResponse, handleError);
 }

@@ -46,7 +46,8 @@ public class ReserveringController : ControllerBase
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult> AddReservering(Commands.AddOrUpdateReservering reservering)
     {
-        return await _reserveringService.AddReservering(reservering);
+        await _reserveringService.AddReservering(reservering);
+        return NoContent();
     }
 
     [HttpPut("{id}")]
@@ -55,16 +56,17 @@ public class ReserveringController : ControllerBase
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult> UpdateReservering(int id, Commands.AddOrUpdateReservering reservering)
     {
-        return await _reserveringService.UpdateReservering(id, reservering);
+        await _reserveringService.UpdateReservering(id, reservering);
+        return NoContent();
     }
 
     [HttpDelete("{id}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<ActionResult> DeleteReservering(int id)
+    public async Task DeleteReservering(int id)
     {
-        return await _reserveringService.DeleteReservering(id);
+        await _reserveringService.DeleteReservering(id);
     }
 
     [HttpGet("[action]/{userId}")]

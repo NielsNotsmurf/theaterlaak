@@ -1,17 +1,17 @@
 import { authHeader, config, handleError, handleResponse } from '../Helpers';
 
 const reserveringService = {
-    add,
-    getAll,
-    getById,
-    update,
+    AddReservering,
+    GetReserveringen,
+    GetReservering,
+    UpdateReservering,
     getReserveringenByUserId,
     getKaartHoudersShow,
-    delete: _delete
+    DeleteReservering
 };
 export default reserveringService;
 
-function add(UserId, MomentId, GereserveerdeStoelenId) {
+function AddReservering(UserId, MomentId, GereserveerdeStoelenId) {
     const body = { UserId: UserId, MomentId: MomentId, GereserveerdeStoelenId:GereserveerdeStoelenId};
     return fetch('https://localhost:7242/api/reservering', {
         method: 'POST',
@@ -23,7 +23,7 @@ function add(UserId, MomentId, GereserveerdeStoelenId) {
     }).then(handleResponse, handleError);
 }
 
-function getAll() {
+function GetReserveringen() {
     const requestOptions = {
         method: 'GET',
         headers: authHeader()
@@ -32,7 +32,7 @@ function getAll() {
     return fetch(config.apiUrl + 'api/Reservering/', requestOptions).then(handleResponse, handleError);
 }
 
-function getById(id) {
+function GetReservering(id) {
     const requestOptions = {
         method: 'GET',
         headers: authHeader()
@@ -41,7 +41,7 @@ function getById(id) {
     return fetch(config.apiUrl + 'api/Reservering/' + id, requestOptions).then(handleResponse, handleError);
 }
 
-function update(user) {
+function UpdateReservering(user) {
     const requestOptions = {
         method: 'PUT',
         headers: { ...authHeader(), 'Content-Type': 'application/json' },
@@ -61,7 +61,7 @@ function getReserveringenByUserId(userId) {
     }).json();
 }
 
-function _delete(id) {
+function DeleteReservering(id) {
     const requestOptions = {
         method: 'DELETE',
         headers: authHeader()
