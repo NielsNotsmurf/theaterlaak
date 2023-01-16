@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from 'react'
 import { MainContext } from '../../../MainContext';
-import ProfielHelper from '../../ProfielHelper';
+import ProfielService from '../../ProfielService';
 
 
 export default function ReserveringenOverzicht() {
@@ -16,7 +16,7 @@ export default function ReserveringenOverzicht() {
         setIsLoading(true);
 
         try {
-            const fetchedReserveringen = await ProfielHelper.getReserveringenByUserId(user.id)
+            const fetchedReserveringen = await ProfielService.getReserveringenByUserId(user.id)
             console.log(fetchedReserveringen);
             setReserveringen(fetchedReserveringen);
         } catch (error) {

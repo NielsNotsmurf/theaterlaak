@@ -13,14 +13,14 @@ namespace theaterlaak.Controllers;
 [Route("/api/[controller]")]
 public class BetrokkeneController : ControllerBase
 {
-    private IBetrokkeneService _userService;
+    private IBetrokkeneService _betrokkeneService;
     private readonly AppSettings _appSettings;
 
     public BetrokkeneController(
         IBetrokkeneService userService,
         IOptions<AppSettings> appSettings)
     {
-        _userService = userService;
+        _betrokkeneService = userService;
         _appSettings = appSettings.Value;
     }
 
@@ -28,7 +28,7 @@ public class BetrokkeneController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<List<Models.Betrokkene>> GetBetrokkenen()
     {
-        return await _userService.GetBetrokkenen();
+        return await _betrokkeneService.GetBetrokkenen();
     }
 
     [HttpGet("{id}")]
@@ -36,6 +36,6 @@ public class BetrokkeneController : ControllerBase
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<Models.Betrokkene>> GetBetrokkene(int id)
     {
-        return await _userService.GetBetrokkene(id);
+        return await _betrokkeneService.GetBetrokkene(id);
     }
 }

@@ -16,14 +16,14 @@ namespace theaterlaak.Controllers;
 public class AccountController : ControllerBase
 {
 
-    private IAccountService _userService;
+    private IAccountService _accountService;
     private readonly AppSettings _appSettings;
 
     public AccountController(
         IAccountService userService,
         IOptions<AppSettings> appSettings)
     {
-        _userService = userService;
+        _accountService = userService;
         _appSettings = appSettings.Value;
     }
 
@@ -32,7 +32,7 @@ public class AccountController : ControllerBase
     [HttpPost("authenticate")]
     public IActionResult Authenticate([FromBody] ApplicationUser applicationUser)
     {
-        var user = _userService.Authenticate(applicationUser.UserName, applicationUser.PasswordHash);
+        var user = _accountService.Authenticate(applicationUser.UserName, applicationUser.PasswordHash);
 
         if (user == null)
             return BadRequest("Email or password is incorrect");
@@ -71,7 +71,7 @@ public class AccountController : ControllerBase
         try
         {
             // save 
-            applicationUser = _userService.Create(user, applicationUser.UserName);
+            applicationUser = _accountService.Create(user, applicationUser.UserName);
             return Ok();
         }
         catch (Exception ex)
@@ -84,7 +84,7 @@ public class AccountController : ControllerBase
     [HttpGet]
     public IActionResult GetAll()
     {
-        var users = _userService.GetAll();
+        var users = _accountService.GetAll();
         List<ApplicationUser> applicationUsers = users.Select(user => new ApplicationUser
         {
             Email = user.Email
@@ -95,7 +95,7 @@ public class AccountController : ControllerBase
     [HttpGet("{id}")]
     public IActionResult GetById(int id)
     {
-        var user = _userService.GetById(id);
+        var user = _accountService.GetById(id);
         var applicationUser = new ApplicationUser
         {
             Email = user.Email
@@ -116,7 +116,7 @@ public class AccountController : ControllerBase
         try
         {
             // save 
-            _userService.Update(user, applicationUser.PasswordHash);
+            _accountService.Update(user, applicationUser.PasswordHash);
             return Ok();
         }
         catch (Exception ex)
@@ -129,7 +129,7 @@ public class AccountController : ControllerBase
     [HttpDelete("{id}")]
     public IActionResult Delete(int id)
     {
-        _userService.Delete(id);
+        _accountService.Delete(id);
         return Ok();
     }
 }

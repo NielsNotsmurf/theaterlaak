@@ -14,14 +14,14 @@ namespace theaterlaak.Controllers;
 [Route("/api/[controller]")]
 public class VoorstellingController : ControllerBase
 {
-    private IVoorstellingService _userService;
+    private IVoorstellingService _voorstellingService;
     private readonly AppSettings _appSettings;
 
     public VoorstellingController(
         IVoorstellingService userService,
         IOptions<AppSettings> appSettings)
     {
-        _userService = userService;
+        _voorstellingService = userService;
         _appSettings = appSettings.Value;
     }
 
@@ -30,7 +30,7 @@ public class VoorstellingController : ControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<List<Models.Voorstelling>> GetVoorstellingen()
     {
-        return await _userService.GetVoorstellingen();
+        return await _voorstellingService.GetVoorstellingen();
     }
 
     [HttpGet("{id}")]
@@ -38,7 +38,7 @@ public class VoorstellingController : ControllerBase
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<Models.Voorstelling>> GetVoorstelling(int id)
     {
-        return await _userService.GetVoorstelling(id); 
+        return await _voorstellingService.GetVoorstelling(id); 
     }
 
     [HttpPost]
@@ -47,7 +47,7 @@ public class VoorstellingController : ControllerBase
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult> AddVoorstelling(Commands.AddOrUpdateVoorstelling voorstelling)
     {
-        return await _userService.AddVoorstelling(voorstelling);
+        return await _voorstellingService.AddVoorstelling(voorstelling);
     }
 
     [HttpPut("{id}")]
@@ -56,7 +56,7 @@ public class VoorstellingController : ControllerBase
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult> UpdateVoorstelling(int id, Commands.AddOrUpdateVoorstelling voorstelling)
     {
-        return await _userService.UpdateVoorstelling(id, voorstelling);
+        return await _voorstellingService.UpdateVoorstelling(id, voorstelling);
     }
 
     [HttpDelete("{id}")]
@@ -65,6 +65,6 @@ public class VoorstellingController : ControllerBase
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult> DeleteVoorstelling(int id)
     {
-        return await _userService.DeleteVoorstelling(id);
+        return await _voorstellingService.DeleteVoorstelling(id);
     }
 }

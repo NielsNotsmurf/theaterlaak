@@ -1,5 +1,4 @@
 
-
 export default class BeheerHelper {
     static async getMomenten() {
         const response = await fetch('https://localhost:7242/api/moment', {
