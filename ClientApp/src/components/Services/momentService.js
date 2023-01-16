@@ -1,15 +1,14 @@
 import { authHeader, config, handleError, handleResponse } from '../Helpers';
 
-const reserveringService = {
+const momentService = {
     add,
     getAll,
     getById,
     update,
     getReserveringenByUserId,
-    getKaartHoudersShow,
     delete: _delete
 };
-export default reserveringService;
+export default momentService;
 
 function add(UserId, MomentId, GereserveerdeStoelenId) {
     const body = { UserId: UserId, MomentId: MomentId, GereserveerdeStoelenId:GereserveerdeStoelenId};
@@ -65,16 +64,7 @@ function _delete(id) {
     const requestOptions = {
         method: 'DELETE',
         headers: authHeader()
-    };
-    return fetch(config.apiUrl + 'api/Reservering/' + id, requestOptions).then(handleResponse, handleError);
-}
+};
 
-function getKaartHoudersShow(momentId, userId) {
-    return fetch(`https://localhost:7242/api/reservering/GetKaartjesHoudersOverzicht/${momentId}/${userId}`, {
-        method: 'GET',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-        }
-    }).json();
+    return fetch(config.apiUrl + 'api/Reservering/' + id, requestOptions).then(handleResponse, handleError);
 }

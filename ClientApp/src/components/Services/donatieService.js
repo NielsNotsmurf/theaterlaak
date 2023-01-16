@@ -1,4 +1,4 @@
-export default class DoneerHelper {
+export default class DoneerService {
     static async getDonaties(userAuthToken) {
         const response = await fetch('https://ikdoneer.azurewebsites.net/api/donatie', {
             method: 'GET',
