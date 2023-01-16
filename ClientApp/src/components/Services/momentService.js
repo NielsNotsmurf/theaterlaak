@@ -26,11 +26,15 @@ async function GetMomenten() {
         headers: authHeader()
     };
 
-    return await fetch(config.apiUrl + 'api/moment/' + id, requestOptions).then(handleResponse, handleError);
+    return await fetch(config.apiUrl + 'api/moment/', requestOptions).then(handleResponse, handleError);
 }
 
 async function DeleteMoment(id) {
-    return fetch(config.apiUrl + 'api/Moment/', requestOptions).then(handleResponse, handleError);
+    const requestOptions = {
+        method: 'DELETE',
+        headers: authHeader()
+    };
+    return fetch(config.apiUrl + 'api/moment/' + id, requestOptions).then(handleResponse, handleError);
 }
 
 async function GetMomentById(id) {
