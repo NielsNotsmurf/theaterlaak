@@ -12,6 +12,8 @@ namespace theaterlaak.Services
     {
         Task<List<Models.Reservering>> GetReserveringen();
         Task<ActionResult<Models.Reservering>> GetReservering(int id);
+
+        Task<List<Models.Reservering>> GetKaartjesHoudersOverzicht(int momentId, string userId);
         Task<ActionResult> AddReservering(Commands.AddOrUpdateReservering reservering);
         Task<ActionResult> UpdateReservering(int id, Commands.AddOrUpdateReservering reservering);
         Task<ActionResult> DeleteReservering(int id);
@@ -55,6 +57,27 @@ namespace theaterlaak.Services
             reservering.GereserveerdeStoelen = _context.Stoelen.Where(s => s.ReserveringId == id).ToList();
 
             return reservering.ToDto();
+        }
+
+        public async Task<List<Models.Reservering>> GetKaartjesHoudersOverzicht(int momentId, string userId)
+        {
+            var reserveringen = await _context.Reserveringen
+                .AsNoTracking()
+                .Include(r => r.Moment)
+                    .ThenInclude(m => m!.Zaal)
+                        .ThenInclude(z => z!.Stoelen)
+                .Include(r => r.Moment)
+                    .ThenInclude(m => m.Voorstelling)
+                .Include(r => r.User)
+                .Where(r => r.MomentId == momentId && r.UserId == userId)
+                .OrderBy(r => r.Moment!.StartDateTime)
+                .ToListAsync();
+
+            reserveringen.ForEach((reservering) => {
+                reservering.GereserveerdeStoelen = _context.Stoelen.Where(s => s.ReserveringId == reservering.Id).ToList();
+            });
+
+            return reserveringen.Select(r => r.ToDto()).ToList();
         }
 
         public async Task<ActionResult> AddReservering(AddOrUpdateReservering reservering)

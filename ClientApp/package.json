@@ -23,6 +23,7 @@
     "react-seat-picker": "^1.5.3",
     "react-seatmap": "^0.1.2",
     "react-simple-tooltip": "^2.6.3",
+    "react-to-print": "^2.14.11",
     "react-tooltip": "^4.5.1",
     "reactstrap": "^9.1.1",
     "rimraf": "^3.0.2",

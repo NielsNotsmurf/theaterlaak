@@ -12,6 +12,7 @@ import Programmering from './components/Programmering/Programmering';
 import React from 'react';
 import Register from './components/Profiel/Register';
 import WithContext from './components/Componenten/ContextHelpers/WithContext';
+import Beheer from './components/Beheer/Beheer';
 
 function App() {
     return (
@@ -26,6 +27,7 @@ function App() {
                     <Route path='/registreren' element={<Register />} />
                     <Route path='/login' element={<Login />} />
                     <Route path='/profiel/*' element={<Profiel />} />
+                    <Route path='/beheer/*' element={<Beheer />} />
                 </Routes>
             </Layout>
         </BrowserRouter>
