@@ -1,15 +1,25 @@
-import { styled, Typography } from '@mui/material';
+import { IconButton, styled, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import momentService from '../../Services/momentService';
 import BeheerShowItem from './BeheerShowItem';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { useNavigate } from 'react-router-dom';
 
 const StyledShowList = styled('div')(({ theme }) => ({
 
 }));
 
+const InlineDiv = styled('div')(({ theme }) => ({
+    display: 'flex',
+    alignItems: 'center',
+    marginBottom: theme.spacing(2)
+}));
+
 export default function BeheerShows() {    
     const [shows, setShows] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         fetchShows();
@@ -34,7 +44,12 @@ export default function BeheerShows() {
 
     return (
         <StyledShowList>
-            <Typography variant='h2' sx={{ mb: 2 }}>Aankomende shows</Typography>
+            <InlineDiv>
+                <IconButton onClick={() => navigate('/beheer')}>
+                    <ArrowBackIcon />
+                </IconButton>
+                <Typography variant='h2'>Aankomende shows</Typography>
+            </InlineDiv>
             {(shows && shows.length > 0) ? shows.map((show, index) => <BeheerShowItem key={index} show={show} />) : <>Geen resultaten</>}
         </StyledShowList>
     )
