@@ -2,7 +2,7 @@ import { Button, FormLabel, IconButton, styled, TextField, Typography } from '@m
 import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { DoneerContext } from '../../DoneerContext';
-import DoneerService from '../../DoneerService';
+import donatieService from '../../../Services/donatieService';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 const StyledDiv = styled('div')(({ theme }) => ({
@@ -44,7 +44,7 @@ export default function DonatieGoedDoelPagina(props) {
         setIsSaving(true);
 
         try {
-            const gevondenDoel = await DoneerService.getGoedDoelById(userAccesToken, goedDoelId);
+            const gevondenDoel = await donatieService.getGoedDoelById(userAccesToken, goedDoelId);
             setDoel(gevondenDoel);
         } catch (error) {
             console.log(error);
@@ -59,7 +59,7 @@ export default function DonatieGoedDoelPagina(props) {
         try {
             const bedrag = event.target[0].value;
             const tekst = event.target[2].value;
-            await DoneerService.postDonatie(userAccesToken, goedDoelId, bedrag, tekst);
+            await donatieService.postDonatie(userAccesToken, goedDoelId, bedrag, tekst);
             navigate('/doneren')
         } catch (error) {
             console.log(error);

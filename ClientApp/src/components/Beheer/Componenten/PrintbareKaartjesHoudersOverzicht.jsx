@@ -2,7 +2,7 @@ import { Button, List, ListItem, styled, Typography } from '@mui/material';
 import { forwardRef, useEffect, useRef, useState } from 'react'
 import { useParams } from 'react-router-dom';
 import ReactToPrint from 'react-to-print';
-import BeheerService from '../BeheerService';
+import momentService from '../../Services/momentService';
 
 const StyledDiv = styled('div')(({ theme }) => ({
     padding: theme.spacing(2)
@@ -67,8 +67,8 @@ const PrintbareKaartjesHoudersOverzicht = () => {
             setIsLoading(true);
 
             try {
-                const kaarthouders = await BeheerService.getKaartHoudersShow(showId, "68abc662-caac-420f-9930-d63ea96a5509");
-                const showtje = await BeheerService.getMomentById(showId);
+                const kaarthouders = await momentService.getKaartHoudersShow(showId, "68abc662-caac-420f-9930-d63ea96a5509");
+                const showtje = await momentService.getMomentById(showId);
                 setShowArray(kaarthouders);
                 setShow(showtje);
             } catch (error) {

@@ -1,6 +1,6 @@
 import { styled, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
-import BeheerService from '../BeheerService';
+import momentService from '../../Services/momentService';
 import BeheerShowItem from './BeheerShowItem';
 
 const StyledShowList = styled('div')(({ theme }) => ({
@@ -19,7 +19,7 @@ export default function BeheerShows() {
         setIsLoading(true);
 
         try {
-            const fetchedShows = await BeheerService.getMomenten();
+            const fetchedShows = await momentService.getMomenten();
             setShows(fetchedShows);
         } catch (error) {
             console.error(error);

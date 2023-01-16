@@ -52,7 +52,7 @@ function update(user) {
 }
 
 function getReserveringenByUserId(userId) {
-    return response = fetch(`https://localhost:7242/api/reservering/getreserveringenbyuserid/${userId}`, {
+    return fetch(`https://localhost:7242/api/reservering/getreserveringenbyuserid/${userId}`, {
         method: 'GET',
         headers: {
             'Accept': 'application/json',

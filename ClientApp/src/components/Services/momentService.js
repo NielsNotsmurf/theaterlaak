@@ -5,7 +5,6 @@ const momentService = {
     getAll,
     getById,
     update,
-    getReserveringenByUserId,
     delete: _delete
 };
 export default momentService;
@@ -48,16 +47,6 @@ function update(user) {
     };
 
     return fetch(config.apiUrl + 'api/Reservering/' + user.id, requestOptions).then(handleResponse, handleError);
-}
-
-function getReserveringenByUserId(userId) {
-    return response = fetch(`https://localhost:7242/api/reservering/getreserveringenbyuserid/${userId}`, {
-        method: 'GET',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-        }
-    }).json();
 }
 
 function _delete(id) {

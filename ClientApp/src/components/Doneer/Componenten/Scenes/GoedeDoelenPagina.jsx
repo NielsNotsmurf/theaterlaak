@@ -1,7 +1,7 @@
 import { Box, Grid, styled, Typography, useMediaQuery } from '@mui/material';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import donatieService from '../../donatieService';
+import donatieService from '../../../Services/donatieService';
 import GoedDoelComponent from './GoedDoelComponent';
 
 const StyledDiv = styled('div')(() => ({
