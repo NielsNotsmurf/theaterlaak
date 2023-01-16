@@ -1,6 +1,6 @@
 import { styled, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
-import BeheerHelper from '../BeheerHelper';
+import BeheerService from '../BeheerService';
 import BeheerShowItem from './BeheerShowItem';
 
 const StyledShowList = styled('div')(({ theme }) => ({
@@ -19,7 +19,7 @@ export default function BeheerShows() {
         setIsLoading(true);
 
         try {
-            const fetchedShows = await BeheerHelper.getMomenten();
+            const fetchedShows = await BeheerService.getMomenten();
             setShows(fetchedShows);
         } catch (error) {
             console.error(error);
