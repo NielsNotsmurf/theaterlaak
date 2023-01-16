@@ -16,13 +16,14 @@ namespace theaterlaak.Controllers;
 [Route("/api/[controller]")]
 public class AccountController : ControllerBase
 {
-
     private readonly UserManager<ApplicationUser> _UserManager;
     private readonly AppSettings _appSettings;
 
     public AccountController(
+        UserManager<ApplicationUser> userManager,
         IOptions<AppSettings> appSettings)
     {
+        _UserManager = userManager;
         _appSettings = appSettings.Value;
     }
 
@@ -58,7 +59,7 @@ public class AccountController : ControllerBase
         try
         {
             // save 
-            applicationUser = await _UserManager.CreateAsync(user, applicationUser.PasswordHash);
+            await _UserManager.CreateAsync(user, applicationUser.PasswordHash);
             return Ok();
         }
         catch (Exception ex)

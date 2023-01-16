@@ -18,6 +18,8 @@ public class MomentController : ControllerBase
     }
 
     [HttpGet]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+	[ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<List<Models.Moment>> GetMomenten()
     {
         var momentenQuery = _dbContext.Momenten
@@ -31,6 +33,9 @@ public class MomentController : ControllerBase
     }
 
     [HttpGet("{id}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+	[ProducesResponseType(StatusCodes.Status400BadRequest)]
+	[ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<Models.Moment>> GetMoment(int id)
     {
         var moment = await _dbContext.Momenten
