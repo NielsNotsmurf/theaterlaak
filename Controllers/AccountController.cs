@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using theaterlaak.Exceptions;
 using theaterlaak.Models;
 using theaterlaak.Services;
 
@@ -28,15 +29,15 @@ public class AccountController : ControllerBase
 
     
     [HttpPost("authenticate")]
-    public IActionResult Authenticate([FromBody] ApplicationUser applicationUser)
+    public async Task<ActionResult<ApplicationUser>> Authenticate([FromBody] ApplicationUser applicationUser)
     {
-        var user = _UserManager.FindByNameAsync(applicationUser.UserName);
+        var user = await _UserManager.FindByNameAsync(applicationUser.UserName);
 
         if (user == null)
-            return BadRequest("Email or password is incorrect");
+            throw new BadRequestException("Email or password is incorrect");
 
         
-
+        var tokenString = "ik ga hier een token genereren hehe";
         // return basic user info (without password) and token to store client side
         return Ok(new
         {
@@ -47,7 +48,7 @@ public class AccountController : ControllerBase
     }
 
     [HttpPost("register")]
-    public IActionResult Register([FromBody] ApplicationUser applicationUser)
+    public async Task<ActionResult<ApplicationUser>> Register([FromBody] ApplicationUser applicationUser)
     {
         var user = new ApplicationUser
         {
@@ -57,7 +58,7 @@ public class AccountController : ControllerBase
         try
         {
             // save 
-            applicationUser = _UserManager.Create(user, applicationUser.UserName);
+            applicationUser = await _UserManager.CreateAsync(user, applicationUser.PasswordHash);
             return Ok();
         }
         catch (Exception ex)
@@ -66,56 +67,46 @@ public class AccountController : ControllerBase
             return BadRequest(ex.Message);
         }
     }
-
-    [HttpGet]
-    public IActionResult GetAll()
-    {
-        var users = _UserManager.GetAll();
-        List<ApplicationUser> applicationUsers = users.Select(user => new ApplicationUser
-        {
-            Email = user.Email
-        }).ToList();
-        return Ok(applicationUsers);
-    }
-
     [HttpGet("{id}")]
-    public IActionResult GetById(int id)
+    public async Task<ActionResult<ApplicationUser>> GetById(string id)
     {
-        var user = _UserManager.GetById(id);
+        var user = await _UserManager.FindByIdAsync(id);
         var applicationUser = new ApplicationUser
         {
-            Email = user.Email
+            Email = user.UserName
         };
         return Ok(applicationUser);
     }
+//update password
+    // [HttpPut("{id}")]
+    // public async Task<ActionResult<ApplicationUser>> Update(string id, [FromBody] ApplicationUser applicationUser)
+    // {
+    //     // map dto to entity and set id
+    //     var user = new ApplicationUser
+    //     {
+    //         UserName = applicationUser.UserName
+    //     };
+    //     user.Id = id;
 
-    [HttpPut("{id}")]
-    public IActionResult Update(string id, [FromBody] ApplicationUser applicationUser)
-    {
-        // map dto to entity and set id
-        var user = new ApplicationUser
-        {
-            UserName = applicationUser.UserName
-        };
-        user.Id = id;
+    //     try
+    //     {
+    //         await _UserManager.UpdateAsync(user, applicationUser.PasswordHash, true);
+    //         return Ok();
+    //     }
 
-        try
-        {
-            _UserManager.UpdatePasswordHash(user, applicationUser.PasswordHash, true);
-            return Ok();
-        }
-
-        catch (Exception ex)
-        {
-            // return error message if there was an exception
-            return BadRequest(ex.Message);
-        }
-    }
+    //     catch (Exception ex)
+    //     {
+    //         // return error message if there was an exception
+    //         return BadRequest(ex.Message);
+    //     }
+    // }
 
     [HttpDelete("{id}")]
-    public IActionResult Delete(int id)
+    public async Task<IdentityResult> Delete(string id)
     {
-        _UserManager.Delete(id);
-        return Ok();
+        var response = await _UserManager.DeleteAsync(await _UserManager.FindByIdAsync(id));
+        
+        return response;
+        
     }
 }
