@@ -2,7 +2,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using aspnet_react_auth.Helpers;
-using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
@@ -16,14 +16,12 @@ namespace theaterlaak.Controllers;
 public class AccountController : ControllerBase
 {
 
-    private IAccountService _accountService;
+    private readonly UserManager<ApplicationUser> _UserManager;
     private readonly AppSettings _appSettings;
 
     public AccountController(
-        IAccountService userService,
         IOptions<AppSettings> appSettings)
     {
-        _accountService = userService;
         _appSettings = appSettings.Value;
     }
 
@@ -32,30 +30,18 @@ public class AccountController : ControllerBase
     [HttpPost("authenticate")]
     public IActionResult Authenticate([FromBody] ApplicationUser applicationUser)
     {
-        var user = _accountService.Authenticate(applicationUser.UserName, applicationUser.PasswordHash);
+        var user = _UserManager.FindByNameAsync(applicationUser.UserName);
 
         if (user == null)
             return BadRequest("Email or password is incorrect");
 
-        var tokenHandler = new JwtSecurityTokenHandler();
-        var key = Encoding.ASCII.GetBytes(_appSettings.Secret);
-        var tokenDescriptor = new SecurityTokenDescriptor
-        {
-            Subject = new ClaimsIdentity(new Claim[]
-            {
-                new Claim(ClaimTypes.Email as String, user.Id as String)
-            }),
-            Expires = DateTime.UtcNow.AddDays(7),
-            SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
-        };
-        var token = tokenHandler.CreateToken(tokenDescriptor);
-        var tokenString = tokenHandler.WriteToken(token);
+        
+        
 
-        // return basic user info (without password) and token to store client side
         return Ok(new
         {
             Id = user.Id,
-            Email = user.Email,
+            UserName = user.UserName,
             Token = tokenString
         });
     }
@@ -71,7 +57,7 @@ public class AccountController : ControllerBase
         try
         {
             // save 
-            applicationUser = _accountService.Create(user, applicationUser.UserName);
+            applicationUser = _UserManager.Create(user, applicationUser.UserName);
             return Ok();
         }
         catch (Exception ex)
@@ -84,7 +70,7 @@ public class AccountController : ControllerBase
     [HttpGet]
     public IActionResult GetAll()
     {
-        var users = _accountService.GetAll();
+        var users = _UserManager.GetAll();
         List<ApplicationUser> applicationUsers = users.Select(user => new ApplicationUser
         {
             Email = user.Email
@@ -95,7 +81,7 @@ public class AccountController : ControllerBase
     [HttpGet("{id}")]
     public IActionResult GetById(int id)
     {
-        var user = _accountService.GetById(id);
+        var user = _UserManager.GetById(id);
         var applicationUser = new ApplicationUser
         {
             Email = user.Email
@@ -115,10 +101,10 @@ public class AccountController : ControllerBase
 
         try
         {
-            // save 
-            _accountService.Update(user, applicationUser.PasswordHash);
+            _UserManager.UpdatePasswordHash(user, applicationUser.PasswordHash, true);
             return Ok();
         }
+
         catch (Exception ex)
         {
             // return error message if there was an exception
@@ -129,7 +115,7 @@ public class AccountController : ControllerBase
     [HttpDelete("{id}")]
     public IActionResult Delete(int id)
     {
-        _accountService.Delete(id);
+        _UserManager.Delete(id);
         return Ok();
     }
 }

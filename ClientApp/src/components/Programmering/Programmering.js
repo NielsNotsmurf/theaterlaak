@@ -3,17 +3,20 @@ import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 import { MeerInfo } from './MeerInfo';
 import { KoopTicket } from './koopTicket';
+import momentService from '../Services/momentService';
 
 export class Programmering extends Component {
   constructor(props) {
     super(props);
     this.state = {
       moment: {},
-      type: ""
+      type: "isloading",
+      periodeMomenten: []
     };
 
     this.handleInputChange = this.handleInputChange.bind(this);
   }
+
   handleInputChange(event) {
     const target = event.target;
     const value = target.value;
@@ -40,8 +43,14 @@ export class Programmering extends Component {
     this.setState({...this.state, moment: moment, type: "meerInfo"})
   }
 
+  async componentDidMount() {
+    this.setState({...this.state, periodeMomenten: await momentService.getAll(), type: ""})
+  }
+
   render() {
     switch(this.state.type) {
+      case "isloading" :
+        return <div>Voorstellingen worden geladen...</div>
       case "meerInfo" :
       return <MeerInfo callback={(e) => {this.setState({...this.state, type:e})}} moment={this.state.moment}/>;
       case "koopTicket" :
@@ -50,7 +59,7 @@ export class Programmering extends Component {
         return (
           <div>
             <div className='maanden'>
-              {maandMomenten ? maandMomenten.map((momenten, index) => (
+              {this.state.periodeMomenten ? this.state.periodeMomenten.map((momenten, index) => (
                 <div key={index} className="maand">
                   <b><p style={{fontSize: 35}}>{this.getMaand(index)}</p></b>
                   <div style={{padding: 20}}>
@@ -97,361 +106,7 @@ const responsive = {
     items: 1
   }
 };
-//examplefetch
-const maandMomenten =
-[ 
-  [
-    {
-      id: 1,
-      dateTime:"19-12-2022 01:30:00", 
-      voorstelling:{
-        titel: "Elvis",
-        omschrijving: "elvis gaat zingen",
-        img: "https://imgur.com/p6nUEDX.jpg",
-      },
-     zaal:
-      { 
-        zaalNr: "zaal 4",
-        aantalstoelen1: 120,
-        aantalstoelen2: 120,
-        aantalstoelen3:20
-      },
-      betrokene: [
-        {
-          beschrijving:"Swerelds bestverkopende rock artiest! Elvis!",
-          img: "https://imgur.com/5wQJZJ7.jpeg",
-          geboortedatum: "10/10/2002"
-        }
-      ]
-    },
-    {
-      id: 2,
-      dateTime:"19-12-2022 02:00:00", 
-      voorstelling:{
-        titel: "Jantje",
-        omschrijving: "Jantje eet steen",
-        img: "https://imgur.com/QJTWyqA.jpg",
-      },
-      zaal:
-      { 
-        zaalNr: "zaal 4",
-        aantalstoelen1: 120,
-        aantalstoelen2: 120,
-        aantalstoelen3:20
-      },
-      betrokene: [
-        {
-          beschrijving:"Swerelds bestverkopende rock artiest! Elvis!",
-          img: "https://imgur.com/5wQJZJ7.jpeg",
-          geboortedatum: "10/10/2002"
-        }
-      ]
-    },
-    {
-      id: 3,
-      dateTime:"19-12-2022 02:30:00", 
-      voorstelling:{
-        titel: "Jantje",
-        omschrijving: "Jantje eet steen",
-        img: "https://imgur.com/QJTWyqA.jpg",
-      },
-      zaal:
-      { 
-        zaalNr: "zaal 4",
-        aantalstoelen1: 120,
-        aantalstoelen2: 120,
-        aantalstoelen3:20
-      },
-      betrokene: [
-        {
-          beschrijving:"Swerelds bestverkopende rock artiest! Elvis!",
-          img: "https://imgur.com/5wQJZJ7.jpeg",
-          geboortedatum: "10/10/2002"
-        }
-      ]
-    },
-    {
-      id: 4,
-      dateTime:"19-12-2022 02:30:00", 
-      voorstelling:{
-        titel: "Elvis",
-        omschrijving: "elvis gaat zingen",
-        img: "https://imgur.com/p6nUEDX.jpg",
-      },
-     zaal:
-      { 
-        zaalNr: "zaal 4",
-        aantalstoelen1: 120,
-        aantalstoelen2: 120,
-        aantalstoelen3:20
-      },
-      betrokene: [
-        {
-          beschrijving:"Swerelds bestverkopende rock artiest! Elvis!",
-          img: "https://imgur.com/5wQJZJ7.jpeg",
-          geboortedatum: "10/10/2002"
-        }
-      ]
-    },
-    {
-      id: 5,
-      dateTime:"19-12-2022 02:00:00", 
-      voorstelling:{
-        titel: "Jantje",
-        omschrijving: "Jantje eet steen",
-        img: "https://imgur.com/QJTWyqA.jpg",
-      },
-      zaal:
-      { 
-        zaalNr: "zaal 4",
-        aantalstoelen1: 120,
-        aantalstoelen2: 120,
-        aantalstoelen3:20
-      },
-      betrokene: [
-        {
-          beschrijving:"Swerelds bestverkopende rock artiest! Elvis!",
-          img: "https://imgur.com/5wQJZJ7.jpeg",
-          geboortedatum: "10/10/2002"
-        }
-      ]
-    }
-  ],
-  [
-    {
-      id: 6,
-      dateTime:"19-12-2022 03:00:00", 
-      voorstelling:{
-        titel: "Elvis",
-        omschrijving: "elvis gaat zingen",
-        img: "https://imgur.com/p6nUEDX.jpg",
-      },
-     zaal:
-      { 
-        zaalNr: "zaal 4",
-        aantalstoelen1: 120,
-        aantalstoelen2: 120,
-        aantalstoelen3:20
-      },
-      betrokene: [
-        {
-          beschrijving:"Swerelds bestverkopende rock artiest! Elvis!",
-          img: "https://imgur.com/5wQJZJ7.jpeg",
-          geboortedatum: "10/10/2002"
-        }
-      ]
-    },
-    {
-      id: 7,
-      dateTime:"19-12-2022 03:00:00", 
-      voorstelling:{
-        titel: "Jantje",
-        omschrijving: "Jantje eet steen",
-        img: "https://imgur.com/QJTWyqA.jpg",
-      },
-      zaal:
-      { 
-        zaalNr: "zaal 4",
-        aantalstoelen1: 120,
-        aantalstoelen2: 120,
-        aantalstoelen3:20
-      },
-      betrokene: [
-        {
-          beschrijving:"Swerelds bestverkopende rock artiest! Elvis!",
-          img: "https://imgur.com/5wQJZJ7.jpeg",
-          geboortedatum: "10/10/2002"
-        }
-      ]
-    },
-    {
-      id: 8,
-      dateTime:"19-12-2022 03:00:00", 
-      voorstelling:{
-        titel: "Jantje",
-        omschrijving: "Jantje eet steen",
-        img: "https://imgur.com/QJTWyqA.jpg",
-      },
-      zaal:
-      { 
-        zaalNr: "zaal 4",
-        aantalstoelen1: 120,
-        aantalstoelen2: 120,
-        aantalstoelen3:20
-      },
-      betrokene: [
-        {
-          beschrijving:"Swerelds bestverkopende rock artiest! Elvis!",
-          img: "https://imgur.com/5wQJZJ7.jpeg",
-          geboortedatum: "10/10/2002"
-        }
-      ]
-    },
-    {
-      id: 9,
-      dateTime:"19-12-2022 03:00:00", 
-      voorstelling:{
-        titel: "Elvis",
-        omschrijving: "elvis gaat zingen",
-        img: "https://imgur.com/p6nUEDX.jpg",
-      },
-     zaal:
-      { 
-        zaalNr: "zaal 4",
-        aantalstoelen1: 120,
-        aantalstoelen2: 120,
-        aantalstoelen3:20
-      },
-      betrokene: [
-        {
-          beschrijving:"Swerelds bestverkopende rock artiest! Elvis!",
-          img: "https://imgur.com/5wQJZJ7.jpeg",
-          geboortedatum: "10/10/2002"
-        }
-      ]
-    },
-    {
-      id: 10,
-      dateTime:"19-12-2022 03:00:00", 
-      voorstelling:{
-        titel: "Jantje",
-        omschrijving: "Jantje eet steen",
-        img: "https://imgur.com/QJTWyqA.jpg",
-      },
-      zaal:
-      { 
-        zaalNr: "zaal 4",
-        aantalstoelen1: 120,
-        aantalstoelen2: 120,
-        aantalstoelen3:20
-      },
-      betrokene: [
-        {
-          beschrijving:"Swerelds bestverkopende rock artiest! Elvis!",
-          img: "https://imgur.com/5wQJZJ7.jpeg",
-          geboortedatum: "10/10/2002"
-        }
-      ]
-    }
-  ],
-  [
-    {
-      id: 11,
-      dateTime:"19-12-2022 03:00:00", 
-      voorstelling:{
-        titel: "Elvis",
-        omschrijving: "elvis gaat zingen",
-        img: "https://imgur.com/p6nUEDX.jpg",
-      },
-     zaal:
-      { 
-        zaalNr: "zaal 4",
-        aantalstoelen1: 120,
-        aantalstoelen2: 120,
-        aantalstoelen3:20
-      },
-      betrokene: [
-        {
-          beschrijving:"Swerelds bestverkopende rock artiest! Elvis!",
-          img: "https://imgur.com/5wQJZJ7.jpeg",
-          geboortedatum: "10/10/2002"
-        }
-      ]
-    },
-    {
-      id: 12,
-      dateTime:"19-12-2022 03:00:00", 
-      voorstelling:{
-        titel: "Jantje",
-        omschrijving: "Jantje eet steen",
-        img: "https://imgur.com/QJTWyqA.jpg",
-      },
-      zaal:
-      { 
-        zaalNr: "zaal 4",
-        aantalstoelen1: 120,
-        aantalstoelen2: 120,
-        aantalstoelen3:20
-      },
-      betrokene: [
-        {
-          beschrijving:"Swerelds bestverkopende rock artiest! Elvis!",
-          img: "https://imgur.com/5wQJZJ7.jpeg",
-          geboortedatum: "10/10/2002"
-        }
-      ]
-    },
-    {
-      id: 13,
-      dateTime:"19-12-2022 03:00:00", 
-      voorstelling:{
-        titel: "Jantje",
-        omschrijving: "Jantje eet steen",
-        img: "https://imgur.com/QJTWyqA.jpg",
-      },
-      zaal:
-      { 
-        zaalNr: "zaal 4",
-        aantalstoelen1: 120,
-        aantalstoelen2: 120,
-        aantalstoelen3:20
-      },
-      betrokene: [
-        {
-          beschrijving:"Swerelds bestverkopende rock artiest! Elvis!",
-          img: "https://imgur.com/5wQJZJ7.jpeg",
-          geboortedatum: "10/10/2002"
-        }
-      ]
-    },
-    {
-      id: 14,
-      dateTime:"19-12-2022 03:00:00", 
-      voorstelling:{
-        titel: "Elvis",
-        omschrijving: "elvis gaat zingen",
-        img: "https://imgur.com/p6nUEDX.jpg",
-      },
-     zaal:
-      { 
-        zaalNr: "zaal 4",
-        aantalstoelen1: 120,
-        aantalstoelen2: 120,
-        aantalstoelen3:20
-      },
-      betrokene: [
-        {
-          beschrijving:"Swerelds bestverkopende rock artiest! Elvis!",
-          img: "https://imgur.com/5wQJZJ7.jpeg",
-          geboortedatum: "10/10/2002"
-        }
-      ]
-    },
-    {
-      id: 15,
-      dateTime:"19-12-2022 03:00:00", 
-      voorstelling:{
-        titel: "Jantje",
-        omschrijving: "Jantje eet steen",
-        img: "https://imgur.com/QJTWyqA.jpg",
-      },
-      zaal:
-      { 
-        zaalNr: "zaal 4",
-        aantalstoelen1: 120,
-        aantalstoelen2: 120,
-        aantalstoelen3:20
-      },
-      betrokene: [
-        {
-          beschrijving:"Swerelds bestverkopende rock artiest! Elvis!",
-          img: "https://imgur.com/5wQJZJ7.jpeg",
-          geboortedatum: "10/10/2002"
-        }
-      ]
-    }
-  ]
-]
+
 export default Programmering;
 
 

@@ -20,14 +20,13 @@ function login(username, password) {
             'Content-Type': 'application/json',
         },
         body: JSON.stringify(body),
-    }).then(handleResponse, handleError)
-    .then(user => {
+    }).then(response => {
         // login successful if there's a jwt token in the response
-        if (user && user.token) {
-            // store user details and jwt token in local storage to keep user logged in between page refreshes
-            localStorage.setItem('user', JSON.stringify(user));
+        if ("accesToken" in response) {
+            // store response details and jwt token in local storage to keep response logged in between page refreshes
+            localStorage.setItem('user', JSON.stringify(response));
         }
-        return user;
+        return response;
     });
 }
 

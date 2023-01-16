@@ -3,11 +3,14 @@ import { useState } from "react";
 import { useEffect } from "react";
 import SeatPicker from 'react-seat-picker';
 import '../styles/StoelenMenu.css';
+import reserveringService from '../Services/reserveringService';
+import authService from '../api-authorization/AuthorizeService';
 
 export default function StoelenMenu(props) {
   let [moment, setMoment] = useState({});
   let [loading, setLoading] = useState(false);
   let [loadingPage, setLoadingPage] = useState(true);
+  let [reserveringStoelen, setReserveringStoelen] = useState([]);
   useEffect(() => {
     setMoment(props.moment);
     setLoadingPage(false);
@@ -23,10 +26,15 @@ export default function StoelenMenu(props) {
       await new Promise(resolve => setTimeout(resolve, 750))
       const newTooltip = `Deze stoel heeft u gereserveerd`
       addCb(row, number, id, newTooltip)
+      var tempList = reserveringStoelen
+      tempList.add(id)
+      setReserveringStoelen(tempList);
       setLoading(false)
     })();
   }
- 
+  function submit () {
+    reserveringService.add(authService.getUser().Id, moment.Id, reserveringStoelen)
+  }
   function removeSeatCallback ({ row, number, id }, removeCb) {
     (async () => {
       setLoading(true)

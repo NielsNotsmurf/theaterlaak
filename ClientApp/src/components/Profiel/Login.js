@@ -10,6 +10,7 @@ export default class Login extends React.Component {
       UserName: "",
       password: "",
       succes: "",
+      token: ""
     };
     this.handleChange = this.handleChange.bind(this);
   }
@@ -17,7 +18,7 @@ export default class Login extends React.Component {
   onSubmit = async (e) => {
     e.preventDefault();
     await AccountService.login(this.state.UserName, this.state.password).then(() => {
-      this.setState({ succes: "succesvol" });
+      this.setState({succes: "succesvol" });
     });
   };
 

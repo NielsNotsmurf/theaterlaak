@@ -9,9 +9,9 @@ const momentService = {
 };
 export default momentService;
 
-function add(UserId, MomentId, GereserveerdeStoelenId) {
+async function add(UserId, MomentId, GereserveerdeStoelenId) {
     const body = { UserId: UserId, MomentId: MomentId, GereserveerdeStoelenId:GereserveerdeStoelenId};
-    return fetch('https://localhost:7242/api/reservering', {
+    return await fetch('https://localhost:7242/api/moment', {
         method: 'POST',
         headers: {
             'Accept': 'application/json',
@@ -21,39 +21,45 @@ function add(UserId, MomentId, GereserveerdeStoelenId) {
     }).then(handleResponse, handleError);
 }
 
-function getAll() {
+async function getAll() {
+    const response = await fetch('https://localhost:7242/api/moment/', {
+        method: 'GET',
+        headers: {
+            'accept': 'application/json',
+            'Content-Type': 'application/json',
+        }
+    });
+    if (!response.ok) {
+            throw new Error(`http error! status: ${response.status}`)
+    }    
+
+    return await response.json();
+}
+
+async function getById(id) {
     const requestOptions = {
         method: 'GET',
         headers: authHeader()
     };
 
-    return fetch(config.apiUrl + 'api/Reservering/', requestOptions).then(handleResponse, handleError);
+    return await fetch(config.apiUrl + 'api/moment/' + id, requestOptions).then(handleResponse, handleError);
 }
 
-function getById(id) {
-    const requestOptions = {
-        method: 'GET',
-        headers: authHeader()
-    };
-
-    return fetch(config.apiUrl + 'api/Reservering/' + id, requestOptions).then(handleResponse, handleError);
-}
-
-function update(user) {
+async function update(user) {
     const requestOptions = {
         method: 'PUT',
         headers: { ...authHeader(), 'Content-Type': 'application/json' },
         body: JSON.stringify(user)
     };
 
-    return fetch(config.apiUrl + 'api/Reservering/' + user.id, requestOptions).then(handleResponse, handleError);
+    return await fetch(config.apiUrl + 'api/moment/' + user.id, requestOptions).then(handleResponse, handleError);
 }
 
-function _delete(id) {
+async function _delete(id) {
     const requestOptions = {
         method: 'DELETE',
         headers: authHeader()
 };
 
-    return fetch(config.apiUrl + 'api/Reservering/' + id, requestOptions).then(handleResponse, handleError);
+    return await fetch(config.apiUrl + 'api/moment/' + id, requestOptions).then(handleResponse, handleError);
 }
