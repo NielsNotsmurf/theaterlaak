@@ -36,12 +36,12 @@ public class AccountController : ControllerBase
             return BadRequest("Email or password is incorrect");
 
         
-        
 
+        // return basic user info (without password) and token to store client side
         return Ok(new
         {
             Id = user.Id,
-            UserName = user.UserName,
+            Email = user.Email,
             Token = tokenString
         });
     }

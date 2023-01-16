@@ -11,6 +11,7 @@ public class Voorstelling
 
     [Required]
     public string Titel { get; set; } = string.Empty;
+    public string Omschrijving { get; set; } = string.Empty;
 
     [ForeignKey(nameof(Betrokkene))]
     public int BetrokkeneId { get; set; }

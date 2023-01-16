@@ -17,10 +17,10 @@ public class BetrokkeneController : ControllerBase
     private readonly AppSettings _appSettings;
 
     public BetrokkeneController(
-        IBetrokkeneService userService,
+        IBetrokkeneService betrokkeneService,
         IOptions<AppSettings> appSettings)
     {
-        _betrokkeneService = userService;
+        _betrokkeneService = betrokkeneService;
         _appSettings = appSettings.Value;
     }
 
