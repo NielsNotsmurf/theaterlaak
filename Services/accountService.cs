@@ -1,5 +1,11 @@
 using theaterlaak.Data;
 using theaterlaak.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Text;
+using System.Security.Cryptography;
 
 namespace theaterlaak.Services
 {
@@ -52,6 +58,7 @@ namespace theaterlaak.Services
             CreatePasswordHash(passwordString, out Password, out passwordSalt);
             
             user.Email = user.UserName;
+            Console.WriteLine("[tijdelijke debug] on create string: " + passwordString);
             user.Password = Password;
             Console.WriteLine("[tijdelijke debug] on create hash: " + user.Password[1] + user.Password[2]);
             user.PasswordSalt = passwordSalt;
@@ -110,17 +117,33 @@ namespace theaterlaak.Services
             _context.Users.Update(user);
             _context.SaveChanges();        
         }
+        private static Byte[] getSalt()
+        {
+            var random = new RNGCryptoServiceProvider();
 
+            // Maximum length of salt
+            int max_length = 64;
+
+            // Empty salt array
+            byte[] salt = new byte[max_length];
+
+            // Build the random bytes
+            random.GetNonZeroBytes(salt);
+
+            // Return the string encoded salt
+            return salt;
+        }
         private static void CreatePasswordHash(string passwordString, out byte[] Password, out byte[] passwordSalt)
         {
             if (passwordString == null) throw new ArgumentNullException("passwordString");
             if (string.IsNullOrWhiteSpace(passwordString)) throw new ArgumentException("ongeldige waarde.", "passwordString");
-
-            using (var hmac = new System.Security.Cryptography.HMACSHA512())
+            var generatedsalt = getSalt();
+            
+            using (var sha = new SHA512Managed())
             {
-                var computedHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(passwordString));
+                var computedHash = sha.ComputeHash(System.Text.Encoding.UTF8.GetBytes(string.Concat(passwordString, generatedsalt)));
                 Password = computedHash;
-                passwordSalt = hmac.Key;
+                passwordSalt = generatedsalt;
             }
         }
 
@@ -130,15 +153,16 @@ namespace theaterlaak.Services
             if (string.IsNullOrWhiteSpace(passwordString)) throw new ArgumentException("ongeldige waarde.", "passwordString");
             if (storedHash.Length != 64) throw new ArgumentException("ongeldige lengte van storedhash (64 bytes).", "Password");
             if (storedSalt.Length != 128) throw new ArgumentException("ongeldige lengte van storedsalt (128 bytes).", "Password");
-            using (var hmac = new System.Security.Cryptography.HMACSHA512(storedSalt))
+            using (var sha = new SHA512Managed())
             {
+                Console.WriteLine("[tijdelijke debug] on verify string: " + passwordString);
                 Console.WriteLine("[tijdelijke debug] on verify hash: " + storedHash[1] + storedHash[2]);
                 Console.WriteLine("[tijdelijke debug] on verify salt: " + storedSalt[1] + storedSalt[2]);
-                var computedHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(passwordString));
+                var computedHash = sha.ComputeHash(System.Text.Encoding.UTF8.GetBytes(string.Concat(passwordString, storedSalt)));
                 for (int i = 0; i < computedHash.Length; i++)
                 {
                     if (computedHash[i] != storedHash[i])
-                        Console.WriteLine(computedHash[i] + "]  ||  [" + storedHash[i]);
+                        Console.WriteLine("byte ["+i+"]: "+computedHash[i] + "]  ||  [" + storedHash[i]);
                         return false;
                     
                 }
