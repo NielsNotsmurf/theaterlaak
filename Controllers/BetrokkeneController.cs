@@ -1,8 +1,11 @@
+using aspnet_react_auth.Helpers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using theaterlaak.Converters;
 using theaterlaak.Data;
 using theaterlaak.Exceptions;
+using theaterlaak.Services;
 
 namespace theaterlaak.Controllers;
 
@@ -10,22 +13,22 @@ namespace theaterlaak.Controllers;
 [Route("/api/[controller]")]
 public class BetrokkeneController : ControllerBase
 {
-    private readonly ApplicationDbContext _dbContext;
-    public BetrokkeneController(ApplicationDbContext dbContext)
+    private IBetrokkeneService _userService;
+    private readonly AppSettings _appSettings;
+
+    public BetrokkeneController(
+        IBetrokkeneService userService,
+        IOptions<AppSettings> appSettings)
     {
-        _dbContext = dbContext;
+        _userService = userService;
+        _appSettings = appSettings.Value;
     }
 
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<List<Models.Betrokkene>> GetBetrokkenen()
     {
-        var betrokkenenQuery = _dbContext.Betrokkenen
-            .AsNoTracking()
-            .AsQueryable();
-
-        var betrokkenen = await betrokkenenQuery.ToListAsync();
-        return betrokkenen.ConvertAll(v => v.ToDto());
+        return await _userService.GetBetrokkenen();
     }
 
     [HttpGet("{id}")]
@@ -33,13 +36,6 @@ public class BetrokkeneController : ControllerBase
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<Models.Betrokkene>> GetBetrokkene(int id)
     {
-        var betrokkene = await _dbContext.Betrokkenen
-            .AsNoTracking()
-            .FirstOrDefaultAsync(v => v.Id == id);
-
-        if (betrokkene == null)
-            throw new NotFoundException();
-
-        return betrokkene.ToDto(); 
+        return await _userService.GetBetrokkene(id);
     }
 }
