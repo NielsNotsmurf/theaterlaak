@@ -23,6 +23,7 @@ builder.Services.AddAuthentication()
     .AddIdentityServerJwt();
 
 builder.Services.AddScoped<IAccountService, accountService>();
+builder.Services.AddScoped<IReserveringService, reserveringService>();
 
 builder.Services.AddCors(option => 
 {
