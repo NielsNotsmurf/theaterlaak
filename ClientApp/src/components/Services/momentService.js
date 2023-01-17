@@ -3,6 +3,7 @@ import { authHeader, config, handleError, handleResponse } from '../Helpers';
 const momentService = {
     AddMoment,
     GetMomenten,
+    GetPeriodeMomenten,
     GetMomentById,
     DeleteMoment
 };
@@ -27,6 +28,16 @@ async function GetMomenten() {
     };
 
     return await fetch(config.apiUrl + 'api/moment/', requestOptions).then(handleResponse, handleError);
+}
+
+async function GetPeriodeMomenten() {
+    const requestOptions = {
+        method: 'GET',
+        headers: authHeader()
+    };
+
+    let response = await fetch(config.apiUrl + 'api/moment/', requestOptions).then(handleResponse, handleError);
+    //response afsplitsen naar laatste 3 maanden en indelen per maand
 }
 
 async function DeleteMoment(id) {

@@ -44,7 +44,7 @@ export class Programmering extends Component {
   }
 
   async componentDidMount() {
-    this.setState({...this.state, periodeMomenten: await momentService.getAll(), type: ""})
+    this.setState({...this.state, periodeMomenten: await momentService.GetPeriodeMomenten(), type: ""})
   }
 
   render() {

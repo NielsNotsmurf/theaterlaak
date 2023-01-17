@@ -69,7 +69,7 @@ namespace theaterlaak.Services
 
             updateVoorstelling.Titel = voorstelling.Titel;
             updateVoorstelling.BetrokkeneId = voorstelling.BetrokkeneId;
-
+            
             await _context.SaveChangesAsync();
 
             return new OkResult();
