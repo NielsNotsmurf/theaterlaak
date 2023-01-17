@@ -67,7 +67,7 @@ namespace theaterlaak.Services
                     .ThenInclude(m => m!.Zaal)
                         .ThenInclude(z => z!.Stoelen)
                 .Include(r => r.Moment)
-                    .ThenInclude(m => m.Voorstelling)
+                    .ThenInclude(m => m!.Voorstelling)
                 .Include(r => r.User)
                 .Where(r => r.MomentId == momentId && r.UserId == userId)
                 .OrderBy(r => r.Moment!.StartDateTime)
@@ -105,7 +105,7 @@ namespace theaterlaak.Services
         }
         public async Task UpdateReservering(int id, AddOrUpdateReservering reservering)
         {
-            var updateReservering = await _context.Reserveringen.Include(r => r.Moment).ThenInclude(m => m.Zaal).ThenInclude(z => z.Stoelen).FirstOrDefaultAsync(r => r.Id == id);
+            var updateReservering = await _context.Reserveringen.Include(r => r.Moment).ThenInclude(m => m!.Zaal).ThenInclude(z => z!.Stoelen).FirstOrDefaultAsync(r => r.Id == id);
             if (updateReservering == null)
                 throw new NotFoundException($"Reservering met ID '{id}' is niet gevonden.");
 
@@ -132,7 +132,7 @@ namespace theaterlaak.Services
         }
         public async Task DeleteReservering(int id)
         {
-            var deleteReservering = await _context.Reserveringen.Include(r => r.Moment).ThenInclude(m => m.Zaal).ThenInclude(z => z.Stoelen).FirstOrDefaultAsync(r => r.Id == id);
+            var deleteReservering = await _context.Reserveringen.Include(r => r.Moment).ThenInclude(m => m!.Zaal).ThenInclude(z => z!.Stoelen).FirstOrDefaultAsync(r => r.Id == id);
             if (deleteReservering == null)
                 throw new NotFoundException($"Voorstelling met ID '{id}' is niet gevonden.");
 

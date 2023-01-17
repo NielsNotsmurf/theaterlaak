@@ -12,7 +12,7 @@ public record AddOrUpdateVoorstelling
         public string Titel { get; init; } = string.Empty;
         [Required]
         public string Omschrijving { get; init; } = string.Empty;
-        private string imgstring;
+        private string imgstring = string.Empty;
         [Required]
         public string Img { 
             get {return imgstring;}

@@ -56,7 +56,7 @@ namespace theaterlaak.Services
 
         public async Task DeleteMoment(int id)
         {
-            var deleteMoment = await _context.Momenten.Include(m => m.Zaal).ThenInclude(z => z.Stoelen).FirstOrDefaultAsync(m => m.Id == id);
+            var deleteMoment = await _context.Momenten.Include(m => m.Zaal).ThenInclude(z => z!.Stoelen).FirstOrDefaultAsync(m => m.Id == id);
             if (deleteMoment == null)
                 throw new NotFoundException($"momenet ID '{id}' is niet gevonden.");
 
