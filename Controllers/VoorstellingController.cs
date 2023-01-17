@@ -47,7 +47,8 @@ public class VoorstellingController : ControllerBase
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult> AddVoorstelling(Commands.AddOrUpdateVoorstelling voorstelling)
     {
-        return await _voorstellingService.AddVoorstelling(voorstelling);
+        await _voorstellingService.AddVoorstelling(voorstelling);
+        return Ok();
     }
 
     [HttpPut("{id}")]

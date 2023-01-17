@@ -8,8 +8,8 @@ const momentService = {
 };
 export default momentService;
 
-function AddMoment(UserId, MomentId, GereserveerdeStoelenId) {
-    const body = { UserId: UserId, MomentId: MomentId, GereserveerdeStoelenId: GereserveerdeStoelenId };
+function AddMoment(startDateTime, endDateTime, voorstellingId, zaalType) {
+    const body = { startDateTime, endDateTime, voorstellingId, zaalType };
     return fetch('https://localhost:7242/api/reservering', {
         method: 'POST',
         headers: {

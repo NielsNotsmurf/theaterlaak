@@ -11,7 +11,7 @@ namespace theaterlaak.Services
     {
         Task<List<Models.Voorstelling>> GetVoorstellingen();
         Task<ActionResult<Models.Voorstelling>> GetVoorstelling(int id);
-        Task<ActionResult> AddVoorstelling(Commands.AddOrUpdateVoorstelling voorstelling);
+        Task AddVoorstelling(Commands.AddOrUpdateVoorstelling voorstelling);
         Task<ActionResult> UpdateVoorstelling(int id, Commands.AddOrUpdateVoorstelling voorstelling);
         Task<ActionResult> DeleteVoorstelling(int id);
     }
@@ -49,9 +49,9 @@ namespace theaterlaak.Services
             return voorstelling.ToDto();
         }
 
-        public async Task<ActionResult> AddVoorstelling(Commands.AddOrUpdateVoorstelling voorstelling)
+        public async Task AddVoorstelling(Commands.AddOrUpdateVoorstelling voorstelling)
         {
-            var newVoorstelling = new Voorstelling
+            var newVoorstelling = new Entities.Voorstelling
             {
                 Titel = voorstelling.Titel,
                 BetrokkeneId = voorstelling.BetrokkeneId,
@@ -59,8 +59,6 @@ namespace theaterlaak.Services
 
             _context.Add(newVoorstelling);
             await _context.SaveChangesAsync();
-
-            return new OkResult();
         }
 
         public async Task<ActionResult> UpdateVoorstelling(int id, Commands.AddOrUpdateVoorstelling voorstelling)

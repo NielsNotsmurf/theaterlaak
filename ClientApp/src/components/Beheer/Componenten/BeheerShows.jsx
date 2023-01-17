@@ -12,7 +12,7 @@ const StyledShowList = styled('div')(({ theme }) => ({
 const InlineDiv = styled('div')(({ theme }) => ({
     display: 'flex',
     alignItems: 'center',
-    marginBottom: theme.spacing(2)
+    marginBottom: theme.spacing(2),
 }));
 
 export default function BeheerShows() {    
@@ -29,7 +29,7 @@ export default function BeheerShows() {
         setIsLoading(true);
 
         try {
-            const fetchedShows = await momentService.getMomenten();
+            const fetchedShows = await momentService.getAll();
             setShows(fetchedShows);
         } catch (error) {
             console.error(error);
@@ -50,7 +50,7 @@ export default function BeheerShows() {
                 </IconButton>
                 <Typography variant='h2'>Aankomende shows</Typography>
             </InlineDiv>
-            {(shows && shows.length > 0) ? shows.map((show, index) => <BeheerShowItem key={index} show={show} />) : <>Geen resultaten</>}
+            {(shows && shows.length > 0) ? shows.map((show, index) => <BeheerShowItem key={index} show={show}/>) : <>Geen resultaten</>}
         </StyledShowList>
     )
 }

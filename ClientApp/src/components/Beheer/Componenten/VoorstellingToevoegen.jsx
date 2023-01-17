@@ -1,17 +1,9 @@
 import { Button, FormLabel, IconButton, MenuItem, Select, styled, TextField, Typography } from '@mui/material'
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import momentService from '../../Services/momentService';
 import voorstellingService from '../../Services/voorstellingService';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-
-const zaaltypes = [
-    "Zaal_1",
-    "Zaal_2",
-    "Zaal_3",
-    "Zaal_4",
-    "Zaal_5",
-]
+import betrokkeneService from '../../Services/betrokkeneService';
 
 const StyledFormDiv = styled('div')(({ theme }) => ({
     display: 'flex',
@@ -36,9 +28,9 @@ const InlineDiv = styled('div')(({ theme }) => ({
 
 export default function ShowToevoegen() {
     const [isLoading, setIsLoading] = useState(false);
-    const [voorstellingen, setVoorstellingen] = useState([]);
+    const [betrokkenen, setBetrokkenen] = useState([]);
 
-    const initialState = { startDateTime: new Date(), endDateTime: new Date(), voorstelling: '', zaalType: '' }
+    const initialState = { titel: '', betrokkene: '' }
 
     const [inputs, setInputs] = useState(initialState);
 
@@ -52,8 +44,8 @@ export default function ShowToevoegen() {
         setIsLoading(true);
 
         try {
-            const fetchedVoorstellingen = await voorstellingService.getAll();
-            setVoorstellingen(fetchedVoorstellingen);
+            const fetchedBetrokkenen = await betrokkeneService.getAll();
+            setBetrokkenen(fetchedBetrokkenen);
         } catch (error) {
             console.log(error);
         } finally {
@@ -70,7 +62,7 @@ export default function ShowToevoegen() {
         setIsLoading(true);
 
         try {
-            await momentService.add(inputs.startDateTime, inputs.endDateTime, inputs.voorstelling, zaaltypes.findIndex(type => type === inputs.zaalType))
+            await voorstellingService.add(inputs.titel, inputs.betrokkene)
             console.log('succes');
         } catch (error) {
             console.log(error);
@@ -85,56 +77,31 @@ export default function ShowToevoegen() {
                 <IconButton onClick={() => navigate('/beheer')}>
                     <ArrowBackIcon />
                 </IconButton>
-                <Typography variant='h3'>Show toevoegen</Typography>
+                <Typography variant='h3'>Voorstelling toevoegen</Typography>
             </InlineDiv>
             <StyledForm onSubmit={handleSubmit}>
                 <FormLabel sx={{ mb: 1, display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
-                    Start tijd: 
+                    Titel: 
                     <TextField
-                        name='startDateTime'
+                        name='titel'
                         onChange={handleChange}
                         required
                         sx={{ width: 250, ml: 1 }}
-                        type='datetime-local'
+                        type='text'
                         variant='outlined'
                     />
                 </FormLabel>
                 <FormLabel sx={{ mb: 2, display: 'flex', alignItems: 'center',  justifyContent: 'space-between'}}>
-                    Eind tijd:
-                    <TextField
-                        name='endDateTime'
-                        onChange={handleChange}
-                        required
-                        sx={{ width: 250, ml: 1 }}
-                        type='datetime-local'
-                        variant='outlined'
-                    />
-                </FormLabel>
-                <FormLabel sx={{ mb: 2, display: 'flex', alignItems: 'center',  justifyContent: 'space-between'}}>
-                    Voorstelling:
+                    Betrokkene:
                     <Select
-                        name='voorstelling'
-                        value={inputs.voorstelling}
+                        name='betrokkene'
+                        value={inputs.betrokkene}
                         onChange={handleChange}
                         sx={{ width: 250, ml: 1 }}
                     >
                         <MenuItem value={''}><em>Geen</em></MenuItem>
-                        {voorstellingen.map((voorstelling, index) => 
-                            <MenuItem key={index} value={voorstelling.id}>{voorstelling.titel}</MenuItem>
-                        )}
-                    </Select>
-                </FormLabel>
-                <FormLabel sx={{ mb: 2, display: 'flex', alignItems: 'center',  justifyContent: 'space-between'}}>
-                    Zaal:
-                    <Select
-                        name='zaalType'
-                        value={inputs.zaalType}
-                        onChange={handleChange}
-                        sx={{ width: 250, ml: 1 }}
-                    >
-                        <MenuItem value={''}><em>Geen</em></MenuItem>
-                        {zaaltypes.map((zaalType, index) => 
-                            <MenuItem key={index} value={zaalType}>{zaalType}</MenuItem>
+                        {betrokkenen.map((betrokkene, index) => 
+                            <MenuItem key={index} value={betrokkene.id}>{betrokkene.typePersoon + ': ' + betrokkene.naam}</MenuItem>
                         )}
                     </Select>
                 </FormLabel>

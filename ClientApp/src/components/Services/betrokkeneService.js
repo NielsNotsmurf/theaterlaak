@@ -26,7 +26,7 @@ async function add(TypePersoon, Naam, Omschrijving, Afbeelding, GeboorteDatum) {
 }
 
 async function getAll() {
-    const response = await fetch(config.apiUrl + 'api/betrokkene/', {
+    const response = await fetch(config.apiUrl + '/api/betrokkene/', {
         method: 'GET',
         headers: {
             'accept': 'application/json',
