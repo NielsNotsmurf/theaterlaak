@@ -1,4 +1,5 @@
 import { authHeader, config, handleError, handleResponse } from '../Helpers';
+import AuthorizeService from '../api-authorization/AuthorizeService';
 
 const AccountService = {
     login,
@@ -20,13 +21,17 @@ function login(username, password) {
             'Content-Type': 'application/json',
         },
         body: JSON.stringify(body),
-    }).then(response => {
-        // login successful if there's a jwt token in the response
-        if ("accesToken" in response) {
-            // store response details and jwt token in local storage to keep response logged in between page refreshes
-            localStorage.setItem('user', JSON.stringify(response));
+    }).then(user => {
+        // login successful if there's a jwt token in the user
+        if ("accesToken" in user) {
+            // store user details and jwt token in local storage to keep user logged in between page refreshes
+            localStorage.setItem('user', JSON.stringify(user));
+            // AuthorizeService.subscribe();
+            // AuthorizeService.updateState(user);
+            // console.log(AuthorizeService.getUser());
+            // AuthorizeService.unsubscribe();
         }
-        return response;
+        return user;
     });
 }
 

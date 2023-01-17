@@ -1,6 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import AccountService from "../Services/AccountService";
+import PasswordChecklist from "react-password-checklist"
 
 export default class Register extends React.Component {
     constructor(props) {
@@ -15,10 +16,8 @@ export default class Register extends React.Component {
             error: "",
         }
         this.handleChange = this.handleChange.bind(this);
-        
+
     }
-
-
 
     handleChange = (e) => {
         this.setState({ ...this.state, [e.target.name]: e.target.value });
@@ -34,7 +33,7 @@ export default class Register extends React.Component {
     };
 
     validateConfirmPassword = e => {
-        let {value } = e.target
+        let { value } = e.target
         if (this.state.password && value !== this.state.password) {
             return "Wachtwoorden komen niet overeen.";
         }
@@ -104,6 +103,21 @@ export default class Register extends React.Component {
                             value={this.state.PhoneNumber}
                             onChange={this.handleChange}
                         />
+                        <PasswordChecklist
+                            rules={["capital", "lowercase", "specialChar", "minLength", "match" ]}
+                            minLength={7}
+                            value={this.state.password}
+                            valueAgain={this.state.confirmPassword}
+                            messages={{
+                                minLength: "uw wachtwoord moet minimaal 7 karakters lang zijn.",
+                                specialChar: "uw wachtwoord moet een speciaal karakter bevatten.",
+                                number: "uw wachtwoord moet een nummer bevatten.",
+                                capital: "uw wachtwoord moet een hoofdletter bevatten.",
+                                match: "uw wachtwoorden komen niet overeen.",
+                                lowercase: "uw wachtwoord moet een kleine letter bevatten."
+                            }}
+                        />
+                        
                         <br></br>
                         <button type='submit' alt="Registreer Knop">Registreer</button>
                     </form>
