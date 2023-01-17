@@ -59,17 +59,4 @@ public class MomentController : ControllerBase
         await _momentService.DeleteMoment(id);
         return NoContent();
     }
-
-    //moet die private zijn?
-    public List<Stoel> generateStoelen(ZaalType zaalType, int zaalId) {
-        return _momentService.generateStoelen(zaalType, zaalId);
-    }
-
-    //moet die private zijn?
-    //errors returnen?
-    public void checkDateAvailability(Commands.AddMoment moment)
-    {
-        _momentService.checkDateAvailability(moment);
-        // return NoContent();
-    }
 }
