@@ -70,7 +70,7 @@ export default function ShowToevoegen() {
         setIsLoading(true);
 
         try {
-            await momentService.add(inputs.startDateTime, inputs.endDateTime, inputs.voorstelling, zaaltypes.findIndex(type => type === inputs.zaalType))
+            await momentService.AddMoment(inputs.startDateTime, inputs.endDateTime, inputs.voorstelling, zaaltypes.findIndex(type => type === inputs.zaalType))
             console.log('succes');
         } catch (error) {
             console.log(error);

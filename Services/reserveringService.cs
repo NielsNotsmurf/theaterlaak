@@ -161,7 +161,5 @@ namespace theaterlaak.Services
             var reserveringen = await reserveringQuery.ToListAsync();
             return reserveringen.ConvertAll(r => r.ToDto());
         }
-
-
     }
 }
