@@ -11,7 +11,7 @@ export default voorstellingService;
 
 async function add(Titel, omschrijving, BetrokkeneId, afbeelding) {
     const body = { Titel: Titel, omschrijving: omschrijving, BetrokkeneId: BetrokkeneId, afbeelding: afbeelding};
-    let response = await fetch('https://localhost:7242/api/voorstelling', {
+    let response = await fetch(config.apiUrl + 'api/voorstelling/', {
         method: 'POST',
         headers: {
             'Accept': 'application/json',
@@ -26,7 +26,7 @@ async function add(Titel, omschrijving, BetrokkeneId, afbeelding) {
 }
 
 async function getAll() {
-    const response = await fetch('https://localhost:7242/api/voorstelling/', {
+    const response = await fetch(config.apiUrl + 'api/voorstelling/', {
         method: 'GET',
         headers: {
             'accept': 'application/json',

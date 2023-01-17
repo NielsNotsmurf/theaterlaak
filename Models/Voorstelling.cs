@@ -9,7 +9,7 @@ public record Voorstelling
 
     public string Titel { get; set; } = string.Empty;
     public string Omschrijving { get; set; } = string.Empty;
-    public string Img { get; set; } = string.Empty;
+    public string Afbeelding { get; set; } = string.Empty;
 
     public int BetrokkeneId { get; init; }
 

@@ -54,7 +54,10 @@ namespace theaterlaak.Services
             var newVoorstelling = new Entities.Voorstelling
             {
                 Titel = voorstelling.Titel,
+                Omschrijving = voorstelling.Omschrijving,
+                Afbeelding = voorstelling.Img,
                 BetrokkeneId = voorstelling.BetrokkeneId,
+                
             };
 
             _context.Add(newVoorstelling);

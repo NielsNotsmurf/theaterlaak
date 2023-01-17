@@ -11,7 +11,7 @@ export default betrokkeneService;
 
 async function add(TypePersoon, Naam, Omschrijving, Afbeelding, GeboorteDatum) {
     const body = { TypePersoon: TypePersoon, Naam: Naam, Omschrijving: Omschrijving, Afbeelding:Afbeelding, GeboorteDatum:GeboorteDatum};
-    let response = await fetch('https://localhost:7242/api/betrokkene/', {
+    let response = await fetch(config.apiUrl + 'api/betrokkene/', {
         method: 'POST',
         headers: {
             'Accept': 'application/json',
@@ -26,7 +26,7 @@ async function add(TypePersoon, Naam, Omschrijving, Afbeelding, GeboorteDatum) {
 }
 
 async function getAll() {
-    const response = await fetch(config.apiUrl + '/api/betrokkene/', {
+    const response = await fetch(config.apiUrl + 'api/betrokkene/', {
         method: 'GET',
         headers: {
             'accept': 'application/json',
