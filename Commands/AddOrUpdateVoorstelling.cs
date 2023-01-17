@@ -4,8 +4,6 @@ namespace theaterlaak.Commands;
 
 public record AddOrUpdateVoorstelling 
 {
-    public record AddVoorstelling
-    {
         [Required]
         public TypePersoon typePersoon {get; init;}
         [Required]
@@ -23,5 +21,4 @@ public record AddOrUpdateVoorstelling
 
         [Required]
         public int BetrokkeneId { get; init; }
-    }
 }
