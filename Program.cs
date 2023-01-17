@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.EntityFrameworkCore;
 using theaterlaak.Data;
-using theaterlaak.Models;
+using theaterlaak.Entities;
 using theaterlaak.Middleware;
 using theaterlaak.Services;
 using NSwag;

@@ -25,7 +25,7 @@ public class ApplicationUserController : ControllerBase
             .AsNoTracking()
             .AsQueryable();
 
-        return await usersQuery.ToListAsync();
+        return await usersQuery.Select(u => u.ToDto()).ToListAsync();
     }
 
     [HttpGet("{id}")]
@@ -36,13 +36,14 @@ public class ApplicationUserController : ControllerBase
     {
         var user = await _dbContext.Users
             .AsNoTracking()
+            .Include(u => u.Reserveringen)
             .FirstOrDefaultAsync(v => v.Id == id);
 
         if (user == null)
             throw new NotFoundException();
 
-        user.Reserveringen = await _dbContext.Reserveringen.Where(r => r.UserId == id).Select(s => s.ToDto()).ToListAsync();
+        // user.Reserveringen = await _dbContext.Reserveringen.Where(r => r.UserId == id).ToListAsync();
 
-        return user; 
+        return user.ToDto();
     }
 }

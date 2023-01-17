@@ -16,7 +16,7 @@ public class Reservering
     public List<Stoel>? GereserveerdeStoelen { get; set; }
 
     
-    [ForeignKey(nameof(Models.ApplicationUser))]
+    [ForeignKey(nameof(ApplicationUser))]
     public string UserId { get; set; } = string.Empty;
-    public Models.ApplicationUser? User { get; set; }
+    public ApplicationUser? User { get; set; }
 }   

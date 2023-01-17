@@ -9,7 +9,7 @@ public static class ReserveringConverter
         Id = reservering.Id,
         MomentId = reservering.MomentId,
         UserId = reservering.UserId,
-        UserEmail = reservering.User?.Email,
+        UserEmail = reservering.User?.UserName,
         StartTijd = reservering.Moment?.StartDateTime,
         EindTijd = reservering.Moment?.EndDateTime,
         VoorstellingTitle = reservering.Moment?.Voorstelling?.Titel,

@@ -1,14 +1,11 @@
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
 using aspnet_react_auth.Helpers;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Tokens;
+using theaterlaak.Converters;
 using theaterlaak.Exceptions;
-using theaterlaak.Models;
-using theaterlaak.Services;
+using theaterlaak.Entities;
+using theaterlaak.Commands;
 
 namespace theaterlaak.Controllers;
 
@@ -30,7 +27,7 @@ public class AccountController : ControllerBase
 
     
     [HttpPost("authenticate")]
-    public async Task<ActionResult<ApplicationUser>> Authenticate([FromBody] ApplicationUser applicationUser)
+    public async Task<ActionResult<Models.ApplicationUser>> Authenticate([FromBody] LoginApplicationUser applicationUser)
     {
         var user = await _UserManager.FindByNameAsync(applicationUser.UserName);
 
@@ -49,7 +46,7 @@ public class AccountController : ControllerBase
     }
 
     [HttpPost("register")]
-    public async Task<ActionResult<ApplicationUser>> Register([FromBody] ApplicationUser applicationUser)
+    public async Task<ActionResult<Models.ApplicationUser>> Register([FromBody] RegisterApplicationUser applicationUser)
     {
         var user = new ApplicationUser
         {
@@ -65,18 +62,18 @@ public class AccountController : ControllerBase
         catch (Exception ex)
         {
             // return error message if there was an exception
-            return BadRequest(ex.Message);
+            throw new BadRequestException(ex.Message);
         }
     }
+
     [HttpGet("{id}")]
-    public async Task<ActionResult<ApplicationUser>> GetById(string id)
+    public async Task<ActionResult<Models.ApplicationUser>> GetById(string id)
     {
         var user = await _UserManager.FindByIdAsync(id);
-        var applicationUser = new ApplicationUser
-        {
-            Email = user.UserName
-        };
-        return Ok(applicationUser);
+        if (user == null)
+            throw new NotFoundException("Gebruiker is niet gevonden");
+
+        return user.ToDto();
     }
 //update password
     // [HttpPut("{id}")]
@@ -108,6 +105,5 @@ public class AccountController : ControllerBase
         var response = await _UserManager.DeleteAsync(await _UserManager.FindByIdAsync(id));
         
         return response;
-        
     }
 }

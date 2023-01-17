@@ -6,7 +6,7 @@ using theaterlaak.Entities;
 
 namespace theaterlaak.Data;
 
-public class ApplicationDbContext : ApiAuthorizationDbContext<Models.ApplicationUser>
+public class ApplicationDbContext : ApiAuthorizationDbContext<Entities.ApplicationUser>
 {
     public ApplicationDbContext(DbContextOptions options, IOptions<OperationalStoreOptions> operationalStoreOptions)
         : base(options, operationalStoreOptions)

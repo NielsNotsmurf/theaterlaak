@@ -290,6 +290,76 @@ namespace theaterlaak.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("theaterlaak.Entities.ApplicationUser", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("AccessFailedCount")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Email")
+                        .HasMaxLength(256)
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("NormalizedEmail")
+                        .HasMaxLength(256)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("TEXT");
+
+                    b.Property<byte[]>("Password")
+                        .HasColumnType("BLOB");
+
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("TEXT");
+
+                    b.Property<byte[]>("PasswordSalt")
+                        .HasColumnType("BLOB");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("UserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedEmail")
+                        .HasDatabaseName("EmailIndex");
+
+                    b.HasIndex("NormalizedUserName")
+                        .IsUnique()
+                        .HasDatabaseName("UserNameIndex");
+
+                    b.ToTable("AspNetUsers", (string)null);
+                });
+
             modelBuilder.Entity("theaterlaak.Entities.Betrokkene", b =>
                 {
                     b.Property<int>("Id")
@@ -300,14 +370,14 @@ namespace theaterlaak.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Beschrijving")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
                     b.Property<DateTime?>("GeboorteDatum")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Naam")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Omschrijving")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
@@ -407,8 +477,16 @@ namespace theaterlaak.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<string>("Afbeelding")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
                     b.Property<int>("BetrokkeneId")
                         .HasColumnType("INTEGER");
+
+                    b.Property<string>("Omschrijving")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Titel")
                         .IsRequired()
@@ -435,142 +513,6 @@ namespace theaterlaak.Migrations
                     b.ToTable("Zalen");
                 });
 
-            modelBuilder.Entity("theaterlaak.Models.ApplicationUser", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("AccessFailedCount")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Email")
-                        .HasMaxLength(256)
-                        .HasColumnType("TEXT");
-
-                    b.Property<bool>("EmailConfirmed")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<bool>("LockoutEnabled")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<DateTimeOffset?>("LockoutEnd")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("NormalizedEmail")
-                        .HasMaxLength(256)
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("NormalizedUserName")
-                        .HasMaxLength(256)
-                        .HasColumnType("TEXT");
-
-                    b.Property<byte[]>("Password")
-                        .HasColumnType("BLOB");
-
-                    b.Property<string>("PasswordHash")
-                        .HasColumnType("TEXT");
-
-                    b.Property<byte[]>("PasswordSalt")
-                        .HasColumnType("BLOB");
-
-                    b.Property<string>("PhoneNumber")
-                        .HasColumnType("TEXT");
-
-                    b.Property<bool>("PhoneNumberConfirmed")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("SecurityStamp")
-                        .HasColumnType("TEXT");
-
-                    b.Property<bool>("TwoFactorEnabled")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("UserName")
-                        .HasMaxLength(256)
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("NormalizedEmail")
-                        .HasDatabaseName("EmailIndex");
-
-                    b.HasIndex("NormalizedUserName")
-                        .IsUnique()
-                        .HasDatabaseName("UserNameIndex");
-
-                    b.ToTable("AspNetUsers", (string)null);
-                });
-
-            modelBuilder.Entity("theaterlaak.Models.Reservering", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("ApplicationUserId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime?>("EindTijd")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("MomentId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<DateTime?>("StartTijd")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("UserEmail")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("VoorstellingTitle")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int?>("ZaalNummer")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ApplicationUserId");
-
-                    b.ToTable("Reservering");
-                });
-
-            modelBuilder.Entity("theaterlaak.Models.Stoel", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<bool>("Bezet")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int?>("ReserveringId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("Rij")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("StoelRang")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("ZitPlaats")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ReserveringId");
-
-                    b.ToTable("Stoel");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -582,7 +524,7 @@ namespace theaterlaak.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("theaterlaak.Models.ApplicationUser", null)
+                    b.HasOne("theaterlaak.Entities.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -591,7 +533,7 @@ namespace theaterlaak.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("theaterlaak.Models.ApplicationUser", null)
+                    b.HasOne("theaterlaak.Entities.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -606,7 +548,7 @@ namespace theaterlaak.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("theaterlaak.Models.ApplicationUser", null)
+                    b.HasOne("theaterlaak.Entities.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -615,7 +557,7 @@ namespace theaterlaak.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("theaterlaak.Models.ApplicationUser", null)
+                    b.HasOne("theaterlaak.Entities.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -649,8 +591,8 @@ namespace theaterlaak.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("theaterlaak.Models.ApplicationUser", "User")
-                        .WithMany()
+                    b.HasOne("theaterlaak.Entities.ApplicationUser", "User")
+                        .WithMany("Reserveringen")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -684,18 +626,9 @@ namespace theaterlaak.Migrations
                     b.Navigation("Betrokkene");
                 });
 
-            modelBuilder.Entity("theaterlaak.Models.Reservering", b =>
+            modelBuilder.Entity("theaterlaak.Entities.ApplicationUser", b =>
                 {
-                    b.HasOne("theaterlaak.Models.ApplicationUser", null)
-                        .WithMany("Reserveringen")
-                        .HasForeignKey("ApplicationUserId");
-                });
-
-            modelBuilder.Entity("theaterlaak.Models.Stoel", b =>
-                {
-                    b.HasOne("theaterlaak.Models.Reservering", null)
-                        .WithMany("GereserveerdeStoelen")
-                        .HasForeignKey("ReserveringId");
+                    b.Navigation("Reserveringen");
                 });
 
             modelBuilder.Entity("theaterlaak.Entities.Betrokkene", b =>
@@ -711,16 +644,6 @@ namespace theaterlaak.Migrations
             modelBuilder.Entity("theaterlaak.Entities.Zaal", b =>
                 {
                     b.Navigation("Stoelen");
-                });
-
-            modelBuilder.Entity("theaterlaak.Models.ApplicationUser", b =>
-                {
-                    b.Navigation("Reserveringen");
-                });
-
-            modelBuilder.Entity("theaterlaak.Models.Reservering", b =>
-                {
-                    b.Navigation("GereserveerdeStoelen");
                 });
 #pragma warning restore 612, 618
         }
