@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import SeatPicker from 'react-seat-picker';
 import '../styles/StoelenMenu.css';
 import reserveringService from '../Services/reserveringService';
+import momentService from '../Services/momentService';
 import authService from '../api-authorization/AuthorizeService';
 
 export default function StoelenMenu(props) {
