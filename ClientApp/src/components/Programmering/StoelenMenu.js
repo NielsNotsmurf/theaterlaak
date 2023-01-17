@@ -12,10 +12,23 @@ export default function StoelenMenu(props) {
   let [loadingPage, setLoadingPage] = useState(true);
   let [reserveringStoelen, setReserveringStoelen] = useState([]);
   useEffect(() => {
-    setMoment(props.moment);
-    setLoadingPage(false);
-  }, [props.moment]);
+    fetchData();
+  }, [])
+  useEffect(() => {
+    setMoment(props.moment)
+  }, [props.moment])
+async function fetchData() {
+  setLoadingPage(true);
 
+    try {
+        const fetchstoelen = await momentService.GetMomentById(moment.id);
+        setVoorstellingen(fetchedVoorstellingen);
+    } catch (error) {
+        console.log(error);
+    } finally {
+      setLoadingPage(false);
+    }
+}
   function addSeatCallbackContinousCase ({ row, number, id }, addCb, params, removeCb) {
     (async () => {
       setLoading(true)
@@ -155,8 +168,8 @@ export default function StoelenMenu(props) {
       }
       return (
         <div className='StoelenMenu'>
-          <h1 id='filmtitel'>{props.moment.voorstelling.titel}</h1>
-          <p style={{marginBottom: '25px'}} id='filmdatetime'>{props.moment.dateTime}</p>
+          <h1 id='filmtitel'>{moment.voorstelling.titel}</h1>
+          <p style={{marginBottom: '25px'}} id='filmdatetime'>{moment.dateTime}</p>
           <div id='screen'>Podium</div>
           <div style={{marginTop: '75px'}}>
             <SeatPicker
@@ -173,6 +186,7 @@ export default function StoelenMenu(props) {
             />
           </div>
           <div id='entrance'>Ingang     |    Ingang</div>
+          <div id='selected'>{reserveringStoelen}</div>
         </div>
       )
   }

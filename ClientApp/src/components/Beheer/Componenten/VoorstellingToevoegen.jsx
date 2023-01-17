@@ -30,7 +30,7 @@ export default function ShowToevoegen() {
     const [isLoading, setIsLoading] = useState(false);
     const [betrokkenen, setBetrokkenen] = useState([]);
 
-    const initialState = { titel: '', betrokkene: '' }
+    const initialState = { titel: '', omschrijving: '', betrokkene: '', afbeeldingUrl: '' }
 
     const [inputs, setInputs] = useState(initialState);
 
@@ -62,7 +62,7 @@ export default function ShowToevoegen() {
         setIsLoading(true);
 
         try {
-            await voorstellingService.add(inputs.titel, inputs.betrokkene)
+            await voorstellingService.add(inputs.titel, inputs.betrokkene, inputs.afbeeldingUrl)
             console.log('succes');
         } catch (error) {
             console.log(error);
@@ -91,6 +91,19 @@ export default function ShowToevoegen() {
                         variant='outlined'
                     />
                 </FormLabel>
+                <FormLabel sx={{ mb: 1, display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
+                    Omschrijving: 
+                    <TextField
+                        name='omschrijving'
+                        onChange={handleChange}
+                        required
+                        sx={{ width: 250, ml: 1 }}
+                        type='text'
+                        variant='outlined'
+                        multiline
+                        rows={3}
+                    />
+                </FormLabel>
                 <FormLabel sx={{ mb: 2, display: 'flex', alignItems: 'center',  justifyContent: 'space-between'}}>
                     Betrokkene:
                     <Select
@@ -104,6 +117,17 @@ export default function ShowToevoegen() {
                             <MenuItem key={index} value={betrokkene.id}>{betrokkene.typePersoon + ': ' + betrokkene.naam}</MenuItem>
                         )}
                     </Select>
+                </FormLabel>
+                <FormLabel sx={{ mb: 1, display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
+                    Afbeelding url: 
+                    <TextField
+                        name='afbeeldingUrl'
+                        onChange={handleChange}
+                        required
+                        sx={{ width: 250, ml: 1 }}
+                        type='text'
+                        variant='outlined'
+                    />
                 </FormLabel>
                 <Button variant='contained' type='submit' disabled={isLoading} sx={{ p: 2 }}>Voeg toe</Button> 
             </StyledForm>
