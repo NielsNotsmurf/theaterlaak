@@ -41,7 +41,8 @@
     "workbox-range-requests": "^6.5.3",
     "workbox-routing": "^6.5.3",
     "workbox-strategies": "^6.5.3",
-    "workbox-streams": "^6.5.3"
+    "workbox-streams": "^6.5.3",
+    "x-date-picker": "^0.0.1"
   },
   "devDependencies": {
     "ajv": "^8.11.0",
