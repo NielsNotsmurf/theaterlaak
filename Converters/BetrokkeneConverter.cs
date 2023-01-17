@@ -8,7 +8,7 @@ public static class BetrokkeneConverter
     {
         Id = betrokkene.Id,
         Naam = betrokkene.Naam,
-        Beschrijving = betrokkene.Beschrijving,
+        Omschrijving = betrokkene.Omschrijving,
         Afbeelding = betrokkene.Afbeelding,
         GeboorteDatum = betrokkene.GeboorteDatum ?? null,
     };

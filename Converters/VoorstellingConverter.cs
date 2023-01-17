@@ -10,6 +10,6 @@ public static class VoorstellingConverter
         Titel = voorstelling.Titel,
         BetrokkeneId = voorstelling.BetrokkeneId,
         BetrokkeneNaam = voorstelling.Betrokkene!.Naam,
-        BetrokkeneBeschrijving = voorstelling.Betrokkene!.Beschrijving,
+        BetrokkeneBeschrijving = voorstelling.Betrokkene!.Omschrijving,
     };
 }

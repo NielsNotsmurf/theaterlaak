@@ -23,6 +23,15 @@ public class BetrokkeneController : ControllerBase
         _betrokkeneService = betrokkeneService;
         _appSettings = appSettings.Value;
     }
+    [HttpPost]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult> AddBetrokkene(Commands.AddBetrokkene betrokkene)
+    {
+        await _betrokkeneService.AddBetrokkene(betrokkene);
+        return Ok();
+    }
 
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]

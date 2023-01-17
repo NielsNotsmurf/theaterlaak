@@ -5,7 +5,7 @@ namespace theaterlaak.Commands;
 public record AddBetrokkene
 {
     [Required]
-    public TypePersoon typePersoon {get; init;}
+    public TypePersoon TypePersoon {get; init;}
     [Required]
     public string Naam { get; init; } = string.Empty;
     [Required]
@@ -13,6 +13,6 @@ public record AddBetrokkene
     [Required]
     public string Afbeelding { get; init; } = string.Empty;
     [Required]
-    public string GeboorteDatum { get; init; } = string.Empty;
+    public DateTime GeboorteDatum { get; init; }
 
 }

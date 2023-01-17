@@ -4,6 +4,7 @@ using theaterlaak.Converters;
 using theaterlaak.Data;
 using theaterlaak.Exceptions;
 using theaterlaak.Models;
+using theaterlaak.Commands;
 
 namespace theaterlaak.Services
 {
@@ -11,6 +12,7 @@ namespace theaterlaak.Services
     {
         Task<List<Models.Betrokkene>> GetBetrokkenen();
         Task<ActionResult<Models.Betrokkene>> GetBetrokkene(int id);
+        Task AddBetrokkene(Commands.AddBetrokkene AddBetrokkene);
     }
 
     public class betrokkeneService : IBetrokkeneService
@@ -21,7 +23,20 @@ namespace theaterlaak.Services
         {
             _context = context;
         }
+        public async Task AddBetrokkene(AddBetrokkene betrokkene)
+        {
+            var newBetrokkene = new Betrokkene
+            {
+                TypePersoon = betrokkene.TypePersoon,
+                Naam = betrokkene.Naam,
+                Omschrijving = betrokkene.Omschrijving,
+                Afbeelding = betrokkene.Afbeelding,
+                GeboorteDatum = betrokkene.GeboorteDatum,
+            };
 
+            _context.Add(newBetrokkene);
+            await _context.SaveChangesAsync();
+        }
 
         public async Task<List<Models.Betrokkene>> GetBetrokkenen()
         {
