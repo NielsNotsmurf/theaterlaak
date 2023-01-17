@@ -18,10 +18,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 builder.Services.AddCors(option => 
 {
-    option.AddDefaultPolicy(builder => 
-    {
-        builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
-    });
+    option.AddDefaultPolicy(builder => builder.WithOrigins("https://localhost:44492").AllowAnyHeader().AllowAnyMethod());
 });
 
 builder.Services.AddControllers().AddNewtonsoftJson(options =>
@@ -61,6 +58,7 @@ builder.Services.AddAuthentication()
 builder.Services.AddTransient<IReserveringService, reserveringService>();
 builder.Services.AddTransient<IBetrokkeneService, betrokkeneService>();
 builder.Services.AddTransient<IVoorstellingService, voorstellingService>();
+builder.Services.AddTransient<IMomentService, momentService>();
 
 var app = builder.Build();
 
