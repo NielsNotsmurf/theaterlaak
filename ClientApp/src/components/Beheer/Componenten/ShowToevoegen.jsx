@@ -38,7 +38,7 @@ export default function ShowToevoegen() {
     const [isLoading, setIsLoading] = useState(false);
     const [voorstellingen, setVoorstellingen] = useState([]);
 
-    const initialState = { startDateTime: new Date(), endDateTime: new Date(), voorstelling: '', zaalType: '' }
+    const initialState = { startDateTime: new Date().toISOString().slice(0, -5), endDateTime: new Date().toISOString().slice(0, -5), voorstelling: '', zaalType: '' }
 
     const [inputs, setInputs] = useState(initialState);
 
@@ -96,6 +96,7 @@ export default function ShowToevoegen() {
                         required
                         sx={{ width: 250, ml: 1 }}
                         type='datetime-local'
+                        value={inputs.startDateTime}
                         variant='outlined'
                     />
                 </FormLabel>
@@ -107,6 +108,7 @@ export default function ShowToevoegen() {
                         required
                         sx={{ width: 250, ml: 1 }}
                         type='datetime-local'
+                        value={inputs.endDateTime}
                         variant='outlined'
                     />
                 </FormLabel>
@@ -114,9 +116,9 @@ export default function ShowToevoegen() {
                     Voorstelling:
                     <Select
                         name='voorstelling'
-                        value={inputs.voorstelling}
                         onChange={handleChange}
                         sx={{ width: 250, ml: 1 }}
+                        value={inputs.voorstelling}
                     >
                         <MenuItem value={''}><em>Geen</em></MenuItem>
                         {voorstellingen.map((voorstelling, index) => 
@@ -128,9 +130,9 @@ export default function ShowToevoegen() {
                     Zaal:
                     <Select
                         name='zaalType'
-                        value={inputs.zaalType}
                         onChange={handleChange}
                         sx={{ width: 250, ml: 1 }}
+                        value={inputs.zaalType}
                     >
                         <MenuItem value={''}><em>Geen</em></MenuItem>
                         {zaaltypes.map((zaalType, index) => 
