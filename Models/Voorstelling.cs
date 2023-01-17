@@ -8,7 +8,9 @@ public record Voorstelling
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; init; }
 
-    public string Titel { get; init; } = string.Empty;
+    public string Titel { get; set; } = string.Empty;
+    public string Omschrijving { get; set; } = string.Empty;
+    public string Img { get; set; } = string.Empty;
 
     public int BetrokkeneId { get; init; }
 
