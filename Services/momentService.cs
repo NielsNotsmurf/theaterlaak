@@ -15,8 +15,6 @@ namespace theaterlaak.Services
         Task<ActionResult<Models.Moment>> GetMoment(int id);
         Task AddMoment([FromBody] Commands.AddMoment moment);
         Task DeleteMoment(int id);
-        List<Entities.Stoel> generateStoelen(ZaalType zaalType, int zaalId);
-        void checkDateAvailability(Commands.AddMoment moment);
     }
 
     public class momentService : IMomentService
@@ -106,7 +104,7 @@ namespace theaterlaak.Services
             return momenten.ConvertAll(v => v.ToDto());
         }
 
-        public List<Entities.Stoel> generateStoelen(ZaalType zaalType, int zaalId)
+        private List<Entities.Stoel> generateStoelen(ZaalType zaalType, int zaalId)
         {
             var stoelen = new List<Entities.Stoel>();
             if (zaalType == ZaalType.Zaal_1)
@@ -178,7 +176,7 @@ namespace theaterlaak.Services
             return stoelen;
         }
 
-        public void checkDateAvailability(Commands.AddMoment moment)
+        private void checkDateAvailability(Commands.AddMoment moment)
         {
             if (moment.StartDateTime >= moment.EndDateTime)
                 throw new BadRequestException("Start tijd is later dan de eind tijd en dit kan niet.");
