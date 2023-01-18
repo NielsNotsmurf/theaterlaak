@@ -12,28 +12,34 @@ const AccountService = {
 };
 export default AccountService;
 
-function login(username, password) {
+async function login(username, password) {
     const body = { UserName: username, PasswordHash: password};
-    return fetch('https://localhost:7242/api/account/authenticate', {
+    const response = await fetch('https://localhost:7242/api/account/authenticate', {
         method: 'POST',
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
         },
         body: JSON.stringify(body),
-    }).then(user => {
-        // login successful if there's a jwt token in the user
-        if ("accesToken" in user) {
-            // store user details and jwt token in local storage to keep user logged in between page refreshes
-            localStorage.setItem('user', JSON.stringify(user));
-            // AuthorizeService.subscribe();
-            // AuthorizeService.updateState(user);
-            // console.log(AuthorizeService.getUser());
-            // AuthorizeService.unsubscribe();
-        }
-        return user;
-    });
-}
+    }).then(handleResponse, handleError);
+    // .then(user => {
+    //     // login successful if there's a jwt token in the user
+    //     if ("accesToken" in user) {
+    //         // store user details and jwt token in local storage to keep user logged in between page refreshes
+    //         localStorage.setItem('user', JSON.stringify(user));
+    //         // AuthorizeService.subscribe();
+    //         // AuthorizeService.updateState(user);
+    //         // console.log(AuthorizeService.getUser());
+    //         // AuthorizeService.unsubscribe();
+    //     }
+
+        // if (!response.ok) {
+        //     throw new Error(response.statusText);
+        // }
+
+        return response.json();
+    };
+
 
 function register(username, password) {
     const body = { UserName: username, PasswordHash: password};
