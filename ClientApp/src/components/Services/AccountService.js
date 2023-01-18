@@ -32,12 +32,6 @@ async function login(username, password) {
     //         // console.log(AuthorizeService.getUser());
     //         // AuthorizeService.unsubscribe();
     //     }
-
-        // if (!response.ok) {
-        //     throw new Error(response.statusText);
-        // }
-
-        return response.json();
     };
 
 
