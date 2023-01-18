@@ -6,13 +6,16 @@ import App from './App';
 import React from 'react';
 import reportWebVitals from './reportWebVitals';
 import theme from './Theme';
+import { BrowserRouter } from 'react-router-dom';
 
 const rootElement = document.getElementById('root');
 const root = createRoot(rootElement);
 
 root.render(
     <ThemeProvider theme={theme}>
-        <App />
+        <BrowserRouter>
+            <App />
+        </BrowserRouter>
     </ThemeProvider>
 );
 
