@@ -18,15 +18,20 @@ export default class Login extends React.Component {
 
   onSubmit = async (e) => {
     e.preventDefault();
-    await AccountService.login(this.state.UserName, this.state.password).then(() => {
-      this.setState({succes: "succesvol" });
-    });
+    try { 
+      await AccountService.login(this.state.UserName, this.state.password).then(() => {
+        this.setState({ succes: "succesvol" });
+      });
+      this.props.navigate("/");
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   handleChange = (e) => {
     this.setState({ ...this.state, [e.target.name]: e.target.value });
   };
-  
+
   // componentDidMount() {
   //   this._subscription = authService.subscribe(() => this.populateState());
   //   this.populateState();
@@ -50,17 +55,17 @@ export default class Login extends React.Component {
 
   render() {
     switch (this.state.succes) {
-      case "":
+      default:
         return (
           <>
             <div>
               <form onSubmit={this.onSubmit}>
-                <p alt="invoerveld UserName">Uw UserName invoeren:</p>
+                <p alt="invoerveld email">Uw email invoeren:</p>
                 <input
                   required={true}
                   message="Dit veld is verplicht"
                   id='inputMail'
-                  type='UserName'
+                  type='email'
                   placeholder='Email'
                   name='UserName'
                   value={this.state.UserName}
@@ -84,8 +89,12 @@ export default class Login extends React.Component {
         );
       case "succesvol":
         return (
-          window.location.href = "/"
-        );
+          <>
+            <div>
+              <p>U bent succesvol ingelogd. U wordt doorverwezen naar de homepagina.</p>
+            </div>
+          </>
+        )
     }
   }
 }

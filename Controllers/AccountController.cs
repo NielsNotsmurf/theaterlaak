@@ -6,6 +6,7 @@ using theaterlaak.Converters;
 using theaterlaak.Exceptions;
 using theaterlaak.Entities;
 using theaterlaak.Commands;
+using theaterlaak.Services;
 
 namespace theaterlaak.Controllers;
 
@@ -13,69 +14,42 @@ namespace theaterlaak.Controllers;
 [Route("/api/[controller]")]
 public class AccountController : ControllerBase
 {
-    private readonly UserManager<ApplicationUser> _UserManager;
+    private UserManager<ApplicationUser> _UserManager;
+    private IAccountService _accountService;
     private readonly AppSettings _appSettings;
 
     public AccountController(
         UserManager<ApplicationUser> userManager,
+        IAccountService accountService,
         IOptions<AppSettings> appSettings)
     {
-        _UserManager = userManager;
+        _accountService = accountService;
         _appSettings = appSettings.Value;
+        _UserManager = userManager;
     }
 
 
-    
+
     [HttpPost("authenticate")]
-    public async Task<ActionResult<Models.ApplicationUser>> Authenticate([FromBody] LoginApplicationUser applicationUser)
+    public async Task<ActionResult<Models.AuthenticateResponse>> Authenticate([FromBody] LoginApplicationUser applicationUser)
     {
-        var user = await _UserManager.FindByNameAsync(applicationUser.UserName);
-
-        if (user == null)
-            throw new BadRequestException("Email or password is incorrect");
-
-        
-        var tokenString = "ik ga hier een token genereren hehe";
-        // return basic user info (without password) and token to store client side
-        return Ok(new
-        {
-            Id = user.Id,
-            Email = user.Email,
-            Token = tokenString
-        });
+        var response = await _accountService.Authenticate(applicationUser);
+        return Ok(response);
     }
 
     [HttpPost("register")]
-    public async Task<ActionResult<Models.ApplicationUser>> Register([FromBody] RegisterApplicationUser applicationUser)
+    public async Task<ActionResult> Register([FromBody] RegisterApplicationUser applicationUser)
     {
-        var user = new ApplicationUser
-        {
-            UserName = applicationUser.UserName
-        };
-
-        try
-        {
-            // save 
-            await _UserManager.CreateAsync(user, applicationUser.PasswordHash);
-            return Ok();
-        }
-        catch (Exception ex)
-        {
-            // return error message if there was an exception
-            throw new BadRequestException(ex.Message);
-        }
+        await _accountService.Register(applicationUser);
+        return Ok();
     }
 
     [HttpGet("{id}")]
     public async Task<ActionResult<Models.ApplicationUser>> GetById(string id)
     {
-        var user = await _UserManager.FindByIdAsync(id);
-        if (user == null)
-            throw new NotFoundException("Gebruiker is niet gevonden");
-
-        return user.ToDto();
+        return await _accountService.GetById(id);
     }
-//update password
+    //update password
     // [HttpPut("{id}")]
     // public async Task<ActionResult<ApplicationUser>> Update(string id, [FromBody] ApplicationUser applicationUser)
     // {
@@ -102,8 +76,6 @@ public class AccountController : ControllerBase
     [HttpDelete("{id}")]
     public async Task<IdentityResult> Delete(string id)
     {
-        var response = await _UserManager.DeleteAsync(await _UserManager.FindByIdAsync(id));
-        
-        return response;
+        return await _accountService.Delete(id);
     }
 }
