@@ -59,6 +59,7 @@ builder.Services.AddTransient<IReserveringService, reserveringService>();
 builder.Services.AddTransient<IBetrokkeneService, betrokkeneService>();
 builder.Services.AddTransient<IVoorstellingService, voorstellingService>();
 builder.Services.AddTransient<IMomentService, momentService>();
+builder.Services.AddTransient<IAccountService, accountService>();
 
 var app = builder.Build();
 

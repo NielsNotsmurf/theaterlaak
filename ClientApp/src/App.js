@@ -1,5 +1,5 @@
 import './custom.css';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import { Kaarten } from './components/Profiel/Kaarten';
 import { Layout } from './components/Layout';
 import { AdapterDayjs} from '@mui/x-date-pickers/AdapterDayjs';
@@ -15,11 +15,12 @@ import React from 'react';
 import Register from './components/Profiel/Register';
 import WithContext from './components/Componenten/ContextHelpers/WithContext';
 import Beheer from './components/Beheer/Beheer';
+import { useNavigate } from 'react-router-dom';
 
 function App() {
+    const navigate = useNavigate();
     return (
         <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <BrowserRouter>
                 <Layout>
                     <Routes>
                         <Route path='/' element={<Home />} />
@@ -27,13 +28,12 @@ function App() {
                         <Route path='/contact' element={<Contact />} />
                         <Route path='/kaarten' element={<Kaarten />} />
                         <Route path='/doneren/*' element={<Doneer />} />
-                        <Route path='/registreren' element={<Register />} />
-                        <Route path='/login' element={<Login />} />
+                        <Route path='/registreren' element={<Register navigate={navigate} />} />
+                        <Route path='/login' element={<Login navigate={navigate}/>} />
                         <Route path='/profiel/*' element={<Profiel />} />
                         <Route path='/beheer/*' element={<Beheer />} />
                     </Routes>
                 </Layout>
-            </BrowserRouter>
         </LocalizationProvider>
     );
 }

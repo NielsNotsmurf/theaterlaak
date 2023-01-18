@@ -18,15 +18,20 @@ export default class Login extends React.Component {
 
   onSubmit = async (e) => {
     e.preventDefault();
-    await AccountService.login(this.state.UserName, this.state.password).then(() => {
-      this.setState({succes: "succesvol" });
-    });
+    try { 
+      await AccountService.login(this.state.UserName, this.state.password).then(() => {
+        this.setState({ succes: "succesvol" });
+      });
+      this.props.navigate("/");
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   handleChange = (e) => {
     this.setState({ ...this.state, [e.target.name]: e.target.value });
   };
-  
+
   // componentDidMount() {
   //   this._subscription = authService.subscribe(() => this.populateState());
   //   this.populateState();
@@ -50,7 +55,7 @@ export default class Login extends React.Component {
 
   render() {
     switch (this.state.succes) {
-      case "":
+      default:
         return (
           <>
             <div>
@@ -84,8 +89,12 @@ export default class Login extends React.Component {
         );
       case "succesvol":
         return (
-          window.location.href = "/"
-        );
+          <>
+            <div>
+              <p>U bent succesvol ingelogd. U wordt doorverwezen naar de homepagina.</p>
+            </div>
+          </>
+        )
     }
   }
 }
