@@ -1,7 +1,7 @@
 import { Box, Grid, styled, Typography, useMediaQuery } from '@mui/material';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import DoneerHelper from '../../DoneerHelper';
+import donatieService from '../../../Services/donatieService';
 import GoedDoelComponent from './GoedDoelComponent';
 
 const StyledDiv = styled('div')(() => ({
@@ -20,8 +20,8 @@ export default function GoedeDoelenPagina(props) {
     const isMediumScreen = useMediaQuery((theme) => theme.breakpoints.up('md'));
 
     useState(async () => {
-        const bedrag = await DoneerHelper.countDonatieTotaal(accesToken);
-        const doelen = await DoneerHelper.getGoedeDoelen(accesToken);
+        const bedrag = await donatieService.countDonatieTotaal(accesToken);
+        const doelen = await donatieService.getGoedeDoelen(accesToken);
         setGoedeDoelen(doelen);
         setDonaties(bedrag);
     }, [])

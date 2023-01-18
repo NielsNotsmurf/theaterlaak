@@ -7,7 +7,7 @@ using theaterlaak.Data;
 
 #nullable disable
 
-namespace theaterlaak.Data.Migrations
+namespace theaterlaak.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     partial class ApplicationDbContextModelSnapshot : ModelSnapshot
@@ -290,125 +290,7 @@ namespace theaterlaak.Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("theaterlaak.Entities.Betrokkene", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Afbeelding")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Beschrijving")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("GeboorteDatum")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("TypePersoon")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Betrokkenen");
-                });
-
-            modelBuilder.Entity("theaterlaak.Entities.Reservering", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("UserId1")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("VoorstellingId")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId1");
-
-                    b.HasIndex("VoorstellingId");
-
-                    b.ToTable("Reserveringen");
-                });
-
-            modelBuilder.Entity("theaterlaak.Entities.Stoel", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<bool>("Bezet")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("Rij")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int?>("ZaalId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int?>("ZaalId1")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int?>("ZaalId2")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("ZitPlaats")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ZaalId");
-
-                    b.HasIndex("ZaalId1");
-
-                    b.HasIndex("ZaalId2");
-
-                    b.ToTable("Stoelen");
-                });
-
-            modelBuilder.Entity("theaterlaak.Entities.Voorstelling", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<DateTime>("Datum")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Titel")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("ZaalId")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ZaalId");
-
-                    b.ToTable("Voorstellingen");
-                });
-
-            modelBuilder.Entity("theaterlaak.Entities.Zaal", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Zalen");
-                });
-
-            modelBuilder.Entity("theaterlaak.Models.ApplicationUser", b =>
+            modelBuilder.Entity("theaterlaak.Entities.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("TEXT");
@@ -441,8 +323,14 @@ namespace theaterlaak.Data.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("TEXT");
 
+                    b.Property<byte[]>("Password")
+                        .HasColumnType("BLOB");
+
                     b.Property<string>("PasswordHash")
                         .HasColumnType("TEXT");
+
+                    b.Property<byte[]>("PasswordSalt")
+                        .HasColumnType("BLOB");
 
                     b.Property<string>("PhoneNumber")
                         .HasColumnType("TEXT");
@@ -472,6 +360,159 @@ namespace theaterlaak.Data.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
+            modelBuilder.Entity("theaterlaak.Entities.Betrokkene", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Afbeelding")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime?>("GeboorteDatum")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Naam")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Omschrijving")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("TypePersoon")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Betrokkenen");
+                });
+
+            modelBuilder.Entity("theaterlaak.Entities.Moment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("EndDateTime")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("StartDateTime")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("VoorstellingId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("ZaalId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("VoorstellingId");
+
+                    b.HasIndex("ZaalId");
+
+                    b.ToTable("Momenten");
+                });
+
+            modelBuilder.Entity("theaterlaak.Entities.Reservering", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("MomentId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MomentId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Reserveringen");
+                });
+
+            modelBuilder.Entity("theaterlaak.Entities.Stoel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("Bezet")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("ReserveringId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("Rij")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("StoelRang")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("ZaalId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("ZitPlaats")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ReserveringId");
+
+                    b.HasIndex("ZaalId");
+
+                    b.ToTable("Stoelen");
+                });
+
+            modelBuilder.Entity("theaterlaak.Entities.Voorstelling", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Afbeelding")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("BetrokkeneId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Omschrijving")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Titel")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BetrokkeneId");
+
+                    b.ToTable("Voorstellingen");
+                });
+
+            modelBuilder.Entity("theaterlaak.Entities.Zaal", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("ZaalType")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Zalen");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -483,7 +524,7 @@ namespace theaterlaak.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("theaterlaak.Models.ApplicationUser", null)
+                    b.HasOne("theaterlaak.Entities.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -492,7 +533,7 @@ namespace theaterlaak.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("theaterlaak.Models.ApplicationUser", null)
+                    b.HasOne("theaterlaak.Entities.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -507,7 +548,7 @@ namespace theaterlaak.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("theaterlaak.Models.ApplicationUser", null)
+                    b.HasOne("theaterlaak.Entities.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -516,63 +557,93 @@ namespace theaterlaak.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("theaterlaak.Models.ApplicationUser", null)
+                    b.HasOne("theaterlaak.Entities.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("theaterlaak.Entities.Reservering", b =>
+            modelBuilder.Entity("theaterlaak.Entities.Moment", b =>
                 {
-                    b.HasOne("theaterlaak.Models.ApplicationUser", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId1");
-
                     b.HasOne("theaterlaak.Entities.Voorstelling", "Voorstelling")
                         .WithMany()
                         .HasForeignKey("VoorstellingId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("User");
-
-                    b.Navigation("Voorstelling");
-                });
-
-            modelBuilder.Entity("theaterlaak.Entities.Stoel", b =>
-                {
-                    b.HasOne("theaterlaak.Entities.Zaal", null)
-                        .WithMany("DerdeRangsPlekken")
-                        .HasForeignKey("ZaalId");
-
-                    b.HasOne("theaterlaak.Entities.Zaal", null)
-                        .WithMany("EersteRangsPlekken")
-                        .HasForeignKey("ZaalId1");
-
-                    b.HasOne("theaterlaak.Entities.Zaal", null)
-                        .WithMany("TweedeRangsPlekken")
-                        .HasForeignKey("ZaalId2");
-                });
-
-            modelBuilder.Entity("theaterlaak.Entities.Voorstelling", b =>
-                {
                     b.HasOne("theaterlaak.Entities.Zaal", "Zaal")
                         .WithMany()
                         .HasForeignKey("ZaalId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.Navigation("Voorstelling");
+
                     b.Navigation("Zaal");
+                });
+
+            modelBuilder.Entity("theaterlaak.Entities.Reservering", b =>
+                {
+                    b.HasOne("theaterlaak.Entities.Moment", "Moment")
+                        .WithMany()
+                        .HasForeignKey("MomentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("theaterlaak.Entities.ApplicationUser", "User")
+                        .WithMany("Reserveringen")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Moment");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("theaterlaak.Entities.Stoel", b =>
+                {
+                    b.HasOne("theaterlaak.Entities.Reservering", null)
+                        .WithMany("GereserveerdeStoelen")
+                        .HasForeignKey("ReserveringId");
+
+                    b.HasOne("theaterlaak.Entities.Zaal", null)
+                        .WithMany("Stoelen")
+                        .HasForeignKey("ZaalId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("theaterlaak.Entities.Voorstelling", b =>
+                {
+                    b.HasOne("theaterlaak.Entities.Betrokkene", "Betrokkene")
+                        .WithMany("Voorstellingen")
+                        .HasForeignKey("BetrokkeneId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Betrokkene");
+                });
+
+            modelBuilder.Entity("theaterlaak.Entities.ApplicationUser", b =>
+                {
+                    b.Navigation("Reserveringen");
+                });
+
+            modelBuilder.Entity("theaterlaak.Entities.Betrokkene", b =>
+                {
+                    b.Navigation("Voorstellingen");
+                });
+
+            modelBuilder.Entity("theaterlaak.Entities.Reservering", b =>
+                {
+                    b.Navigation("GereserveerdeStoelen");
                 });
 
             modelBuilder.Entity("theaterlaak.Entities.Zaal", b =>
                 {
-                    b.Navigation("DerdeRangsPlekken");
-
-                    b.Navigation("EersteRangsPlekken");
-
-                    b.Navigation("TweedeRangsPlekken");
+                    b.Navigation("Stoelen");
                 });
 #pragma warning restore 612, 618
         }

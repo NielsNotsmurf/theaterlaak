@@ -9,7 +9,6 @@ export class Home extends Component {
       <div>
         <div className='flex-item-main'>
           <img src={logoLaak} alt='Theater Laak logo' />
-          <button id='ProgrammeringBtn' alt='Programmering knop'>Programmering</button>
         </div>
       </div>
     );

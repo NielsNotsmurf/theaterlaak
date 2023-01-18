@@ -1,9 +1,11 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace theaterlaak.Data.Migrations
+#nullable disable
+
+namespace theaterlaak.Migrations
 {
-    public partial class CreateIdentitySchema : Migration
+    public partial class WorkingMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -26,6 +28,8 @@ namespace theaterlaak.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "TEXT", nullable: false),
+                    PasswordSalt = table.Column<byte[]>(type: "BLOB", nullable: true),
+                    Password = table.Column<byte[]>(type: "BLOB", nullable: true),
                     UserName = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
@@ -47,6 +51,23 @@ namespace theaterlaak.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Betrokkenen",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    TypePersoon = table.Column<int>(type: "INTEGER", nullable: false),
+                    Naam = table.Column<string>(type: "TEXT", nullable: false),
+                    Omschrijving = table.Column<string>(type: "TEXT", nullable: false),
+                    Afbeelding = table.Column<string>(type: "TEXT", nullable: false),
+                    GeboorteDatum = table.Column<DateTime>(type: "TEXT", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Betrokkenen", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "DeviceCodes",
                 columns: table => new
                 {
@@ -58,7 +79,7 @@ namespace theaterlaak.Data.Migrations
                     Description = table.Column<string>(type: "TEXT", maxLength: 200, nullable: true),
                     CreationTime = table.Column<DateTime>(type: "TEXT", nullable: false),
                     Expiration = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    Data = table.Column<string>(type: "TEXT", maxLength: 52120, nullable: false)
+                    Data = table.Column<string>(type: "TEXT", maxLength: 50000, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -72,11 +93,11 @@ namespace theaterlaak.Data.Migrations
                     Id = table.Column<string>(type: "TEXT", nullable: false),
                     Version = table.Column<int>(type: "INTEGER", nullable: false),
                     Created = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    Use = table.Column<string>(type: "TEXT", maxLength: 450, nullable: true),
+                    Use = table.Column<string>(type: "TEXT", nullable: true),
                     Algorithm = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false),
                     IsX509Certificate = table.Column<bool>(type: "INTEGER", nullable: false),
                     DataProtected = table.Column<bool>(type: "INTEGER", nullable: false),
-                    Data = table.Column<string>(type: "TEXT", maxLength: 52120, nullable: false)
+                    Data = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -96,11 +117,24 @@ namespace theaterlaak.Data.Migrations
                     CreationTime = table.Column<DateTime>(type: "TEXT", nullable: false),
                     Expiration = table.Column<DateTime>(type: "TEXT", nullable: true),
                     ConsumedTime = table.Column<DateTime>(type: "TEXT", nullable: true),
-                    Data = table.Column<string>(type: "TEXT", maxLength: 52120, nullable: false)
+                    Data = table.Column<string>(type: "TEXT", maxLength: 50000, nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_PersistedGrants", x => x.Key);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Zalen",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    ZaalType = table.Column<int>(type: "INTEGER", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Zalen", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -209,6 +243,111 @@ namespace theaterlaak.Data.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Voorstellingen",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Titel = table.Column<string>(type: "TEXT", nullable: false),
+                    Omschrijving = table.Column<string>(type: "TEXT", nullable: false),
+                    Afbeelding = table.Column<string>(type: "TEXT", nullable: false),
+                    BetrokkeneId = table.Column<int>(type: "INTEGER", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Voorstellingen", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Voorstellingen_Betrokkenen_BetrokkeneId",
+                        column: x => x.BetrokkeneId,
+                        principalTable: "Betrokkenen",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Momenten",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    VoorstellingId = table.Column<int>(type: "INTEGER", nullable: false),
+                    ZaalId = table.Column<int>(type: "INTEGER", nullable: false),
+                    StartDateTime = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    EndDateTime = table.Column<DateTime>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Momenten", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Momenten_Voorstellingen_VoorstellingId",
+                        column: x => x.VoorstellingId,
+                        principalTable: "Voorstellingen",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Momenten_Zalen_ZaalId",
+                        column: x => x.ZaalId,
+                        principalTable: "Zalen",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Reserveringen",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    MomentId = table.Column<int>(type: "INTEGER", nullable: false),
+                    UserId = table.Column<string>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Reserveringen", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Reserveringen_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Reserveringen_Momenten_MomentId",
+                        column: x => x.MomentId,
+                        principalTable: "Momenten",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Stoelen",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Rij = table.Column<int>(type: "INTEGER", nullable: false),
+                    ZitPlaats = table.Column<int>(type: "INTEGER", nullable: false),
+                    StoelRang = table.Column<int>(type: "INTEGER", nullable: false),
+                    Bezet = table.Column<bool>(type: "INTEGER", nullable: false),
+                    ZaalId = table.Column<int>(type: "INTEGER", nullable: false),
+                    ReserveringId = table.Column<int>(type: "INTEGER", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Stoelen", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Stoelen_Reserveringen_ReserveringId",
+                        column: x => x.ReserveringId,
+                        principalTable: "Reserveringen",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Stoelen_Zalen_ZaalId",
+                        column: x => x.ZaalId,
+                        principalTable: "Zalen",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -263,6 +402,16 @@ namespace theaterlaak.Data.Migrations
                 column: "Use");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Momenten_VoorstellingId",
+                table: "Momenten",
+                column: "VoorstellingId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Momenten_ZaalId",
+                table: "Momenten",
+                column: "ZaalId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_PersistedGrants_ConsumedTime",
                 table: "PersistedGrants",
                 column: "ConsumedTime");
@@ -281,6 +430,31 @@ namespace theaterlaak.Data.Migrations
                 name: "IX_PersistedGrants_SubjectId_SessionId_Type",
                 table: "PersistedGrants",
                 columns: new[] { "SubjectId", "SessionId", "Type" });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Reserveringen_MomentId",
+                table: "Reserveringen",
+                column: "MomentId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Reserveringen_UserId",
+                table: "Reserveringen",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Stoelen_ReserveringId",
+                table: "Stoelen",
+                column: "ReserveringId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Stoelen_ZaalId",
+                table: "Stoelen",
+                column: "ZaalId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Voorstellingen_BetrokkeneId",
+                table: "Voorstellingen",
+                column: "BetrokkeneId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -310,10 +484,28 @@ namespace theaterlaak.Data.Migrations
                 name: "PersistedGrants");
 
             migrationBuilder.DropTable(
+                name: "Stoelen");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
+                name: "Reserveringen");
+
+            migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "Momenten");
+
+            migrationBuilder.DropTable(
+                name: "Voorstellingen");
+
+            migrationBuilder.DropTable(
+                name: "Zalen");
+
+            migrationBuilder.DropTable(
+                name: "Betrokkenen");
         }
     }
 }

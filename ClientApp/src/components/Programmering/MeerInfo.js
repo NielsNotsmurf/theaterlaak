@@ -2,6 +2,9 @@ import React from "react";
 import { useState } from "react";
 import { useEffect } from "react";
 import "../styles/programmering.css";
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { Button, FormLabel, IconButton, styled, TextField, Typography } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
 export function MeerInfo(props) {
     const [moment, setMoment] = useState({});
@@ -18,16 +21,15 @@ export function MeerInfo(props) {
         );
       }
       return (
-        <div className="meerinfo-contentbox">
-            <img src={moment.voorstelling.img} style={{height: 300, width: '50%', position: "absolute"}}></img>
-            <div className="meerinfo-contentbox-child1">
-                <p id="titel">{moment.voorstelling.titel}</p>
-                <p>Exclusief in theater laak</p>
+        <>
+            <IconButton onClick={(a)=>props.callback("")}>
+                        <ArrowBackIcon />
+            </IconButton>
+            <div className="meerinfo-contentbox">
+                
+                <img id="filmfoto" src={moment.voorstelling.img}></img>
+                <button props={moment} id="bestellen" alt="bestel tickets" onClick={(a)=>props.callback("koopTicket")}>Tickets Bestellen</button>
             </div>
-            <div className="meerinfo-contentbox-child2">
-                <p id="omschrijving">{moment.voorstelling.omschrijving}</p>
-                <button id="bestellen" alt="bestel tickets" onClick={(a)=>props.callback("koopTicket")}>Tickets Bestellen</button>
-            </div>
-        </div>
+        </>
       );
 }

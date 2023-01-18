@@ -1,4 +1,4 @@
-import authService from '../../components/api-authorization/AuthorizeService'
+import AuthorizeService from '../api-authorization/AuthorizeService';
 import { Component } from 'react';
 import { send } from 'emailjs-com';
 import '../styles/contact.css';
@@ -42,16 +42,16 @@ export class Contact extends Component {
     this.setState({ ...this.state, [e.target.name]: e.target.value });
   };
   componentDidMount() {
-    this._subscription = authService.subscribe(() => this.populateState());
+    this._subscription = AuthorizeService.subscribe(() => this.populateState());
     this.populateState();
   }
 
   componentWillUnmount() {
-    authService.unsubscribe(this._subscription);
+    AuthorizeService.unsubscribe(this._subscription);
   }
 
   async populateState() {
-    const [isAuthenticated, user] = await Promise.all([authService.isAuthenticated(), authService.getUser()])
+    const [isAuthenticated, user] = await Promise.all([AuthorizeService.isAuthenticated(), AuthorizeService.getUser()])
     if (user) {
       this.setState({
         isAuthenticated,

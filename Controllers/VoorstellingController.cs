@@ -3,42 +3,69 @@ using Microsoft.EntityFrameworkCore;
 using theaterlaak.Converters;
 using theaterlaak.Data;
 using theaterlaak.Exceptions;
+using theaterlaak.Entities;
+using theaterlaak.Services;
+using aspnet_react_auth.Helpers;
+using Microsoft.Extensions.Options;
 
 namespace theaterlaak.Controllers;
 
 [ApiController]
-[Route("[controller]")]
+[Route("/api/[controller]")]
 public class VoorstellingController : ControllerBase
 {
-    private readonly ApplicationDbContext _dbContext;
-    public VoorstellingController(ApplicationDbContext dbContext)
+    private IVoorstellingService _voorstellingService;
+    private readonly AppSettings _appSettings;
+
+    public VoorstellingController(
+        IVoorstellingService userService,
+        IOptions<AppSettings> appSettings)
     {
-        _dbContext = dbContext;
+        _voorstellingService = userService;
+        _appSettings = appSettings.Value;
     }
 
     [HttpGet]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<List<Models.Voorstelling>> GetVoorstellingen()
     {
-        var voorstellingQuery = _dbContext.Voorstellingen
-            .AsNoTracking()
-            .Include(p => p.Zaal)
-            .AsQueryable();
-
-        var voorstellingen = await voorstellingQuery.ToListAsync();
-        return voorstellingen.ConvertAll(v => v.ToDto());
+        return await _voorstellingService.GetVoorstellingen();
     }
 
     [HttpGet("{id}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<Models.Voorstelling>> GetVoorstelling(int id)
     {
-        var voorstelling = await _dbContext.Voorstellingen
-            .AsNoTracking()
-            .Include(v => v.Zaal)
-            .FirstOrDefaultAsync(v => v.Id == id);
+        return await _voorstellingService.GetVoorstelling(id); 
+    }
 
-        if (voorstelling == null)
-            throw new NotFoundException();
+    [HttpPost]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult> AddVoorstelling(Commands.AddOrUpdateVoorstelling voorstelling)
+    {
+        await _voorstellingService.AddVoorstelling(voorstelling);
+        return Ok();
+    }
 
-        return voorstelling.ToDto(); 
+    [HttpPut("{id}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult> UpdateVoorstelling(int id, Commands.AddOrUpdateVoorstelling voorstelling)
+    {
+        return await _voorstellingService.UpdateVoorstelling(id, voorstelling);
+    }
+
+    [HttpDelete("{id}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult> DeleteVoorstelling(int id)
+    {
+        return await _voorstellingService.DeleteVoorstelling(id);
     }
 }

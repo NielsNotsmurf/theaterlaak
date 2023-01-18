@@ -5,16 +5,16 @@ namespace theaterlaak.Entities;
 
 public class Voorstelling 
 {
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     [Required]
-    public int Id { get; set; }
+    public int Id { get; init; }
 
     [Required]
     public string Titel { get; set; } = string.Empty;
+    public string Omschrijving { get; set; } = string.Empty;
+    public string Afbeelding { get; set; } = string.Empty;
 
-    [Required]
-    public DateTime Datum { get; set; }
-
-    [ForeignKey(nameof(Zaal))]
-    public int ZaalId { get; set; }
-    public Zaal? Zaal { get; set; }
+    [ForeignKey(nameof(Betrokkene))]
+    public int BetrokkeneId { get; set; }
+    public Betrokkene? Betrokkene { get; set; }
 }

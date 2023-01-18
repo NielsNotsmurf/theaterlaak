@@ -1,0 +1,54 @@
+.StoelenMenu {
+    font-family: sans-serif;
+    text-align: center;
+    width: 100%;
+    
+  }
+
+  #screen {
+    background-color: rgb(1, 126, 221);
+    height: 25px;
+    width: 50%;
+    margin-left:25%;    
+  }
+  #entrance {
+    margin-top: 5%;
+    background-color: rgb(1, 126, 221);
+    height: 25px;
+    width: 50%;
+    margin-left:25%;
+  }
+  .row {
+    background-color:rgb(88, 88, 88);
+  }
+  .seat {
+    background-color: rgb(1, 126, 221);
+  }
+  
+  .seat--reserved {
+    background-color: rgb(81, 81, 81);
+  }
+  
+  .seat--selected {
+    background-color: rgb(50, 50, 50);
+  }
+  
+  .seat-picker {
+    margin: auto;
+  }
+  
+  
+  div.blank {
+    display: none;
+  }
+  .seat-select{
+    margin: 10%;
+    background-color: rgb(212, 74, 212);
+    height: 50px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+  }
+  .seat-select > h1{
+  font-size: 20px;
+  }

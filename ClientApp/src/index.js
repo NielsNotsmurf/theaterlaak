@@ -1,4 +1,4 @@
-import './master.css';
+import '../src/components/styles/master.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import { createRoot } from 'react-dom/client';
 import { ThemeProvider } from '@mui/material';
