@@ -20,10 +20,12 @@ namespace theaterlaak.Services
     public class accountService : IAccountService
     {
         private readonly UserManager<Entities.ApplicationUser> _UserManager;
+        private readonly SignInManager<Entities.ApplicationUser> _SignInManager;
         private ApplicationDbContext _context;
 
-        public accountService(UserManager<Entities.ApplicationUser> userManager, ApplicationDbContext context)
+        public accountService(SignInManager<Entities.ApplicationUser> signInManager, UserManager<Entities.ApplicationUser> userManager, ApplicationDbContext context)
         {
+            _SignInManager = signInManager;
             _UserManager = userManager;
             _context = context;
         }
@@ -33,9 +35,14 @@ namespace theaterlaak.Services
             var user = await _UserManager.FindByNameAsync(applicationUser.UserName);
 
             if (user == null)
-                throw new BadRequestException("Email or password is incorrect");
+                throw new BadRequestException("User does not exist!");
 
+            var correct = await _SignInManager.CheckPasswordSignInAsync(user, applicationUser.PasswordHash, false);
+            Console.WriteLine(correct);
+            if (correct != Microsoft.AspNetCore.Identity.SignInResult.Success && !correct.Succeeded)
+                throw new BadRequestException("Password is incorrect!");
 
+        
             // var tokenString = "ik ga hier een token genereren hehe";
             // return basic user info (without password) and token to store client side
 
@@ -67,7 +74,9 @@ namespace theaterlaak.Services
         {
             var user = new Entities.ApplicationUser
             {
-                UserName = applicationUser.UserName
+                UserName = applicationUser.UserName,
+                Email = applicationUser.UserName,
+                EmailConfirmed = true,
             };
 
             try

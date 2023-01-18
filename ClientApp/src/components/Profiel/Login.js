@@ -60,12 +60,12 @@ export default class Login extends React.Component {
           <>
             <div>
               <form onSubmit={this.onSubmit}>
-                <p alt="invoerveld UserName">Uw UserName invoeren:</p>
+                <p alt="invoerveld email">Uw email invoeren:</p>
                 <input
                   required={true}
                   message="Dit veld is verplicht"
                   id='inputMail'
-                  type='UserName'
+                  type='email'
                   placeholder='Email'
                   name='UserName'
                   value={this.state.UserName}
