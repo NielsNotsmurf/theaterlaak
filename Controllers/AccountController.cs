@@ -2,8 +2,6 @@ using aspnet_react_auth.Helpers;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using theaterlaak.Converters;
-using theaterlaak.Exceptions;
 using theaterlaak.Entities;
 using theaterlaak.Commands;
 using theaterlaak.Services;
