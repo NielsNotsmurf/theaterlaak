@@ -13,7 +13,9 @@ public static class MomentConverter
         StartDateTime = moment.StartDateTime,
         EndDateTime = moment.EndDateTime,
         VoorstellingId = moment.VoorstellingId,
-        VoorstellingNaam = moment.Voorstelling?.Titel,
+        VoorstellingTitel = moment.Voorstelling?.Titel,
+        VoorstellingOmschrijving = moment.Voorstelling?.Omschrijving,
+        VoorstellingAfbeelding = moment.Voorstelling?.Afbeelding,
     };
 
     private static Models.Stoel ToDto(this Stoel stoel) => new()

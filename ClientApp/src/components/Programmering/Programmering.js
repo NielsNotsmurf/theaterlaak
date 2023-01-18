@@ -4,6 +4,7 @@ import 'react-multi-carousel/lib/styles.css';
 import { MeerInfo } from './MeerInfo';
 import { KoopTicket } from './koopTicket';
 import momentService from '../Services/momentService';
+import {formatDateTime} from '../Helpers/format';
 
 export class Programmering extends Component {
   constructor(props) {
@@ -44,7 +45,17 @@ export class Programmering extends Component {
   }
 
   async componentDidMount() {
-    this.setState({...this.state, periodeMomenten: await momentService.GetPeriodeMomenten(), type: ""})
+    let fetch = await momentService.GetPeriodeMomenten();
+    let maandmomenten = [];
+    for (let maandIndex = 0; maandIndex < 2 ; maandIndex++) {
+      maandmomenten.push([]);
+      for (let momentIndex = 0; momentIndex < fetch.length; momentIndex++) { 
+        if (new Date(fetch[momentIndex].startDateTime).getMonth() == new Date(new Date().setMonth(new Date().getMonth()+maandIndex)).getMonth()) {
+          maandmomenten[maandIndex].push(fetch[momentIndex]); 
+        }
+      }
+    }
+    this.setState({...this.state, periodeMomenten: maandmomenten, type: ""})
   }
 
   render() {
@@ -68,12 +79,12 @@ export class Programmering extends Component {
                       return (
                         <div id="momentBox" key={index} style={{height: 370, width: 200, textAlign: 'center' }}>
                           <div style={{height: 300, width: 200, backgroundColor: 'white', boxShadow: '0px 0px 2px gray'}}>
-                            <p alt="Voorstelling titel">{moment.voorstelling.titel}</p>
-                            <img src={moment.voorstelling.img} style={{height: 150, width: 110}} alt="Foto voorstelling"></img>
-                            <p alt="zaalnummer">{moment.zaal.zaalNr}</p>
-                            <p alt="datum voorstelling">{moment.dateTime}</p>
+                            <p alt="Voorstelling titel">{moment.voorstellingTitel}</p>
+                          <img src={moment.voorstellingAfbeelding} style={{height: 150, width: 110}} alt="Foto voorstelling"></img>
+                            <p alt="zaalnummer">{moment.zaalType}</p>
+                            <p alt="datum voorstelling">{formatDateTime(new Date(moment.startDateTime))}</p>
                           </div>
-                          <button id="meerButton" onClick={(a)=>this.onClickMeer(moment)} alt="Meer informatie button">Meer over {moment.voorstelling.titel}</button>
+                          <button id="meerButton" onClick={(a)=>this.onClickMeer(moment)} alt="Meer informatie button">Meer over {moment.voorstellingNaam}</button>
                         </div>
                       );
                     }) : <div />}

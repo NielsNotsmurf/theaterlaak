@@ -8,7 +8,6 @@ public static class ApplicationUserConverter {
         Id = applicationUser.Id,
         UserName = applicationUser.UserName,
         Reserveringen = applicationUser.Reserveringen?.Select(ToDto).ToList(),
-        TelefoonNummer = applicationUser.PhoneNumber,
     };
 
     private static Models.Reservering ToDto(this Reservering reservering) => new()
