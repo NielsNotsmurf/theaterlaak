@@ -24,7 +24,7 @@ function getDonaties(userAuthToken) {
         throw new Error(`Http error! status: ${response.status}`)
     }
 
-    return  response.json();
+    return response.json();
 }
 
 function postDonatie(userAuthToken, doelId, hoeveelheid, tekst) {

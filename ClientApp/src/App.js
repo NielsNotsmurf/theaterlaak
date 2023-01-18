@@ -16,6 +16,7 @@ import Register from './components/Profiel/Register';
 import WithContext from './components/Componenten/ContextHelpers/WithContext';
 import Beheer from './components/Beheer/Beheer';
 import { useNavigate } from 'react-router-dom';
+import Chat from './TestChat/Chat';
 
 function App() {
     const navigate = useNavigate();
@@ -32,6 +33,7 @@ function App() {
                         <Route path='/login' element={<Login navigate={navigate}/>} />
                         <Route path='/profiel/*' element={<Profiel />} />
                         <Route path='/beheer/*' element={<Beheer />} />
+                        <Route path='/hubs/chat' element={<Chat />} />
                     </Routes>
                 </Layout>
         </LocalizationProvider>

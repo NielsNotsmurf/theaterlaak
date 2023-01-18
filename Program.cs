@@ -4,6 +4,7 @@ using theaterlaak.Data;
 using theaterlaak.Entities;
 using theaterlaak.Middleware;
 using theaterlaak.Services;
+using theaterlaak.Hubs;
 using NSwag;
 using NSwag.Generation.Processors.Security;
 using Newtonsoft.Json;
@@ -19,7 +20,17 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services.AddCors(option => 
 {
     option.AddDefaultPolicy(builder => builder.WithOrigins("https://localhost:44492").AllowAnyHeader().AllowAnyMethod());
+    option.AddPolicy("ClientPermission", policy => 
+    {
+        policy.AllowAnyHeader()
+            .WithOrigins("https://localhost:44492")
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+            .AllowCredentials();
+    });
 });
+
+builder.Services.AddSignalR();
 
 builder.Services.AddControllers().AddNewtonsoftJson(options =>
 {
@@ -64,15 +75,15 @@ builder.Services.AddTransient<IAccountService, accountService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseMigrationsEndPoint();
-}
-else
-{
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-    app.UseHsts();
-}
+// if (app.Environment.IsDevelopment())
+// {
+//     app.UseMigrationsEndPoint();
+// }
+// else
+// {
+//     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+//     app.UseHsts();
+// }
 
 app.UseMiddleware<DomainExceptionMiddleware>();
 
@@ -87,8 +98,14 @@ app.UseAuthentication();
 app.UseIdentityServer();
 app.UseAuthorization();
 
-app.UseCors();
-app.MapControllers();
+// app.UseCors();
+app.UseCors("ClientPermission");
+app.UseEndpoints(endpoints => 
+{
+    app.MapControllers();
+    app.MapHub<ChatHub>("/hubs");
+});
+
 
 app.MapFallbackToFile("index.html");
 
