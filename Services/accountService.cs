@@ -1,3 +1,4 @@
+using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -42,11 +43,12 @@ namespace theaterlaak.Services
             if (correct != Microsoft.AspNetCore.Identity.SignInResult.Success && !correct.Succeeded)
                 throw new BadRequestException("Password is incorrect!");
 
-        
+
             // var tokenString = "ik ga hier een token genereren hehe";
             // return basic user info (without password) and token to store client side
 
-            return new AuthenticateResponse{
+            return new AuthenticateResponse
+            {
                 Id = user.Id,
                 UserName = user.UserName,
                 // Token
@@ -72,6 +74,10 @@ namespace theaterlaak.Services
 
         public async Task Register(RegisterApplicationUser applicationUser)
         {
+            if(!PasswordNotInWoordenboekAndPowned(applicationUser.PasswordHash))
+            {
+                throw new BadRequestException("Password staat in het woordenboek of in powned wachtwoorden lijst!");
+            }
             var user = new Entities.ApplicationUser
             {
                 UserName = applicationUser.UserName,
@@ -88,6 +94,29 @@ namespace theaterlaak.Services
             {
                 // return error message if there was an exception
                 throw new BadRequestException(ex.Message);
+            }
+        }
+
+        public bool PasswordNotInWoordenboekAndPowned(string password)
+        {
+            var powned = new HashSet<string>(File.ReadLines("woordenboek/powned.txt"));
+            var woordenboek = new HashSet<string>(File.ReadLines("woordenboek/woordenboek.txt"));
+            if(powned.Contains(password))
+            {
+                return false;
+            }
+
+            //ToLower om woorden met woordenboek te matchen en regex replace om non alphabetic tekens/cijfers te verwijderen
+            var passwordTolower = password.ToLower();
+            passwordTolower = Regex.Replace(passwordTolower, @"[^a-zA-Z]+", "");
+            Console.WriteLine(passwordTolower);
+            if (woordenboek.Contains(passwordTolower))
+            {
+                return false;
+            }
+            else
+            {
+                return true;
             }
         }
     }
