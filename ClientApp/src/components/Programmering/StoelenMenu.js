@@ -78,7 +78,7 @@ export default function StoelenMenu(props) {
     (async () => {
       setLoading(true)
       console.log(id)
-      await new Promise(resolve => setTimeout(resolve, 100))//joeri gaat de stoel op niet meer selected zetten
+      await new Promise(resolve => setTimeout(resolve, 100))//joeri gaat de stoel op niet meer dselected zetten
       const newTooltip = ['A', 'B', 'C'].includes(row) ? null : ''
       removeCb(row, number, newTooltip)
         setReserveringStoelen((current) =>
@@ -101,6 +101,7 @@ export default function StoelenMenu(props) {
       return (
         <div className='StoelenMenu'>
           <h1 id='filmtitel'>{moment.voorstellingTitel}</h1>
+          <h1 id='zaalnaam'>{moment.zaalType}</h1>
           <p style={{marginBottom: '25px'}} id='filmdatetime'>{formatDateTime(new Date(moment.startDateTime))}</p>
           <div id='screen'>Podium</div>
           <div style={{marginTop: '75px'}}>

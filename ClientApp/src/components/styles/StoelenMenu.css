@@ -25,6 +25,7 @@
   }
   .seat {
     background-color: rgb(1, 126, 221);
+    nav-index: 1;
   }
   
   .seat--reserved {
