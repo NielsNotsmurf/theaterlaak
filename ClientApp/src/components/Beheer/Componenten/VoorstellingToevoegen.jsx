@@ -94,6 +94,7 @@ export default function ShowToevoegen() {
                 <FormLabel sx={{ mb: 1, display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
                     Omschrijving: 
                     <TextField
+                        id='omschrijving'
                         name='omschrijving'
                         onChange={handleChange}
                         required
@@ -118,6 +119,7 @@ export default function ShowToevoegen() {
                 <FormLabel sx={{ mb: 2, display: 'flex', alignItems: 'center',  justifyContent: 'space-between'}}>
                     Betrokkene:
                     <Select
+                        id='betrokkene'
                         name='betrokkene'
                         value={inputs.betrokkene}
                         onChange={handleChange}
@@ -129,7 +131,7 @@ export default function ShowToevoegen() {
                         )}
                     </Select>
                 </FormLabel>
-                <Button variant='contained' type='submit' disabled={isLoading} sx={{ p: 2 }}>Voeg toe</Button> 
+                <Button id='addVoorstelling' variant='contained' type='submit' disabled={isLoading} sx={{ p: 2 }}>Voeg toe</Button> 
             </StyledForm>
         </StyledFormDiv>
     )

@@ -11,9 +11,9 @@ export default function BeheerOverzicht() {
     return (
         <StyledDiv>
             <Button variant='contained' sx={{ mr: 2 }} onClick={() => navigate('/beheer/shows')}>Shows</Button>
-            <Button data-test-id='showtje-toevoegen' variant='contained' sx={{ mr: 2 }} onClick={() => navigate('/beheer/show-toevoegen')}>Show toevoegen</Button>
-            <Button variant='contained' sx={{ mr: 2 }} onClick={() => navigate('/beheer/betrokkene-toevoegen')}>Betrokkene toevoegen</Button>
-            <Button variant='contained' onClick={() => navigate('/beheer/voorstelling-toevoegen')}>Voorstelling toevoegen</Button>
+            <Button id='addShow' variant='contained' sx={{ mr: 2 }} onClick={() => navigate('/beheer/show-toevoegen')}>Show toevoegen</Button>
+            <Button id ='addBetrokkene' variant='contained' sx={{ mr: 2 }} onClick={() => navigate('/beheer/betrokkene-toevoegen')}>Betrokkene toevoegen</Button>
+            <Button id="addVoorstelling" variant='contained' onClick={() => navigate('/beheer/voorstelling-toevoegen')}>Voorstelling toevoegen</Button>
         </StyledDiv>
     )
 }

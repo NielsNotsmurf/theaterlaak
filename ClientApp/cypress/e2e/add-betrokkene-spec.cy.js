@@ -1,0 +1,17 @@
+describe('Add Betrokkene', () => {
+    it('passes', () => {
+        cy.visit('https://localhost:44492/Beheer')
+        cy.wait(1000)
+        cy.get('button[id="addBetrokkene"]').click()
+        cy.get('#typePersoon')
+            .parent()
+            .click()
+            .get('ul > li[data-value="Persoon"]')
+            .click()
+        cy.get('input[name="naam"]').type('henkie T')
+        cy.get('#omschrijving').type('4 donnies')
+        cy.get('input[name="afbeelding"]').type('string')
+        cy.get('#geboorteDatum').type('2000-01-01')
+        cy.get('button[type="submit"]').click()
+    })
+})

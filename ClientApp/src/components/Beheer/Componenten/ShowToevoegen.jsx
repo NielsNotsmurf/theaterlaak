@@ -91,6 +91,7 @@ export default function ShowToevoegen() {
                 <FormLabel sx={{ mb: 1, display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
                     Start tijd: 
                     <TextField
+                        id='startDateTime'
                         name='startDateTime'
                         onChange={handleChange}
                         required
@@ -103,6 +104,7 @@ export default function ShowToevoegen() {
                 <FormLabel sx={{ mb: 2, display: 'flex', alignItems: 'center',  justifyContent: 'space-between'}}>
                     Eind tijd:
                     <TextField
+                        id='endDateTime'
                         name='endDateTime'
                         onChange={handleChange}
                         required
@@ -115,6 +117,7 @@ export default function ShowToevoegen() {
                 <FormLabel sx={{ mb: 2, display: 'flex', alignItems: 'center',  justifyContent: 'space-between'}}>
                     Voorstelling:
                     <Select
+                        id='voorstelling'
                         name='voorstelling'
                         onChange={handleChange}
                         sx={{ width: 250, ml: 1 }}
@@ -129,6 +132,7 @@ export default function ShowToevoegen() {
                 <FormLabel sx={{ mb: 2, display: 'flex', alignItems: 'center',  justifyContent: 'space-between'}}>
                     Zaal:
                     <Select
+                        id='zaalType'
                         name='zaalType'
                         onChange={handleChange}
                         sx={{ width: 250, ml: 1 }}
@@ -140,7 +144,7 @@ export default function ShowToevoegen() {
                         )}
                     </Select>
                 </FormLabel>
-                <Button variant='contained' type='submit' disabled={isLoading} sx={{ p: 2 }}>Voeg toe</Button> 
+                <Button id="addShow" variant='contained' type='submit' disabled={isLoading} sx={{ p: 2 }}>Voeg toe</Button> 
             </StyledForm>
         </StyledFormDiv>
     )

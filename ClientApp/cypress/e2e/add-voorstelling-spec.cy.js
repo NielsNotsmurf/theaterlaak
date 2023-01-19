@@ -1,0 +1,16 @@
+describe( 'Add Voorstelling', () => {
+    it( 'passes', () => {
+        cy.visit( 'https://localhost:44492/Beheer' )
+        cy.wait( 1000 )
+        cy.get( 'button[id="addVoorstelling"]' ).click()
+        cy.get('input[name="titel"]').type('Henktie T in theater')
+        cy.get('#omschrijving').type('slechte voorstelling')
+        cy.get('input[name="afbeeldingUrl"]').type('string')
+        cy.get('#betrokkene')
+            .parent()
+            .click()
+            .get('ul > li[data-value="17"]')
+            .click()
+        cy.get('button[id="addVoorstelling"]').click()
+    })
+})

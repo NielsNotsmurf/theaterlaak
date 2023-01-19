@@ -69,6 +69,7 @@ export default function BetrokkeneToevoegen() {
                 <FormLabel sx={{ mb: 2, display: 'flex', alignItems: 'center',  justifyContent: 'space-between'}}>
                     Type:
                     <Select
+                        id='typePersoon'
                         name='typePersoon'
                         onChange={handleChange}
                         required
@@ -96,6 +97,7 @@ export default function BetrokkeneToevoegen() {
                 <FormLabel sx={{ mb: 1, display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
                     Omschrijving: 
                     <TextField
+                        id='omschrijving'
                         multiline
                         name='omschrijving'
                         onChange={handleChange}
@@ -121,6 +123,7 @@ export default function BetrokkeneToevoegen() {
                 <FormLabel sx={{ mb: 1, display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
                     Geboortedatum: 
                     <TextField
+                        id='geboorteDatum'
                         defaultValue={inputs.geboortedatum}
                         name='geboorteDatum'
                         onChange={handleChange}
