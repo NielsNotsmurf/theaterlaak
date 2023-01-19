@@ -27,7 +27,7 @@ export default function Home() {
       <div className='flex-item-main'>
         <img src={logoLaak} alt='Theater Laak logo' />
       </div>
-      <div>
+      {/* <div>
         <input type="text" value={value} onChange={handleChange} />
         <ReactSearchBox
           value={""}
@@ -43,7 +43,7 @@ export default function Home() {
             </div>
           )}
         />
-      </div>
+      </div> */}
     </div>
   );
 }
