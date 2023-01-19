@@ -55,6 +55,11 @@ export class Programmering extends Component {
         }
       }
     }
+    maandmomenten.forEach(maandmoment => {
+      maandmoment.sort(function(b,a){
+        return new Date(b.startDateTime) - new Date(a.startDateTime);
+      });
+    })
     this.setState({...this.state, periodeMomenten: maandmomenten, type: ""})
   }
 
