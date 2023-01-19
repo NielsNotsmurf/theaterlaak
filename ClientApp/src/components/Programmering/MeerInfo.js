@@ -27,7 +27,7 @@ export function MeerInfo(props) {
             </IconButton>
             <div className="meerinfo-contentbox">
                 
-                <img id="filmfoto" src={moment.voorstelling.img}></img>
+                <img id="filmfoto" src={moment.voorstellingAfbeelding}></img>
                 <button props={moment} id="bestellen" alt="bestel tickets" onClick={(a)=>props.callback("koopTicket")}>Tickets Bestellen</button>
             </div>
         </>

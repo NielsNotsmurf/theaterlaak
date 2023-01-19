@@ -62,7 +62,7 @@ export default function ShowToevoegen() {
         setIsLoading(true);
 
         try {
-            await voorstellingService.add(inputs.titel, inputs.betrokkene, inputs.afbeeldingUrl)
+            await voorstellingService.add(inputs.titel, inputs.omschrijving, inputs.afbeeldingUrl, inputs.betrokkene)
             console.log('succes');
         } catch (error) {
             console.log(error);

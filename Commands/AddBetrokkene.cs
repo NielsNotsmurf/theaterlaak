@@ -11,7 +11,11 @@ public record AddBetrokkene
     [Required]
     public string Omschrijving { get; init; } = string.Empty;
     [Required]
-    public string Afbeelding { get; init; } = string.Empty;
+    private string imgstring = string.Empty;
+    public string Afbeelding { 
+            get {return imgstring;}
+            init {if(value == null){imgstring= "";}} 
+        }
     [Required]
     public DateTime GeboorteDatum { get; init; }
 

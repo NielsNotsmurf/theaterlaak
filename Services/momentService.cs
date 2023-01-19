@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using theaterlaak.Commands;
 using theaterlaak.Converters;
 using theaterlaak.Data;
-using theaterlaak.Entities;
 using theaterlaak.Exceptions;
 using theaterlaak.Models;
 
@@ -116,7 +115,7 @@ namespace theaterlaak.Services
                     {
                         stoelen.Add(new Entities.Stoel { Rij = j, ZitPlaats = i, StoelRang = TypeStoel.TweedeRangs, ZaalId = zaalId });
                     }
-                    for (int j = 7; j <= 1; j++)
+                    for (int j = 7; j <= 12; j++)
                     {
                         stoelen.Add(new Entities.Stoel { Rij = j, ZitPlaats = i, StoelRang = TypeStoel.DerdeRangs, ZaalId = zaalId });
                     }

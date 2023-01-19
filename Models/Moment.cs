@@ -11,7 +11,9 @@ public record Moment
     public DateTime EndDateTime { get; init; }
 
     public int VoorstellingId { get; init; }
-    public string? VoorstellingNaam { get; init; }
+    public string? VoorstellingTitel { get; init; }
+    public string? VoorstellingOmschrijving { get; init; }
+    public string? VoorstellingAfbeelding { get; init; }
     public int ZaalId { get; init; }
     public ZaalType ZaalType { get; init; }
 

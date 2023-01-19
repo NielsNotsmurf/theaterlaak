@@ -4,7 +4,9 @@
     width: 100%;
     
   }
-
+  #selected {
+    text-align: left;
+  }
   #screen {
     background-color: rgb(1, 126, 221);
     height: 25px;

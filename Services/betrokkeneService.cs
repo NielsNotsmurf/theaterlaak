@@ -4,6 +4,7 @@ using theaterlaak.Converters;
 using theaterlaak.Data;
 using theaterlaak.Exceptions;
 using theaterlaak.Models;
+using theaterlaak.Entities;
 using theaterlaak.Commands;
 
 namespace theaterlaak.Services
@@ -25,12 +26,12 @@ namespace theaterlaak.Services
         }
         public async Task AddBetrokkene(AddBetrokkene betrokkene)
         {
-            var newBetrokkene = new Betrokkene
+            var newBetrokkene = new Entities.Betrokkene
             {
                 TypePersoon = betrokkene.TypePersoon,
                 Naam = betrokkene.Naam,
                 Omschrijving = betrokkene.Omschrijving,
-                Afbeelding = betrokkene.Afbeelding,
+                Afbeelding = betrokkene.Afbeelding ?? "https://imgur.com/BxPUXot.png",
                 GeboorteDatum = betrokkene.GeboorteDatum,
             };
 
