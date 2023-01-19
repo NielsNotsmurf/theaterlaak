@@ -10,7 +10,8 @@ const voorstellingService = {
 export default voorstellingService;
 
 async function add(Titel, omschrijving, afbeelding, BetrokkeneId) {
-    const body = { Titel: Titel, omschrijving: omschrijving, afbeelding: afbeelding, BetrokkeneId: BetrokkeneId};
+    const body = { Titel: Titel, Omschrijving: omschrijving, Afbeelding: afbeelding, BetrokkeneId: BetrokkeneId};
+    console.log(body);
     let response = await fetch(config.apiUrl + 'api/voorstelling/', {
         method: 'POST',
         headers: {

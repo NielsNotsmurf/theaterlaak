@@ -1,11 +1,12 @@
-using aspnet_react_auth.Helpers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
 using theaterlaak.Converters;
 using theaterlaak.Data;
 using theaterlaak.Exceptions;
+using theaterlaak.Entities;
 using theaterlaak.Services;
+using aspnet_react_auth.Helpers;
+using Microsoft.Extensions.Options;
 
 namespace theaterlaak.Controllers;
 

@@ -55,7 +55,7 @@ namespace theaterlaak.Services
             {
                 Titel = voorstelling.Titel,
                 Omschrijving = voorstelling.Omschrijving,
-                Afbeelding = voorstelling.Img,
+                Afbeelding = voorstelling.Afbeelding ?? "https://imgur.com/y4Y5Yeh.png",
                 BetrokkeneId = voorstelling.BetrokkeneId,
                 
             };

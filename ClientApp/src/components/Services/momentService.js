@@ -7,11 +7,12 @@ const momentService = {
     GetMomentById,
     DeleteMoment
 };
+
 export default momentService;
 
 function AddMoment(startDateTime, endDateTime, voorstellingId, zaalType) {
     const body = { startDateTime, endDateTime, voorstellingId, zaalType };
-    return fetch('https://localhost:7242/api/reservering', {
+    return fetch('https://localhost:7242/api/moment', {
         method: 'POST',
         headers: {
             'Accept': 'application/json',
@@ -31,13 +32,18 @@ async function GetMomenten() {
 }
 
 async function GetPeriodeMomenten() {
-    const requestOptions = {
+    const response = await fetch(config.apiUrl + 'api/moment/', {
         method: 'GET',
-        headers: authHeader()
-    };
+        headers: {
+            'accept': 'application/json',
+            'Content-Type': 'application/json',
+        }
+    });
+    if (!response.ok) {
+            throw new Error(`http error! status: ${response.status}`)
+    }    
 
-    let response = await fetch(config.apiUrl + 'api/moment/', requestOptions).then(handleResponse, handleError);
-    //response afsplitsen naar laatste 3 maanden en indelen per maand
+    return await response.json();
 }
 
 async function DeleteMoment(id) {
@@ -49,10 +55,16 @@ async function DeleteMoment(id) {
 }
 
 async function GetMomentById(id) {
-    const requestOptions = {
+    const response = await fetch(config.apiUrl + `api/moment/${id}`, {
         method: 'GET',
-        headers: authHeader()
-    };
+        headers: {
+            'accept': 'application/json',
+            'Content-Type': 'application/json',
+        }
+    });
+    if (!response.ok) {
+            throw new Error(`http error! status: ${response.status}`)
+    }    
 
-    return await fetch(config.apiUrl + 'api/moment/' + id, requestOptions).then(handleResponse, handleError);
+    return response.json();
 }
