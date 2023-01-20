@@ -8,6 +8,7 @@ import momentService from '../Services/momentService';
 import authService from '../api-authorization/AuthorizeService';
 import { json } from 'react-router-dom';
 import {formatDateTime} from '../Helpers/format';
+import SnackbarManager from '../Componenten/Snackbar/SnackbarManager';
 
 export default function StoelenMenu(props) {
   const [moment, setMoment] = useState(null);
@@ -66,7 +67,7 @@ export default function StoelenMenu(props) {
         })
         addCb(row, number, id)
       } else {
-        //de lelijke popup MUI melding van joeri
+        SnackbarManager.showInfo('Je kunt maar tot een maximum van 10 stoelen reserveren.');
       }
       setLoading(false)
     })();

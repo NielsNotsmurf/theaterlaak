@@ -16,24 +16,26 @@ import Register from './components/Profiel/Register';
 import WithContext from './components/Componenten/ContextHelpers/WithContext';
 import Beheer from './components/Beheer/Beheer';
 import { useNavigate } from 'react-router-dom';
+import SnackbarSingleton from './components/Componenten/Snackbar/SnackbarSingleton';
 
 function App() {
     const navigate = useNavigate();
     return (
         <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <Layout>
-                    <Routes>
-                        <Route path='/' element={<Home />} />
-                        <Route path='/programmering' element={<Programmering />} />
-                        <Route path='/contact' element={<Contact />} />
-                        <Route path='/kaarten' element={<Kaarten />} />
-                        <Route path='/doneren/*' element={<Doneer />} />
-                        <Route path='/registreren' element={<Register navigate={navigate} />} />
-                        <Route path='/login' element={<Login navigate={navigate}/>} />
-                        <Route path='/profiel/*' element={<Profiel />} />
-                        <Route path='/beheer/*' element={<Beheer />} />
-                    </Routes>
-                </Layout>
+            <SnackbarSingleton />
+            <Layout>
+                <Routes>
+                    <Route path='/' element={<Home />} />
+                    <Route path='/programmering' element={<Programmering />} />
+                    <Route path='/contact' element={<Contact />} />
+                    <Route path='/kaarten' element={<Kaarten />} />
+                    <Route path='/doneren/*' element={<Doneer />} />
+                    <Route path='/registreren' element={<Register navigate={navigate} />} />
+                    <Route path='/login' element={<Login navigate={navigate}/>} />
+                    <Route path='/profiel/*' element={<Profiel />} />
+                    <Route path='/beheer/*' element={<Beheer />} />
+                </Routes>
+            </Layout>
         </LocalizationProvider>
     );
 }
