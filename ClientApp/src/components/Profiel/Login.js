@@ -1,3 +1,4 @@
+import e from "cors";
 import React from "react";
 import AccountService from "../Services/AccountService";
 
@@ -11,7 +12,8 @@ export default class Login extends React.Component {
       UserName: "",
       password: "",
       succes: "",
-      token: ""
+      token: "",
+      passwordShown: false,
     };
     this.handleChange = this.handleChange.bind(this);
   }
@@ -30,6 +32,10 @@ export default class Login extends React.Component {
 
   handleChange = (e) => {
     this.setState({ ...this.state, [e.target.name]: e.target.value });
+  };
+
+  togglePasswordVisiblity = (e) => {
+    this.setState({ passwordShown: !this.state.passwordShown });
   };
 
   // componentDidMount() {
@@ -76,7 +82,8 @@ export default class Login extends React.Component {
                   required={true}
                   message="Dit veld is verplicht"
                   id='inputPassword'
-                  type='Password'
+                  // type='Password'
+                  type={this.state.passwordShown ? "text" : "Password"}
                   placeholder='Wachtwoord'
                   name="password"
                   value={this.state.password}
@@ -84,6 +91,7 @@ export default class Login extends React.Component {
                 />
                 <button type='submit' alt="login button">Login</button>
               </form>
+              <button onClick={this.togglePasswordVisiblity}>Toon wachtwoord</button>
             </div>
           </>
         );
