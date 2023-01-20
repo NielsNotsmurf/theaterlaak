@@ -1,7 +1,7 @@
 import e from "cors";
 import React from "react";
 import AccountService from "../Services/AccountService";
-import { loadCaptchaEnginge, LoadCanvasTemplate, LoadCanvasTemplateNoReload, validateCaptcha } from 'react-simple-captcha';
+import { loadCaptchaEnginge, LoadCanvasTemplate, validateCaptcha } from 'react-simple-captcha';
 
 export default class Login extends React.Component {
   constructor(props) {
@@ -17,14 +17,9 @@ export default class Login extends React.Component {
     this.handleChange = this.handleChange.bind(this);
   }
 
-  onSubmit = async (e) => {
+  onSubmit = async (e) => 
+  {
     e.preventDefault();
-    try {
-      this.doSubmit();
-    }
-    catch (error) {
-      console.log(error);
-    }
     try { 
       await AccountService.login(this.state.UserName, this.state.password).then(() => {
         this.setState({ succes: "succesvol" });
@@ -70,7 +65,8 @@ export default class Login extends React.Component {
   //   this.populateState();
   }
 
-  doSubmit = () => {
+  checkCaptcha = (e) => {
+    e.preventDefault();
     let user_captcha = document.getElementById('user_captcha_input').value;
 
     if (validateCaptcha(user_captcha)==false) {
@@ -79,7 +75,8 @@ export default class Login extends React.Component {
     }
     else {
         alert('Captcha is correct');
-        this.setState({ captchaSuccess: true });
+        // this.setState({ captchaSuccess: true });
+        this.setState({ ...this.state, captchaSuccess: true });
     }
   }
 
@@ -114,18 +111,20 @@ export default class Login extends React.Component {
                   onChange={this.handleChange}
                 />
                 {/* <button type='submit' alt="login button">Login</button> */}
-                <div className="form-group">
+              </form>
+              <div className="form-group">
                   <div className="col mt-3">
                       <LoadCanvasTemplate />
                   </div>
                   <div className="col mt-3">
-                      <div><input placeholder="Enter Captcha Value" id="user_captcha_input" name="user_captcha_input" type="text"></input></div>
+                      <div><input placeholder="Enter Captcha Value" id="user_captcha_input" name="user_captcha_input" type="text" onChange={() => this.checkCaptcha}></input></div>
                   </div>
                   <div className="col mt-3">
-                      <div><button class="btn btn-primary" onClick={() => this.doSubmit()}>Login</button></div>
+                      <div>
+                        <button type="submit" disabled={!this.state.captchaSuccess} className="btn btn-primary" alt="login knop" onClick={(e) => this.onSubmit}>Login</button>
+                      </div>
                   </div>
                 </div>
-              </form>
               <button onClick={this.togglePasswordVisiblity}>Toon wachtwoord</button>
             </div>
           </>
