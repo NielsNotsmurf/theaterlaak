@@ -1,6 +1,5 @@
 import { Button } from '@mui/material';
-import { useEffect } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 
 export default function ProfielOverzicht() {
@@ -8,7 +7,7 @@ export default function ProfielOverzicht() {
 
     return (
         <>
-            <Button onClick={() => navigate('/profiel/reserveringen')} >Mijn reserveringen</Button>
+            <Button id='showReserveringen' onClick={() => navigate('/profiel/reserveringen')} >Mijn reserveringen</Button>
         </>
     )
 }
