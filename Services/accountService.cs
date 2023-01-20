@@ -16,6 +16,7 @@ namespace theaterlaak.Services
         Task<IdentityResult> Delete(string id);
         Task<ActionResult<Models.ApplicationUser>> GetById(string id);
         Task Register(RegisterApplicationUser applicationUser);
+        bool PasswordValidation(string password);
     }
 
     public class accountService : IAccountService
@@ -45,8 +46,8 @@ namespace theaterlaak.Services
 
 
             // var tokenString = "ik ga hier een token genereren hehe";
+            
             // return basic user info (without password) and token to store client side
-
             return new AuthenticateResponse
             {
                 Id = user.Id,
@@ -74,9 +75,13 @@ namespace theaterlaak.Services
 
         public async Task Register(RegisterApplicationUser applicationUser)
         {
-            if(!PasswordNotInWoordenboekAndPowned(applicationUser.PasswordHash))
+            if(applicationUser.PasswordHash == applicationUser.UserName)
             {
-                throw new BadRequestException("Password staat in het woordenboek of in powned wachtwoorden lijst!");
+                throw new BadRequestException("Wachtwoord mag niet gelijk zijn aan gebruikersnaam");
+            }
+            if (!PasswordValidation(applicationUser.PasswordHash))
+            {
+                throw new BadRequestException("Wachtwoord mag geen woord uit het woordenboek bevatten/is een veelgebruikt wachtwoord/ is een gehackt wachtwoord/bevat een patroon van 2 of meer dezelfde tekens");
             }
             var user = new Entities.ApplicationUser
             {
@@ -97,11 +102,23 @@ namespace theaterlaak.Services
             }
         }
 
-        public bool PasswordNotInWoordenboekAndPowned(string password)
+        public bool PasswordValidation(string password)
         {
             var powned = new HashSet<string>(File.ReadLines("woordenboek/powned.txt"));
             var woordenboek = new HashSet<string>(File.ReadLines("woordenboek/woordenboek.txt"));
-            if(powned.Contains(password))
+            var top10mostused = new HashSet<string>(File.ReadLines("woordenboek/top10-most-used-pw.txt"));
+            
+            Regex regex = new Regex(@"^(?=.{7,}$)(?=.*[A-Za-z0-9])(?!.*(.)\1{2}).*(?=.*\W)");
+            Match match = regex.Match(password);
+            if(!match.Success)
+            {
+                return false;
+            }
+            if (top10mostused.Contains(password))
+            {
+                return false;
+            }
+            if (powned.Contains(password))
             {
                 return false;
             }
@@ -109,7 +126,6 @@ namespace theaterlaak.Services
             //ToLower om woorden met woordenboek te matchen en regex replace om non alphabetic tekens/cijfers te verwijderen
             var passwordTolower = password.ToLower();
             passwordTolower = Regex.Replace(passwordTolower, @"[^a-zA-Z]+", "");
-            Console.WriteLine(passwordTolower);
             if (woordenboek.Contains(passwordTolower))
             {
                 return false;

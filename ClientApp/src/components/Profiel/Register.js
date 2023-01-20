@@ -1,7 +1,7 @@
 import React from "react";
-import { useState } from "react";
 import AccountService from "../Services/AccountService";
 import PasswordChecklist from "react-password-checklist"
+import { loadCaptchaEnginge, LoadCanvasTemplate, LoadCanvasTemplateNoReload, validateCaptcha } from 'react-simple-captcha';
 
 export default class Register extends React.Component {
     constructor(props) {
@@ -27,11 +27,29 @@ export default class Register extends React.Component {
     //aanpassen
     onSubmit = async (e) => {
         e.preventDefault();
-        await AccountService.register(this.state.UserName, this.state.password).then(() => {
+        await AccountService.register(this.state.firstName, this.state.lastName, this.state.UserName, this.state.password, this.state.confirmPassword, this.state.PhoneNumber).then(() => {
             this.setState({ succes: "succesvol" });
             this.props.navigate("/login");
         });
     };
+
+    componentDidMount() {
+        loadCaptchaEnginge(6);
+    }
+
+    doSubmit = () => {
+        let user_captcha = document.getElementById('user_captcha_input').value;
+
+        if (validateCaptcha(user_captcha)==true) {
+            alert('Captcha is correct');
+            loadCaptchaEnginge(6);
+            document.getElementById('user_captcha_input').value = '';
+        }
+        else {
+            alert('Captcha is incorrect');
+            document.getElementById('user_captcha_input').value = '';
+        }
+    }
 
     //aanpassen
     render() {
@@ -65,6 +83,7 @@ export default class Register extends React.Component {
                                     required={true}
                                     message="Dit veld is verplicht"
                                     type="email"
+                                    pattern="[a-z0-9._%+-]+@?(live|gmail|yahoo|hotmail)+\.[a-z]{2,3}$"
                                     name="UserName"
                                     autoComplete="new-username"
                                     value={this.state.UserName}
@@ -99,9 +118,20 @@ export default class Register extends React.Component {
                                     value={this.state.PhoneNumber}
                                     onChange={this.handleChange}
                                 />
+                                <div className="form-group">
+                                    <div className="col mt-3">
+                                        <LoadCanvasTemplate />
+                                    </div>
+                                    <div className="col mt-3">
+                                        <div><input placeholder="Enter Captcha Value" id="user_captcha_input" name="user_captcha_input" type="text"></input></div>
+                                    </div>
+                                    <div className="col mt-3">
+                                        <div><button class="btn btn-primary" onClick={() => this.doSubmit()}>Submit</button></div>
+                                    </div>
+                                </div>
                                 <PasswordChecklist
                                     rules={["capital", "lowercase", "specialChar", "minLength", "match"]}
-                                    minLength={7} //moet in de config staan en die moeten we hier ophalen
+                                    minLength={7}
                                     value={this.state.password}
                                     valueAgain={this.state.confirmPassword}
                                     messages={{

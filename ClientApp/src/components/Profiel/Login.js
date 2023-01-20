@@ -1,8 +1,7 @@
+import e from "cors";
 import React from "react";
 import AccountService from "../Services/AccountService";
-
-
-
+import { loadCaptchaEnginge, LoadCanvasTemplate, validateCaptcha } from 'react-simple-captcha';
 
 export default class Login extends React.Component {
   constructor(props) {
@@ -11,12 +10,15 @@ export default class Login extends React.Component {
       UserName: "",
       password: "",
       succes: "",
-      token: ""
+      token: "",
+      captchaSuccess: false,
+      passwordShown: false,
     };
     this.handleChange = this.handleChange.bind(this);
   }
 
-  onSubmit = async (e) => {
+  onSubmit = async (e) => 
+  {
     e.preventDefault();
     try { 
       await AccountService.login(this.state.UserName, this.state.password).then(() => {
@@ -30,6 +32,10 @@ export default class Login extends React.Component {
 
   handleChange = (e) => {
     this.setState({ ...this.state, [e.target.name]: e.target.value });
+  };
+
+  togglePasswordVisiblity = (e) => {
+    this.setState({ passwordShown: !this.state.passwordShown });
   };
 
   // componentDidMount() {
@@ -52,6 +58,27 @@ export default class Login extends React.Component {
   //     this.setState({ ...this.state, from_email: "" });
   //   }
   // }
+
+  componentDidMount() {
+      loadCaptchaEnginge(6);
+  //   this._subscription = authService.subscribe(() => this.populateState());
+  //   this.populateState();
+  }
+
+  checkCaptcha = (e) => {
+    e.preventDefault();
+    let user_captcha = document.getElementById('user_captcha_input').value;
+
+    if (validateCaptcha(user_captcha)==false) {
+        alert('Captcha is incorrect');
+        document.getElementById('user_captcha_input').value = '';
+    }
+    else {
+        alert('Captcha is correct');
+        // this.setState({ captchaSuccess: true });
+        this.setState({ ...this.state, captchaSuccess: true });
+    }
+  }
 
   render() {
     switch (this.state.succes) {
@@ -76,14 +103,29 @@ export default class Login extends React.Component {
                   required={true}
                   message="Dit veld is verplicht"
                   id='inputPassword'
-                  type='Password'
+                  // type='Password'
+                  type={this.state.passwordShown ? "text" : "Password"}
                   placeholder='Wachtwoord'
                   name="password"
                   value={this.state.password}
                   onChange={this.handleChange}
                 />
-                <button type='submit' alt="login button">Login</button>
+                {/* <button type='submit' alt="login button">Login</button> */}
               </form>
+              <div className="form-group">
+                  <div className="col mt-3">
+                      <LoadCanvasTemplate />
+                  </div>
+                  <div className="col mt-3">
+                      <div><input placeholder="Enter Captcha Value" id="user_captcha_input" name="user_captcha_input" type="text" onChange={() => this.checkCaptcha}></input></div>
+                  </div>
+                  <div className="col mt-3">
+                      <div>
+                        <button type="submit" disabled={!this.state.captchaSuccess} className="btn btn-primary" alt="login knop" onClick={(e) => this.onSubmit}>Login</button>
+                      </div>
+                  </div>
+                </div>
+              <button onClick={this.togglePasswordVisiblity}>Toon wachtwoord</button>
             </div>
           </>
         );
