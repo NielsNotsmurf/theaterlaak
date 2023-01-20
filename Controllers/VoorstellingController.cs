@@ -7,6 +7,7 @@ using theaterlaak.Entities;
 using theaterlaak.Services;
 using aspnet_react_auth.Helpers;
 using Microsoft.Extensions.Options;
+using Microsoft.AspNetCore.Authorization;
 
 namespace theaterlaak.Controllers;
 
@@ -42,6 +43,7 @@ public class VoorstellingController : ControllerBase
     }
 
     [HttpPost]
+    [Authorize(Roles = "Beheerder")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -52,6 +54,7 @@ public class VoorstellingController : ControllerBase
     }
 
     [HttpPut("{id}")]
+    [Authorize(Roles = "Beheerder")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -61,6 +64,7 @@ public class VoorstellingController : ControllerBase
     }
 
     [HttpDelete("{id}")]
+    [Authorize(Roles = "Beheerder")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]

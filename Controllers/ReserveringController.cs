@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using aspnet_react_auth.Helpers;
 using theaterlaak.Services;
 using Microsoft.Extensions.Options;
+using Microsoft.AspNetCore.Authorization;
 
 namespace theaterlaak.Controllers;
 
@@ -21,6 +22,7 @@ public class ReserveringController : ControllerBase
     }
 
     [HttpGet]
+    [Authorize(Roles = "Beheerder")]
     public async Task<List<Models.Reservering>> GetReserveringen()
     {
         return await _reserveringService.GetReserveringen();
@@ -33,6 +35,7 @@ public class ReserveringController : ControllerBase
     }
 
     [HttpGet("[action]/{momentId}/{userId}")]
+    [Authorize(Roles = "Beheerder")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<List<Models.Reservering>> GetKaartjesHoudersOverzicht(int momentId, string userId)
@@ -41,6 +44,7 @@ public class ReserveringController : ControllerBase
     }
 
     [HttpPost]
+    [Authorize(Roles = "Gebruiker")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -51,6 +55,7 @@ public class ReserveringController : ControllerBase
     }
 
     [HttpPut("{id}")]
+    [Authorize(Roles = "Gebruiker")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -61,6 +66,7 @@ public class ReserveringController : ControllerBase
     }
 
     [HttpDelete("{id}")]
+    [Authorize(Roles = "Gebruiker")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -70,6 +76,7 @@ public class ReserveringController : ControllerBase
     }
 
     [HttpGet("[action]/{userId}")]
+    [Authorize(Roles = "Gebruiker")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<List<Models.Reservering>> GetReserveringenByUserId(string userId)

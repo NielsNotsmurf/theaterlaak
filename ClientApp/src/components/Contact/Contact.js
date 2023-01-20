@@ -42,24 +42,10 @@ export class Contact extends Component {
     this.setState({ ...this.state, [e.target.name]: e.target.value });
   };
   componentDidMount() {
-    this._subscription = AuthorizeService.subscribe(() => this.populateState());
-    this.populateState();
-  }
-
-  componentWillUnmount() {
-    AuthorizeService.unsubscribe(this._subscription);
-  }
-
-  async populateState() {
-    const [isAuthenticated, user] = await Promise.all([AuthorizeService.isAuthenticated(), AuthorizeService.getUser()])
-    if (user) {
-      this.setState({
-        isAuthenticated,
-        from_email: user && user.name
-      });
-    } else {
-      this.setState({ ...this.state, from_email:"" });
-    }
+    let storedUser = JSON.parse(localStorage.getItem('user'))
+    console.log(storedUser.accessToken)
+    if (storedUser)
+      this.setState({ ...this.state, from_email: storedUser});
   }
 
   render() {

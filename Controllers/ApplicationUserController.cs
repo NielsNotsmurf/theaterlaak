@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using theaterlaak.Data;
 using theaterlaak.Exceptions;
 using theaterlaak.Converters;
+using Microsoft.AspNetCore.Authorization;
 
 namespace theaterlaak.Controllers;
 
@@ -17,6 +18,7 @@ public class ApplicationUserController : ControllerBase
     }
 
     [HttpGet]
+    [Authorize(Roles = "Beheerder")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<List<Models.ApplicationUser>> GetUsers()
