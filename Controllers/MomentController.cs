@@ -7,10 +7,12 @@ using theaterlaak.Entities;
 using theaterlaak.Services;
 using aspnet_react_auth.Helpers;
 using Microsoft.Extensions.Options;
+using Microsoft.AspNetCore.Authorization;
 
 namespace theaterlaak.Controllers;
 
 [ApiController]
+[Authorize]
 [Route("/api/[controller]")]
 public class MomentController : ControllerBase
 {
@@ -43,6 +45,7 @@ public class MomentController : ControllerBase
     }
 
     [HttpPost]
+    [Authorize(Roles = "Beheerder")]
     [ProducesResponseType(StatusCodes.Status200OK)]
 	[ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult> AddMoment([FromBody]Commands.AddMoment moment)
@@ -52,6 +55,7 @@ public class MomentController : ControllerBase
     }
 
     [HttpDelete("{id}")]
+    [Authorize(Roles = "Beheerder")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult> DeleteMoment(int id)

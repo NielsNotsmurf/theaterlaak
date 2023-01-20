@@ -52,7 +52,7 @@ function UpdateReservering(user) {
 }
 
 function getReserveringenByUserId(userId) {
-    return fetch(`https://localhost:7242/api/reservering/getreserveringenbyuserid/${userId}`, {
+    return fetch(config.apiUrl + `api/Account/reservering/getreserveringenbyuserid/${userId}`, {
         method: 'GET',
         headers: {
             'Accept': 'application/json',
@@ -70,7 +70,7 @@ function DeleteReservering(id) {
 }
 
 function getKaartHoudersShow(momentId, userId) {
-    return fetch(`https://localhost:7242/api/reservering/GetKaartjesHoudersOverzicht/${momentId}/${userId}`, {
+    return fetch(config.apiUrl + `api/Account/reservering/GetKaartjesHoudersOverzicht/${momentId}/${userId}`, {
         method: 'GET',
         headers: {
             'Accept': 'application/json',

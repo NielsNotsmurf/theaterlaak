@@ -25,7 +25,7 @@ function AddMoment(startDateTime, endDateTime, voorstellingId, zaalType) {
 async function GetMomenten() {
     const requestOptions = {
         method: 'GET',
-        headers: authHeader()
+        headers: authHeader(),
     };
 
     return await fetch(config.apiUrl + 'api/moment/', requestOptions).then(handleResponse, handleError);
@@ -34,10 +34,7 @@ async function GetMomenten() {
 async function GetPeriodeMomenten() {
     const response = await fetch(config.apiUrl + 'api/moment/', {
         method: 'GET',
-        headers: {
-            'accept': 'application/json',
-            'Content-Type': 'application/json',
-        }
+        headers: authHeader(),
     });
     if (!response.ok) {
             throw new Error(`http error! status: ${response.status}`)
