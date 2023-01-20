@@ -16,6 +16,7 @@ namespace theaterlaak.Services
         Task<IdentityResult> Delete(string id);
         Task<ActionResult<Models.ApplicationUser>> GetById(string id);
         Task Register(RegisterApplicationUser applicationUser);
+        bool PasswordValidation(string password);
     }
 
     public class accountService : IAccountService
@@ -45,8 +46,8 @@ namespace theaterlaak.Services
 
 
             // var tokenString = "ik ga hier een token genereren hehe";
+            
             // return basic user info (without password) and token to store client side
-
             return new AuthenticateResponse
             {
                 Id = user.Id,

@@ -14,8 +14,8 @@ public record RegisterApplicationUser
     public string PasswordHash { get; init; } = string.Empty;
     [Required]
     public string ConfirmPassword { get; init; } = string.Empty;
-    [RegularExpression(@"^([0-9]{10})$", ErrorMessage = "Telefoonnummer moet 10 cijfers bevatten")]
-    public int Telefoonnummer { get; init; } 
+    [RegularExpression("^\\+?[1-9][0-9]{7,14}$", ErrorMessage = "Voorbeeld: +31612345678")]
+    public string Telefoonnummer { get; init; } 
 
 
 }

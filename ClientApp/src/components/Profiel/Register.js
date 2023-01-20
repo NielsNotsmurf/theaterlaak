@@ -83,6 +83,7 @@ export default class Register extends React.Component {
                                     required={true}
                                     message="Dit veld is verplicht"
                                     type="email"
+                                    pattern="[a-z0-9._%+-]+@?(live|gmail|yahoo|hotmail)+\.[a-z]{2,3}$"
                                     name="UserName"
                                     autoComplete="new-username"
                                     value={this.state.UserName}
@@ -130,7 +131,7 @@ export default class Register extends React.Component {
                                 </div>
                                 <PasswordChecklist
                                     rules={["capital", "lowercase", "specialChar", "minLength", "match"]}
-                                    minLength={7} //moet in de config staan en die moeten we hier ophalen
+                                    minLength={7}
                                     value={this.state.password}
                                     valueAgain={this.state.confirmPassword}
                                     messages={{
