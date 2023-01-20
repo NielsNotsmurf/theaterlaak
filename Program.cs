@@ -23,9 +23,8 @@ builder.Services.AddCors(option =>
     option.AddPolicy("ClientPermission", policy => 
     {
         policy.AllowAnyHeader()
-            .WithOrigins("https://localhost:44492")
-            .AllowAnyHeader()
             .AllowAnyMethod()
+            .WithOrigins("https://localhost:44492")
             .AllowCredentials();
     });
 });
@@ -90,7 +89,7 @@ app.UseMiddleware<DomainExceptionMiddleware>();
 app.UseOpenApi();
 app.UseSwaggerUi3(o => o.DocumentTitle = "Theather Laak");
 
-app.UseHttpsRedirection();
+// app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
 
@@ -102,8 +101,8 @@ app.UseAuthorization();
 app.UseCors("ClientPermission");
 app.UseEndpoints(endpoints => 
 {
-    app.MapControllers();
-    app.MapHub<ChatHub>("/hubs");
+    endpoints.MapControllers();
+    endpoints.MapHub<ChatHub>("/hubs");
 });
 
 
