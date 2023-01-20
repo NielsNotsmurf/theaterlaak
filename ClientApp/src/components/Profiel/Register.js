@@ -15,6 +15,8 @@ export default class Register extends React.Component {
             PhoneNumber: "",
             error: "",
             succes: "",
+            passwordShown: false,
+            confirmPasswordShown: false,
         }
         this.handleChange = this.handleChange.bind(this);
 
@@ -32,6 +34,12 @@ export default class Register extends React.Component {
             this.props.navigate("/login");
         });
     };
+
+    togglePasswordVisiblity = () => {
+        this.setState({ passwordShown: !this.state.passwordShown,
+        confirmPasswordShown: !this.state.confirmPasswordShown
+        });
+      };
 
     //aanpassen
     render() {
@@ -75,7 +83,8 @@ export default class Register extends React.Component {
                                 <input
                                     required={true}
                                     message="Dit veld is verplicht"
-                                    type="password"
+                                    // type="password"
+                                    type={this.state.passwordShown ? "text" : "password"}
                                     name="password"
                                     autoComplete="new-password"
                                     value={this.state.password}
@@ -85,7 +94,8 @@ export default class Register extends React.Component {
                                 <input
                                     required={true}
                                     message="Dit veld is verplicht"
-                                    type="password"
+                                    // type="password"
+                                    type={this.state.confirmPasswordShown ? "text" : "password"}
                                     name="confirmPassword"
                                     autoComplete="confirm-password"
                                     value={this.state.confirmPassword}
@@ -97,6 +107,7 @@ export default class Register extends React.Component {
                                     message="Dit veld is optioneel"
                                     type="number"
                                     name="PhoneNumber"
+                                    placeholder="+31612345678"
                                     value={this.state.PhoneNumber}
                                     onChange={this.handleChange}
                                 />
@@ -115,8 +126,9 @@ export default class Register extends React.Component {
                                     }}
                                 />
                                 <br></br>
-                                <button type='submit' alt="Registreer Knop">Registreer</button>
+                                <button type='submit' alt="Registreer">Registreer</button>
                             </form>
+                            <button onClick={this.togglePasswordVisiblity} alt="toon wachtwoord">Toon wachtwoord</button>
                         </div>
                     </>
                 );

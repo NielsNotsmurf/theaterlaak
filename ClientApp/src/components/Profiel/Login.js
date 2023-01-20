@@ -34,7 +34,7 @@ export default class Login extends React.Component {
     this.setState({ ...this.state, [e.target.name]: e.target.value });
   };
 
-  togglePasswordVisiblity = (e) => {
+  togglePasswordVisiblity = () => {
     this.setState({ passwordShown: !this.state.passwordShown });
   };
 
@@ -91,7 +91,7 @@ export default class Login extends React.Component {
                 />
                 <button type='submit' alt="login button">Login</button>
               </form>
-              <button onClick={this.togglePasswordVisiblity}>Toon wachtwoord</button>
+              <button onClick={this.togglePasswordVisiblity} alt="toon wachtwoord knop">Toon wachtwoord</button>
             </div>
           </>
         );
