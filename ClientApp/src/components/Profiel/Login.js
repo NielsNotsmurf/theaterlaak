@@ -1,4 +1,3 @@
-import e from "cors";
 import React from "react";
 import AccountService from "../Services/AccountService";
 import { loadCaptchaEnginge, LoadCanvasTemplate, validateCaptcha } from 'react-simple-captcha';
@@ -65,8 +64,7 @@ export default class Login extends React.Component {
   //   this.populateState();
   }
 
-  checkCaptcha = (e) => {
-    e.preventDefault();
+  checkCaptcha = () => {
     let user_captcha = document.getElementById('user_captcha_input').value;
 
     if (validateCaptcha(user_captcha)==false) {
@@ -121,7 +119,7 @@ export default class Login extends React.Component {
                   </div>
                   <div className="col mt-3">
                       <div>
-                        <button type="submit" disabled={!this.state.captchaSuccess} className="btn btn-primary" alt="login knop" onClick={(e) => this.onSubmit}>Login</button>
+                        <button disabled={!this.state.captchaSuccess} className="btn btn-primary" alt="login knop" onClick={this.onSubmit}>Login</button>
                       </div>
                   </div>
                 </div>
