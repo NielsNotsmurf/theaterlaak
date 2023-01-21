@@ -1,6 +1,5 @@
 import './custom.css';
-import { Route, Routes } from 'react-router-dom';
-import { Kaarten } from './components/Profiel/Kaarten';
+import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
 import { Layout } from './components/Layout';
 import { AdapterDayjs} from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
@@ -16,7 +15,11 @@ import Register from './components/Profiel/Register';
 import WithContext from './components/Componenten/ContextHelpers/WithContext';
 import Beheer from './components/Beheer/Beheer';
 import { useNavigate } from 'react-router-dom';
-import SnackbarSingleton from './components/Componenten/Snackbar/SnackbarSingleton';
+import React, { Component, useEffect, useState } from 'react';
+import AppRoutes from './AppRoutes';
+import './custom.css';
+import { getLocalUser } from './components/Helpers/storageHelper';
+
 
 function App() {
     const { updateContextState } = useContext(MainContext);
@@ -38,7 +41,34 @@ function App() {
                 </Routes>
             </Layout>
         </LocalizationProvider>
+
+// export default function App() {
+//     // const navigate = useNavigate();
+//     const [roles, setRoles] = useState([]);
+//     useEffect(() => {
+//         updateRoles();
+//     }, [localStorage.getItem('user')]);
+//     const updateRoles = () => {
+//         const user = getLocalUser();
+//         if (user) {
+//             setRoles(user.roles);
+//         }
+//     };
+//     return (
+//         <Layout>
+//             <Routes>
+//                 {AppRoutes.map((route, index) => {
+//                     if (route.authRequired && !roles.includes('Gebruiker')){
+//                         return <Route path={route.path} key={index} element={<Navigate key={index} to="/login" />} />;
+//                     }
+//                     else if (route.AdminRequired && !roles.includes('Beheerder')) {
+//                         return <Route path={route.path}key={index} element={<Navigate key={index} to="/login" />} />;
+//                     }
+//                     else {
+//                         return <Route key={index} path={route.path} element={route.element} />;
+//                     }
+//                 })}
+//             </Routes>
+//         </Layout>
     );
 }
-
-export default WithContext(MainContextProvider, App);

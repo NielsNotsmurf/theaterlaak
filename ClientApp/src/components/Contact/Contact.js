@@ -2,6 +2,7 @@ import { Component } from 'react';
 import { send } from 'emailjs-com';
 import '../styles/contact.css';
 import logoLaak from '../../images/laak.jpeg';
+import { getLocalUser } from '../Helpers/storageHelper';
 
 export class Contact extends Component {
   constructor(props) {
@@ -41,8 +42,9 @@ export class Contact extends Component {
     this.setState({ ...this.state, [e.target.name]: e.target.value });
   };
   componentDidMount() {
-    let storedUser = JSON.parse(localStorage.getItem('user'))
-    this.setState({ ...this.state, from_email: storedUser.email});
+    let storedUser = getLocalUser();
+    if (storedUser != null)
+      this.setState({ ...this.state, from_email: storedUser.email});
   }
 
   render() {

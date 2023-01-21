@@ -137,4 +137,15 @@ public async Task<IActionResult> authenticate([FromBody] LoginApplicationUser ap
         return response;
         
     }
+
+    [HttpGet]
+    public async Task<ActionResult<List<Reservering>>> getReserveringenFromUser(string id){
+       var user = await _UserManager.FindByIdAsync(id);
+       var applicationUser = new ApplicationUser
+        {
+            Email = user.UserName
+        };
+        var reserveringen = applicationUser.Reserveringen;
+        return (reserveringen);
+    }
 }

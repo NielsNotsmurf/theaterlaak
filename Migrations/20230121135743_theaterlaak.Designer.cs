@@ -11,8 +11,8 @@ using theaterlaak.Data;
 namespace theaterlaak.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230120170113_TheaterLaak")]
-    partial class TheaterLaak
+    [Migration("20230121135743_theaterlaak")]
+    partial class theaterlaak
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
