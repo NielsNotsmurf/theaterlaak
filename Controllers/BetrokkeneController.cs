@@ -7,9 +7,9 @@ using theaterlaak.Entities;
 using theaterlaak.Services;
 using aspnet_react_auth.Helpers;
 using Microsoft.Extensions.Options;
+using Microsoft.AspNetCore.Authorization;
 
 namespace theaterlaak.Controllers;
-
 [ApiController]
 [Route("/api/[controller]")]
 public class BetrokkeneController : ControllerBase
@@ -25,6 +25,7 @@ public class BetrokkeneController : ControllerBase
         _appSettings = appSettings.Value;
     }
     [HttpPost]
+    [Authorize(Roles = "Beheerder")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
