@@ -1,4 +1,3 @@
-import e from "cors";
 import React from "react";
 import AccountService from "../Services/AccountService";
 import { loadCaptchaEnginge, LoadCanvasTemplate, validateCaptcha } from 'react-simple-captcha';
@@ -39,7 +38,7 @@ export default class Login extends React.Component {
     this.setState({ ...this.state, [e.target.name]: e.target.value });
   };
 
-  togglePasswordVisiblity = (e) => {
+  togglePasswordVisiblity = () => {
     this.setState({ passwordShown: !this.state.passwordShown });
   };
 

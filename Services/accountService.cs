@@ -104,6 +104,7 @@ namespace theaterlaak.Services
 
         public bool PasswordValidation(string password)
         {
+            //TODO: 3 hashets niet mooi en minimaal 7 teken moet alleen in de backend
             var powned = new HashSet<string>(File.ReadLines("woordenboek/powned.txt"));
             var woordenboek = new HashSet<string>(File.ReadLines("woordenboek/woordenboek.txt"));
             var top10mostused = new HashSet<string>(File.ReadLines("woordenboek/top10-most-used-pw.txt"));
