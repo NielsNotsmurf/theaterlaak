@@ -3,6 +3,7 @@ import AccountService from "../Services/AccountService";
 import { loadCaptchaEnginge, LoadCanvasTemplate, validateCaptcha } from 'react-simple-captcha';
 import applicationUserService from '../Services/applicationUserService';
 import { getLocalUser } from '../Helpers/storageHelper';
+import SnackbarManager from "../Componenten/Snackbar/SnackbarManager";
 
 export default class Login extends React.Component {
     constructor(props) {
@@ -27,6 +28,7 @@ export default class Login extends React.Component {
                 await AccountService.login(this.state.UserName, this.state.password);
 
                 this.props.updateContextState({ user: await applicationUserService.getUserById(getLocalUser().id), roles: getLocalUser().roles })
+                SnackbarManager.showInfo("U bent ingelogd");
                 this.props.navigate("/");
 
             } catch (error) {
