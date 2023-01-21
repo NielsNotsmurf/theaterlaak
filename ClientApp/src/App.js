@@ -10,15 +10,17 @@ import Login from './components/Profiel/Login';
 import MainContextProvider, { MainContext } from './components/MainContext';
 import Profiel from './components/Profiel/Profiel';
 import Programmering from './components/Programmering/Programmering';
-import React, { useContext } from 'react';
 import Register from './components/Profiel/Register';
+import SnackbarSingleton from './components/Componenten/Snackbar/SnackbarSingleton';
 import WithContext from './components/Componenten/ContextHelpers/WithContext';
 import Beheer from './components/Beheer/Beheer';
 import { useNavigate } from 'react-router-dom';
-import React, { Component, useEffect, useState } from 'react';
+import React, { Component, useEffect, useState, useContext } from 'react';
 import AppRoutes from './AppRoutes';
 import './custom.css';
 import { getLocalUser } from './components/Helpers/storageHelper';
+import PrivateRoute from './components/PrivateRoute';
+import Uitloggen from './components/Profiel/Uitloggen';
 
 
 function App() {
@@ -29,15 +31,19 @@ function App() {
             <SnackbarSingleton />
             <Layout>
                 <Routes>
-                    <Route path='/' element={<Home />} />
-                    <Route path='/programmering' element={<Programmering />} />
-                    <Route path='/contact' element={<Contact />} />
-                    <Route path='/kaarten' element={<Kaarten />} />
-                    <Route path='/doneren/*' element={<Doneer />} />
+                    <Route path='/' element={<PrivateRoute />}>
+                        <Route path='/' element={<Home />} />
+                        <Route path='/programmering' element={<Programmering />} />
+                        <Route path='/contact' element={<Contact />} />
+                        {/* <Route path='/kaarten' element={<Kaarten />} /> */}
+                        <Route path='/doneren/*' element={<Doneer />} />
+                        <Route path='/profiel/*' element={<Profiel />} />
+                        <Route path='/beheer/*' element={<Beheer />} />
+                        <Route path='/logout' element={<Uitloggen />} />
+                    </Route>
+
                     <Route path='/registreren' element={<Register navigate={navigate} />} />
                     <Route path='/login' element={<Login navigate={navigate} updateContextState={updateContextState} />} />
-                    <Route path='/profiel/*' element={<Profiel />} />
-                    <Route path='/beheer/*' element={<Beheer />} />
                 </Routes>
             </Layout>
         </LocalizationProvider>
@@ -72,3 +78,5 @@ function App() {
 //         </Layout>
     );
 }
+
+export default WithContext(MainContextProvider, App);

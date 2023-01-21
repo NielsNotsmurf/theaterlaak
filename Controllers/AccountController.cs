@@ -47,8 +47,12 @@ public async Task<IActionResult> authenticate([FromBody] LoginApplicationUser ap
                 var claims = new List<Claim> { new Claim(ClaimTypes.Name, _user.UserName) };
                 var roles = await _UserManager.GetRolesAsync(_user);
                 var Email = _user.UserName;
+                var rolesString = "";
                 foreach (var role in roles)
-                    claims.Add(new Claim(ClaimTypes.Role, role));
+                {
+                    rolesString += role + ", ";
+                }
+                claims.Add(new Claim("Roles", rolesString));
 
                 var tokenOptions = new JwtSecurityToken
                 (
