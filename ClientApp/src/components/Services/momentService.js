@@ -14,10 +14,7 @@ function AddMoment(startDateTime, endDateTime, voorstellingId, zaalType) {
     const body = { startDateTime, endDateTime, voorstellingId, zaalType };
     return fetch('https://localhost:7242/api/moment', {
         method: 'POST',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-        },
+        headers: authHeader(),
         body: JSON.stringify(body),
     }).then(handleResponse, handleError);
 }

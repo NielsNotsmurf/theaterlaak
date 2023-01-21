@@ -43,9 +43,7 @@ export class Contact extends Component {
   };
   componentDidMount() {
     let storedUser = JSON.parse(localStorage.getItem('user'))
-    console.log(storedUser.accessToken)
-    if (storedUser)
-      this.setState({ ...this.state, from_email: storedUser});
+    this.setState({ ...this.state, from_email: storedUser.email});
   }
 
   render() {

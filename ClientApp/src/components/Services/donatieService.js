@@ -10,8 +10,8 @@ const donatieService = {
 export default donatieService;
 
 
-function getDonaties(userAuthToken) {
-    const response =  fetch('https://ikdoneer.azurewebsites.net/api/donatie', {
+async function getDonaties(userAuthToken) {
+    const response = await fetch('https://ikdoneer.azurewebsites.net/api/donatie', {
         method: 'GET',
         headers: {
             'Accept': 'application/json',
@@ -24,7 +24,7 @@ function getDonaties(userAuthToken) {
         throw new Error(`Http error! status: ${response.status}`)
     }
 
-    return  response.json();
+    return await response.json();
 }
 
 function postDonatie(userAuthToken, doelId, hoeveelheid, tekst) {
