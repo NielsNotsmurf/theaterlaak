@@ -11,7 +11,7 @@ export default class Login extends React.Component {
       password: "",
       succes: "",
       token: "",
-      captchaSuccess: false,
+      captcha: "",
       passwordShown: false,
     };
     this.handleChange = this.handleChange.bind(this);
@@ -20,13 +20,18 @@ export default class Login extends React.Component {
   onSubmit = async (e) => 
   {
     e.preventDefault();
-    try { 
-      await AccountService.login(this.state.UserName, this.state.password).then(() => {
-        this.setState({ succes: "succesvol" });
-      });
-      this.props.navigate("/");
-    } catch (error) {
-      console.log(error);
+    if (validateCaptcha(this.state.captcha)==true) {
+      this.setState({ ...this.state, captchaSuccess: true });
+        try { 
+          await AccountService.login(this.state.UserName, this.state.password).then(() => {
+            this.setState({ succes: "succesvol" });
+          });
+          this.props.navigate("/");
+        } catch (error) {
+          console.log(error);
+        }
+    } else {
+      alert('Captcha is onjuist');
     }
   };
 
@@ -63,21 +68,6 @@ export default class Login extends React.Component {
       loadCaptchaEnginge(6);
   //   this._subscription = authService.subscribe(() => this.populateState());
   //   this.populateState();
-  }
-
-  checkCaptcha = (e) => {
-    e.preventDefault();
-    let user_captcha = document.getElementById('user_captcha_input').value;
-
-    if (validateCaptcha(user_captcha)==false) {
-        alert('Captcha is incorrect');
-        document.getElementById('user_captcha_input').value = '';
-    }
-    else {
-        alert('Captcha is correct');
-        // this.setState({ captchaSuccess: true });
-        this.setState({ ...this.state, captchaSuccess: true });
-    }
   }
 
   render() {
@@ -117,11 +107,11 @@ export default class Login extends React.Component {
                       <LoadCanvasTemplate />
                   </div>
                   <div className="col mt-3">
-                      <div><input placeholder="Enter Captcha Value" id="user_captcha_input" name="user_captcha_input" type="text" onChange={() => this.checkCaptcha}></input></div>
+                      <input placeholder="Enter Captcha Value" id="user_captcha_input" name="captcha" type="text" onChange={this.handleChange}></input>
                   </div>
                   <div className="col mt-3">
                       <div>
-                        <button type="submit" disabled={!this.state.captchaSuccess} className="btn btn-primary" alt="login knop" onClick={(e) => this.onSubmit}>Login</button>
+                        <button type="submit" className="btn btn-primary" alt="login knop" onClick={this.onSubmit}>Login</button>
                       </div>
                   </div>
                 </div>

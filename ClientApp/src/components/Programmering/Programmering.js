@@ -47,7 +47,7 @@ export class Programmering extends Component {
   async componentDidMount() {
     let fetch = await momentService.GetPeriodeMomenten();
     let maandmomenten = [];
-    for (let maandIndex = 0; maandIndex < 2 ; maandIndex++) {
+    for (let maandIndex = 0; maandIndex < 3 ; maandIndex++) {
       maandmomenten.push([]);
       for (let momentIndex = 0; momentIndex < fetch.length; momentIndex++) { 
         if (new Date(fetch[momentIndex].startDateTime).getMonth() == new Date(new Date().setMonth(new Date().getMonth()+maandIndex)).getMonth()) {

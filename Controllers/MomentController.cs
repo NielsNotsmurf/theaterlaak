@@ -12,7 +12,6 @@ using Microsoft.AspNetCore.Authorization;
 namespace theaterlaak.Controllers;
 
 [ApiController]
-[Authorize]
 [Route("/api/[controller]")]
 public class MomentController : ControllerBase
 {
@@ -45,7 +44,7 @@ public class MomentController : ControllerBase
     }
 
     [HttpPost]
-    [Authorize(Roles = "Beheerder")]
+    [Authorize]
     [ProducesResponseType(StatusCodes.Status200OK)]
 	[ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult> AddMoment([FromBody]Commands.AddMoment moment)
@@ -55,7 +54,7 @@ public class MomentController : ControllerBase
     }
 
     [HttpDelete("{id}")]
-    [Authorize(Roles = "Beheerder")]
+    [Authorize]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult> DeleteMoment(int id)

@@ -61,6 +61,8 @@ function getReserveringenByUserId(userId) {
     }).json();
 }
 
+
+
 function DeleteReservering(id) {
     const requestOptions = {
         method: 'DELETE',
