@@ -122,7 +122,7 @@ export default class Register extends React.Component {
                                 <input
                                     required={false}
                                     message="Dit veld is optioneel"
-                                    type="number"
+                                    type="text"
                                     name="PhoneNumber"
                                     placeholder="+31612345678"
                                     value={this.state.PhoneNumber}

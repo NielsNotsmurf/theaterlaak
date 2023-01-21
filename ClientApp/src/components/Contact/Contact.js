@@ -1,4 +1,3 @@
-import AuthorizeService from '../api-authorization/AuthorizeService';
 import { Component } from 'react';
 import { send } from 'emailjs-com';
 import '../styles/contact.css';

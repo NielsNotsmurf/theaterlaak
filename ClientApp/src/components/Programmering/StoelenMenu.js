@@ -5,10 +5,9 @@ import SeatPicker from 'react-seat-picker';
 import '../styles/StoelenMenu.css';
 import reserveringService from '../Services/reserveringService';
 import momentService from '../Services/momentService';
-import authService from '../api-authorization/AuthorizeService';
-import { json } from 'react-router-dom';
 import {formatDateTime} from '../Helpers/format';
 import SnackbarManager from '../Componenten/Snackbar/SnackbarManager';
+import applicationUserService from '../Services/applicationUserService';
 
 export default function StoelenMenu(props) {
   const [moment, setMoment] = useState(null);
@@ -90,9 +89,9 @@ export default function StoelenMenu(props) {
   }
 
 
-  function submit () {
-    reserveringService.add(authService.getUser().Id, moment.id, reserveringStoelen)
-  }
+//   function submit () {
+//     reserveringService.AddReservering(applicationUserService.getUserById(), moment.id, reserveringStoelen)
+//   }
 
     if (loadingPage) {
       return (

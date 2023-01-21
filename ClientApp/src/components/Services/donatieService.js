@@ -1,5 +1,3 @@
-import { authHeader, config, handleError, handleResponse } from '../Helpers';
-
 const donatieService = {
     getDonaties,
     postDonatie,
@@ -27,10 +25,9 @@ async function getDonaties(userAuthToken) {
     return await response.json();
 }
 
-function postDonatie(userAuthToken, doelId, hoeveelheid, tekst) {
+async function postDonatie(userAuthToken, doelId, hoeveelheid, tekst) {
     const body = { Doel: parseInt(doelId), Hoeveelheid: parseInt(hoeveelheid), Tekst: tekst };
-    console.log(body);
-    fetch('https://ikdoneer.azurewebsites.net/api/donatie', {
+    await fetch('https://ikdoneer.azurewebsites.net/api/donatie', {
         method: 'POST',
         headers: {
             'Accept': 'application/json',
@@ -44,8 +41,8 @@ function postDonatie(userAuthToken, doelId, hoeveelheid, tekst) {
         }).catch((error) => console.log(error));
 }
 
-function countDonatieTotaal(userAuthToken) {
-    const donaties =  this.getDonaties(userAuthToken);
+async function countDonatieTotaal(userAuthToken) {
+    const donaties =  await this.getDonaties(userAuthToken);
 
     if (donaties.length > 0) {
         let aantal = 0;
@@ -58,8 +55,8 @@ function countDonatieTotaal(userAuthToken) {
     }
 }
 
-function getGoedeDoelen(userAuthToken) {
-    const response =  fetch('https://ikdoneer.azurewebsites.net/api/goededoelen', {
+async function getGoedeDoelen(userAuthToken) {
+    const response = await fetch('https://ikdoneer.azurewebsites.net/api/goededoelen', {
         method: 'GET',
         headers: {
             'Accept': 'application/json',
@@ -72,11 +69,11 @@ function getGoedeDoelen(userAuthToken) {
         throw new Error(`Http error! status: ${response.status}`)
     }
 
-    return  response.json();
+    return await response.json();
 }
 
-function getGoedDoelById(userAuthToken, doelId) {
-    const response =  fetch(`https://ikdoneer.azurewebsites.net/api/goededoelen/${doelId}`, {
+async function getGoedDoelById(userAuthToken, doelId) {
+    const response = await fetch(`https://ikdoneer.azurewebsites.net/api/goededoelen/${doelId}`, {
         method: 'GET',
         headers: {
             'Accept': 'application/json',
@@ -89,5 +86,5 @@ function getGoedDoelById(userAuthToken, doelId) {
         throw new Error(`Http error! status: ${response.status}`)
     }
 
-    return  response.json();
+    return await response.json();
 }

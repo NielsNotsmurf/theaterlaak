@@ -8,10 +8,10 @@ import Contact from './components/Contact/Contact';
 import Doneer  from './components/Doneer/Doneer';
 import Home from './components/Home';
 import Login from './components/Profiel/Login';
-import MainContextProvider from './components/MainContext';
+import MainContextProvider, { MainContext } from './components/MainContext';
 import Profiel from './components/Profiel/Profiel';
 import Programmering from './components/Programmering/Programmering';
-import React from 'react';
+import React, { useContext } from 'react';
 import Register from './components/Profiel/Register';
 import WithContext from './components/Componenten/ContextHelpers/WithContext';
 import Beheer from './components/Beheer/Beheer';
@@ -19,6 +19,7 @@ import { useNavigate } from 'react-router-dom';
 import SnackbarSingleton from './components/Componenten/Snackbar/SnackbarSingleton';
 
 function App() {
+    const { updateContextState } = useContext(MainContext);
     const navigate = useNavigate();
     return (
         <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -31,7 +32,7 @@ function App() {
                     <Route path='/kaarten' element={<Kaarten />} />
                     <Route path='/doneren/*' element={<Doneer />} />
                     <Route path='/registreren' element={<Register navigate={navigate} />} />
-                    <Route path='/login' element={<Login navigate={navigate}/>} />
+                    <Route path='/login' element={<Login navigate={navigate} updateContextState={updateContextState} />} />
                     <Route path='/profiel/*' element={<Profiel />} />
                     <Route path='/beheer/*' element={<Beheer />} />
                 </Routes>

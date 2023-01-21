@@ -1,5 +1,4 @@
 import { authHeader, config, handleError, handleResponse } from '../Helpers';
-import AuthorizeService from '../api-authorization/AuthorizeService';
 
 const AccountService = {
     login,

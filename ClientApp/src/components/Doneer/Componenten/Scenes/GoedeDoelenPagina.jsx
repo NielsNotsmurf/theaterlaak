@@ -9,7 +9,7 @@ const StyledDiv = styled('div')(() => ({
 }));
 
 export default function GoedeDoelenPagina(props) {
-    const { accesToken } = props;
+    const { accessToken } = props;
 
     const [donaties, setDonaties] = useState(0);
     const [goedeDoelen, setGoedeDoelen] = useState([]);
@@ -20,8 +20,8 @@ export default function GoedeDoelenPagina(props) {
     const isMediumScreen = useMediaQuery((theme) => theme.breakpoints.up('md'));
 
     useState(async () => {
-        const bedrag = await donatieService.countDonatieTotaal(accesToken);
-        const doelen = await donatieService.getGoedeDoelen(accesToken);
+        const bedrag = await donatieService.countDonatieTotaal(accessToken);
+        const doelen = await donatieService.getGoedeDoelen(accessToken);
         setGoedeDoelen(doelen);
         setDonaties(bedrag);
     }, [])

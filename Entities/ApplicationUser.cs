@@ -4,6 +4,7 @@ namespace theaterlaak.Entities;
 
 public class ApplicationUser : IdentityUser 
 {
-    public int TelefoonNummer { get; init; }
-    public List<Reservering>? Reserveringen { get; init; }
+    public string? JwtDonatieToken { get; set; }
+    public string? TelefoonNummer { get; set; }
+    public List<Reservering>? Reserveringen { get; set; }
 }

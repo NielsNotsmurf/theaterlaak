@@ -26,7 +26,7 @@ export default function VerleenToegangPagina() {
             <Typography variant='h4'>Voordat je via onze applicatie kan doneren moet je ons eerst toegang geven tot je donatie account.</Typography>
             <StyledGiveAccesDiv>
                 <Typography variant='h5' sx={{ mb: 2}}>Door op onderstaande knop te drukken wordt je naar de pagina gestuurd waar je ons toegang kunt geven tot je doneeraccount.</Typography>
-                {/* <Button variant='contained' sx={{ width: '50%'}} onClick={() => window.location.replace('https://ikdoneer.azurewebsites.net/Toegang?url=https%3A%2F%2Flocalhost:44492/doneren/toegang/')}>Geef toegang</Button> */}
+                <Button variant='contained' sx={{ width: '50%'}} onClick={() => window.location.replace('https://ikdoneer.azurewebsites.net/Toegang?url=https%3A%2F%2Flocalhost:44492/doneren/toegang/')}>Geef toegang</Button>
             </StyledGiveAccesDiv>
         </StyledDiv>
     )

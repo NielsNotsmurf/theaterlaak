@@ -7,6 +7,7 @@ public static class ApplicationUserConverter {
     {
         Id = applicationUser.Id,
         UserName = applicationUser.UserName,
+        JwtDonatieToken = applicationUser.JwtDonatieToken,
         Reserveringen = applicationUser.Reserveringen?.Select(ToDto).ToList(),
     };
 

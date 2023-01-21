@@ -1,10 +1,12 @@
 import React from "react";
 import AccountService from "../Services/AccountService";
 import { loadCaptchaEnginge, LoadCanvasTemplate, validateCaptcha } from 'react-simple-captcha';
+import applicationUserService from '../Services/applicationUserService';
 
 export default class Login extends React.Component {
   constructor(props) {
     super(props);
+
     this.state = {
       UserName: "",
       password: "",
@@ -19,12 +21,14 @@ export default class Login extends React.Component {
   onSubmit = async (e) => 
   {
     e.preventDefault();
-    if (validateCaptcha(this.state.captcha)==true) {
+    if (validateCaptcha(this.state.captcha) === true) {
       this.setState({ ...this.state, captchaSuccess: true });
         try { 
           await AccountService.login(this.state.UserName, this.state.password).then(() => {
             this.setState({ succes: "succesvol" });
           });
+          console.log(JSON.parse(localStorage.getItem('user')))
+          this.props.updateContextState({ user: await applicationUserService.getUserById(JSON.parse(localStorage.getItem('user')).id)})
           this.props.navigate("/");
         } catch (error) {
           console.log(error);
