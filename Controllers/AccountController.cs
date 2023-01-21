@@ -104,18 +104,6 @@ public async Task<IActionResult> authenticate([FromBody] LoginApplicationUser ap
         };
         return Ok(applicationUser);
     }
-    [HttpGet("{id}")]
-    [Authorize(Roles = "Gebruiker")]
-    public async Task<ActionResult<ApplicationUser>> GetMe([FromHeader] JwtSecurityToken token)
-    {
-        Console.WriteLine(token);
-        // var user = await _UserManager.FindByIdAsync(id);
-        // var applicationUser = new ApplicationUser
-        // {
-        //     Email = user.UserName
-        // };
-        return Ok();
-    }
 //update password
     // [HttpPut("{id}")]
     // public async Task<ActionResult<ApplicationUser>> Update(string id, [FromBody] ApplicationUser applicationUser)
