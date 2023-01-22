@@ -8,7 +8,8 @@ const AccountService = {
     getAll,
     getById,
     update,
-    delete: _delete
+    delete: _delete,
+    getData
 };
 export default AccountService;
 
@@ -84,4 +85,16 @@ function _delete(id) {
     };
 
     return fetch(config.apiUrl + 'api/Account/' + id, requestOptions).then(handleResponse, handleError);
+}
+
+function getData(voornaam, achternaam, username, telefoonnummer) {
+    const body = { Voornaam:voornaam, Achternaam: achternaam, UserName: username, Telefoonnummer: telefoonnummer};
+    return fetch('Api/account/getmyjnfo', {
+        method: 'GET',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(body),
+    }).then(handleResponse, handleError);
 }

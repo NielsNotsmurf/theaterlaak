@@ -40,23 +40,23 @@ export default class Register extends React.Component {
         confirmPasswordShown: !this.state.confirmPasswordShown
         });
       };
-    componentDidMount() {
-        loadCaptchaEnginge(6);
-    }
+    // componentDidMount() {
+    //     loadCaptchaEnginge(6);
+    // }
 
-    doSubmit = () => {
-        let user_captcha = document.getElementById('user_captcha_input').value;
+    // doSubmit = () => {
+    //     let user_captcha = document.getElementById('user_captcha_input').value;
 
-        if (validateCaptcha(user_captcha)==true) {
-            alert('Captcha is correct');
-            loadCaptchaEnginge(6);
-            document.getElementById('user_captcha_input').value = '';
-        }
-        else {
-            alert('Captcha is incorrect');
-            document.getElementById('user_captcha_input').value = '';
-        }
-    }
+    //     if (validateCaptcha(user_captcha)==true) {
+    //         alert('Captcha is correct');
+    //         loadCaptchaEnginge(6);
+    //         document.getElementById('user_captcha_input').value = '';
+    //     }
+    //     else {
+    //         alert('Captcha is incorrect');
+    //         document.getElementById('user_captcha_input').value = '';
+    //     }
+    // }
 
     //aanpassen
     render() {
@@ -128,7 +128,7 @@ export default class Register extends React.Component {
                                     value={this.state.PhoneNumber}
                                     onChange={this.handleChange}
                                 />
-                                <div className="form-group">
+                                {/* <div className="form-group">
                                     <div className="col mt-3">
                                         <LoadCanvasTemplate />
                                     </div>
@@ -138,7 +138,7 @@ export default class Register extends React.Component {
                                     <div className="col mt-3">
                                         <div><button class="btn btn-primary" onClick={() => this.doSubmit()}>Submit</button></div>
                                     </div>
-                                </div>
+                                </div> */}
                                 <PasswordChecklist
                                     rules={["capital", "lowercase", "specialChar", "minLength", "match"]}
                                     minLength={7}

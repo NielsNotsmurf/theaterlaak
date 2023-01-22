@@ -1,6 +1,6 @@
 import React from "react";
 import AccountService from "../Services/AccountService";
-import { loadCaptchaEnginge, LoadCanvasTemplate, validateCaptcha } from 'react-simple-captcha';
+// import { loadCaptchaEnginge, LoadCanvasTemplate, validateCaptcha } from 'react-simple-captcha';
 
 export default class Login extends React.Component {
   constructor(props) {
@@ -10,7 +10,7 @@ export default class Login extends React.Component {
       password: "",
       succes: "",
       token: "",
-      captchaSuccess: false,
+      // captchaSuccess: false,
       passwordShown: false,
     };
     this.handleChange = this.handleChange.bind(this);
@@ -58,25 +58,25 @@ export default class Login extends React.Component {
   //   }
   // }
 
-  componentDidMount() {
-      loadCaptchaEnginge(6);
+  // componentDidMount() {
+  //     loadCaptchaEnginge(6);
   //   this._subscription = authService.subscribe(() => this.populateState());
   //   this.populateState();
-  }
+  // }
 
-  checkCaptcha = () => {
-    let user_captcha = document.getElementById('user_captcha_input').value;
+  // checkCaptcha = () => {
+  //   let user_captcha = document.getElementById('user_captcha_input').value;
 
-    if (validateCaptcha(user_captcha)==false) {
-        alert('Captcha is incorrect');
-        document.getElementById('user_captcha_input').value = '';
-    }
-    else {
-        alert('Captcha is correct');
-        // this.setState({ captchaSuccess: true });
-        this.setState({ ...this.state, captchaSuccess: true });
-    }
-  }
+  //   if (validateCaptcha(user_captcha)==false) {
+  //       alert('Captcha is incorrect');
+  //       document.getElementById('user_captcha_input').value = '';
+  //   }
+  //   else {
+  //       alert('Captcha is correct');
+  //       // this.setState({ captchaSuccess: true });
+  //       this.setState({ ...this.state, captchaSuccess: true });
+  //   }
+  // }
 
   render() {
     switch (this.state.succes) {
@@ -110,7 +110,7 @@ export default class Login extends React.Component {
                 />
                 {/* <button type='submit' alt="login button">Login</button> */}
               </form>
-              <div className="form-group">
+              {/* <div className="form-group">
                   <div className="col mt-3">
                       <LoadCanvasTemplate />
                   </div>
@@ -122,7 +122,7 @@ export default class Login extends React.Component {
                         <button disabled={!this.state.captchaSuccess} className="btn btn-primary" alt="login knop" onClick={this.onSubmit}>Login</button>
                       </div>
                   </div>
-                </div>
+                </div> */}
               <button onClick={this.togglePasswordVisiblity}>Toon wachtwoord</button>
             </div>
           </>
