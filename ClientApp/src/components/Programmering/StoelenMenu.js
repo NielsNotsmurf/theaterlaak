@@ -94,10 +94,10 @@ export default function StoelenMenu(props) {
     console.log(reserveringStoelenId);
     reserveringService.AddReservering(getLocalUser().id, moment.id, reserveringStoelenId).then((response) => {
       if (response.status == 200) {
-        SnackbarManager.showSuccess('Reservering succesvol geplaatst');
+        SnackbarManager.showInfo('Reservering succesvol geplaatst');
       }
       else {
-        SnackbarManager.showError('Er is iets fout gegaan');
+        SnackbarManager.showWarning('Er is iets fout gegaan');
       }
     }
     )

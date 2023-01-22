@@ -5,7 +5,8 @@ const momentService = {
     GetMomenten,
     GetPeriodeMomenten,
     GetMomentById,
-    DeleteMoment
+    DeleteMoment,
+    
 };
 
 export default momentService;

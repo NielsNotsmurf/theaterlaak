@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from 'react'
 import { MainContext } from '../../../MainContext';
 import reserveringService from '../../../Services/reserveringService';
+import { formatDateTime } from '../../../Helpers/format';
 
 
 export default function ReserveringenOverzicht() {
@@ -33,7 +34,11 @@ export default function ReserveringenOverzicht() {
     return (
         <>
             {reserveringen && reserveringen.length > 0 ? reserveringen.map((reservering) => 
-                <>{reservering.startTijd + reservering.eindTijd + reservering.voorstellingTitle}</>
+                <>
+                    StartTijd: {formatDateTime(new Date(reservering.startTijd))}<br/>
+                    EindTijd: {formatDateTime(new Date(reservering.eindTijd))}<br/>
+                    Voorstelling: {reservering.voorstellingTitle}<br/>
+                </>
             ): <>niks gevonden</>}
         </>
     )

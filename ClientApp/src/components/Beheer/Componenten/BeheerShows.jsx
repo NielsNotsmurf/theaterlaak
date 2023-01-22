@@ -29,7 +29,7 @@ export default function BeheerShows() {
         setIsLoading(true);
 
         try {
-            const fetchedShows = await momentService.getAll();
+            const fetchedShows = await momentService.GetMomenten();
             setShows(fetchedShows);
         } catch (error) {
             console.error(error);

@@ -33,26 +33,22 @@ public class AccountController : ControllerBase
     }
 
 
-[HttpPost("authenticate")]
-public async Task<IActionResult> authenticate([FromBody] LoginApplicationUser applicationUser)
-{
-    var _user = await _UserManager.FindByNameAsync(applicationUser.UserName);
-    if (_user != null)
-        if (await _UserManager.CheckPasswordAsync(_user, applicationUser.PasswordHash))
-        {
+    [HttpPost("authenticate")]
+    public async Task<IActionResult> authenticate([FromBody] LoginApplicationUser applicationUser)
+    {
+        var _user = await _UserManager.FindByNameAsync(applicationUser.UserName);
+        if (_user != null)
+            if (await _UserManager.CheckPasswordAsync(_user, applicationUser.PasswordHash))
+            {
                 var secret = new SymmetricSecurityKey(
-                    Encoding.UTF8.GetBytes(
-                        "awef98awef978haweof8g7aw789efhh789awef8h9awh8911pascal11efh89awe98f89uawef9j8aw89hefawef"));
+                     Encoding.UTF8.GetBytes(
+                         "awef98awef978haweof8g7aw789efhh789awef8h9awh8911pascal11efh89awe98f89uawef9j8aw89hefawef"));
                 var signingCredentials = new SigningCredentials(secret, SecurityAlgorithms.HmacSha256);
                 var claims = new List<Claim> { new Claim(ClaimTypes.Name, _user.UserName) };
                 var roles = await _UserManager.GetRolesAsync(_user);
                 var Email = _user.UserName;
-                var rolesString = "";
                 foreach (var role in roles)
-                {
-                    rolesString += role + ", ";
-                }
-                claims.Add(new Claim("Roles", rolesString));
+                    claims.Add(new Claim(ClaimTypes.Role, role));
 
                 var tokenOptions = new JwtSecurityToken
                 (
@@ -62,16 +58,17 @@ public async Task<IActionResult> authenticate([FromBody] LoginApplicationUser ap
                     expires: DateTime.Now.AddMinutes(180),
                     signingCredentials: signingCredentials
                 );
-            return Ok(new { accessToken = new JwtSecurityTokenHandler().WriteToken(tokenOptions), Roles=roles, Id= _user.Id, Email= _user.UserName});
-        }
+                return Ok(new { accessToken = new JwtSecurityTokenHandler().WriteToken(tokenOptions), Roles = roles, Id = _user.Id, Email = _user.UserName });
+            }
 
-    return Unauthorized();
-}
+        return Unauthorized();
+    }
 
     [HttpPost("register")]
     public async Task<ActionResult<ApplicationUser>> Register([FromBody] RegisterApplicationUser applicationUser)
     {
-        if (!(await _RoleManager.RoleExistsAsync("Beheerder")) || !(await _RoleManager.RoleExistsAsync("Gebruiker"))) { 
+        if (!(await _RoleManager.RoleExistsAsync("Beheerder")) || !(await _RoleManager.RoleExistsAsync("Gebruiker")))
+        {
             var result1 = await _RoleManager.CreateAsync(new IdentityRole("Beheerder"));
             var result2 = await _RoleManager.CreateAsync(new IdentityRole("Gebruiker"));
         }
@@ -84,7 +81,8 @@ public async Task<IActionResult> authenticate([FromBody] LoginApplicationUser ap
             // save 
             await _UserManager.CreateAsync(user, applicationUser.PasswordHash);
             await _UserManager.AddToRoleAsync(user, "Gebruiker");
-            if (applicationUser.UserName == "theaterlaak@gmail.com") {
+            if (applicationUser.UserName == "theaterlaak@gmail.com")
+            {
                 await _UserManager.AddToRoleAsync(user, "Beheerder");
             }
 
@@ -96,7 +94,7 @@ public async Task<IActionResult> authenticate([FromBody] LoginApplicationUser ap
             return BadRequest(ex.Message);
         }
     }
-    
+
     [HttpGet("{id}")]
     [Authorize(Roles = "Gebruiker")]
     public async Task<ActionResult<ApplicationUser>> GetById(string id)
@@ -108,7 +106,7 @@ public async Task<IActionResult> authenticate([FromBody] LoginApplicationUser ap
         };
         return Ok(applicationUser);
     }
-//update password
+    //update password
     // [HttpPut("{id}")]
     // public async Task<ActionResult<ApplicationUser>> Update(string id, [FromBody] ApplicationUser applicationUser)
     // {
@@ -131,21 +129,22 @@ public async Task<IActionResult> authenticate([FromBody] LoginApplicationUser ap
     //         return BadRequest(ex.Message);
     //     }
     // }
-    
+
     [HttpDelete("{id}")]
     [Authorize(Roles = "Beheerder")]
     public async Task<IdentityResult> Delete(string id)
     {
         var response = await _UserManager.DeleteAsync(await _UserManager.FindByIdAsync(id));
-        
+
         return response;
-        
+
     }
 
     [HttpGet]
-    public async Task<ActionResult<List<Reservering>>> getReserveringenFromUser(string id){
-       var user = await _UserManager.FindByIdAsync(id);
-       var applicationUser = new ApplicationUser
+    public async Task<ActionResult<List<Reservering>>> getReserveringenFromUser(string id)
+    {
+        var user = await _UserManager.FindByIdAsync(id);
+        var applicationUser = new ApplicationUser
         {
             Email = user.UserName
         };
