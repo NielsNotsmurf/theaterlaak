@@ -53,14 +53,12 @@ function UpdateReservering(user) {
     return fetch(config.apiUrl + 'api/Reservering/' + user.id, requestOptions).then(handleResponse, handleError);
 }
 
-function getReserveringenByUserId(userId) {
-    return fetch(config.apiUrl + `api/Account/reservering/getreserveringenbyuserid/${userId}`, {
+async function getReserveringenByUserId(userId) {
+    const response = await fetch(config.apiUrl + `api/reservering/getreserveringenbyuserid/${userId}`, {
         method: 'GET',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-        }
-    }).json();
+        headers: authHeader()
+    });
+    return await response.json();
 }
 
 
@@ -73,12 +71,10 @@ function DeleteReservering(id) {
     return fetch(config.apiUrl + 'api/Reservering/' + id, requestOptions).then(handleResponse, handleError);
 }
 
-function getKaartHoudersShow(momentId, userId) {
-    return fetch(config.apiUrl + `api/Account/reservering/GetKaartjesHoudersOverzicht/${momentId}/${userId}`, {
+async function getKaartHoudersShow(momentId, userId) {
+    const response = await fetch(config.apiUrl + `api/reservering/GetKaartjesHoudersOverzicht/${momentId}/${userId}`, {
         method: 'GET',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-        }
-    }).json();
+        headers: authHeader()
+    });
+    return await response.json();
 }

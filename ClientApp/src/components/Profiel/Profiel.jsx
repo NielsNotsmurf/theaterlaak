@@ -3,6 +3,7 @@ import ProfielOverzicht from './Componenten/ProfielOverzicht';
 import ReserveringenOverzicht from './Componenten/Scenes/ReserveringenOverzicht';
 
 export default function Profiel() {
+    
     return (
         <Routes>
             <Route path='/' element={<ProfielOverzicht />}/>

@@ -74,7 +74,8 @@ namespace theaterlaak.Services
                 .OrderBy(r => r.Moment!.StartDateTime)
                 .ToListAsync();
 
-            reserveringen.ForEach((reservering) => {
+            reserveringen.ForEach((reservering) =>
+            {
                 reservering.GereserveerdeStoelen = _context.Stoelen.Where(s => s.ReserveringId == reservering.Id).ToList();
             });
 
@@ -157,7 +158,8 @@ namespace theaterlaak.Services
             var reserveringQuery = _context.Reserveringen
             .AsNoTracking()
             .Include(r => r.Moment)
-                .ThenInclude(m => m!.Voorstelling)
+                .ThenInclude(m => m!.Zaal)
+                    .ThenInclude(z => z!.Stoelen)
             .Where(v => v.UserId == userId)
             .AsQueryable();
 

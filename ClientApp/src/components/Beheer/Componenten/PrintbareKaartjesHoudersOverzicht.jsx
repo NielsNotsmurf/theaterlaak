@@ -3,6 +3,7 @@ import { forwardRef, useEffect, useRef, useState } from 'react'
 import { useParams } from 'react-router-dom';
 import ReactToPrint from 'react-to-print';
 import momentService from '../../Services/momentService';
+import reserveringService from '../../Services/reserveringService';
 
 const StyledDiv = styled('div')(({ theme }) => ({
     padding: theme.spacing(2)
@@ -67,8 +68,8 @@ const PrintbareKaartjesHoudersOverzicht = () => {
             setIsLoading(true);
 
             try {
-                const kaarthouders = await momentService.getKaartHoudersShow(showId, "68abc662-caac-420f-9930-d63ea96a5509");
-                const showtje = await momentService.getMomentById(showId);
+                const kaarthouders = await reserveringService.getKaartHoudersShow(showId, "68abc662-caac-420f-9930-d63ea96a5509");
+                const showtje = await momentService.GetMomentById(showId);
                 setShowArray(kaarthouders);
                 setShow(showtje);
             } catch (error) {
