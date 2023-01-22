@@ -14,10 +14,7 @@ async function add(Titel, omschrijving, afbeelding, BetrokkeneId) {
     console.log(body);
     let response = await fetch(config.apiUrl + 'api/voorstelling/', {
         method: 'POST',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-        },
+        headers: authHeader(),
         body: JSON.stringify(body),
     }).then(handleResponse, handleError);
     if (!response.ok) {
@@ -29,10 +26,7 @@ async function add(Titel, omschrijving, afbeelding, BetrokkeneId) {
 async function getAll() {
     const response = await fetch(config.apiUrl + 'api/voorstelling/', {
         method: 'GET',
-        headers: {
-            'accept': 'application/json',
-            'Content-Type': 'application/json',
-        }
+        headers:authHeader()
     });
     if (!response.ok) {
             throw new Error(`http error! status: ${response.status}`)

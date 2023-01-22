@@ -13,10 +13,7 @@ async function add(TypePersoon, Naam, Omschrijving, Afbeelding, GeboorteDatum) {
     const body = { TypePersoon: TypePersoon, Naam: Naam, Omschrijving: Omschrijving, Afbeelding:Afbeelding, GeboorteDatum:GeboorteDatum};
     const response = await fetch(config.apiUrl + 'api/betrokkene/', {
         method: 'POST',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-        },
+        headers: authHeader(),
         body: JSON.stringify(body),
     }).then(handleResponse, handleError);
     if (!response.ok) {
@@ -28,10 +25,7 @@ async function add(TypePersoon, Naam, Omschrijving, Afbeelding, GeboorteDatum) {
 async function getAll() {
     const response = await fetch(config.apiUrl + 'api/betrokkene/', {
         method: 'GET',
-        headers: {
-            'accept': 'application/json',
-            'Content-Type': 'application/json',
-        }
+        headers: authHeader(),
     });
     if (!response.ok) {
             throw new Error(`http error! status: ${response.status}`)
