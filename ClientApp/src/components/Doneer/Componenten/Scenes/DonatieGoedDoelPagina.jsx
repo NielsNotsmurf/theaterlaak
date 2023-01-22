@@ -1,9 +1,10 @@
 import { Button, FormLabel, IconButton, styled, TextField, Typography } from '@mui/material';
 import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { DoneerContext } from '../../DoneerContext';
 import donatieService from '../../../Services/donatieService';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { MainContext } from '../../../MainContext';
+import SnackbarManager from '../../../Componenten/Snackbar/SnackbarManager';
 
 const StyledDiv = styled('div')(({ theme }) => ({
     display: 'flex',
@@ -29,7 +30,7 @@ const StyledForm = styled('form')(({ theme }) => ({
 export default function DonatieGoedDoelPagina(props) {
     const { goedDoelId } = props;
 
-    const { userAccesToken } = useContext(DoneerContext);
+    const { user } = useContext(MainContext);
 
     const [doel, setDoel] = useState(null);
     const [isSaving, setIsSaving] = useState(false);
@@ -37,6 +38,7 @@ export default function DonatieGoedDoelPagina(props) {
     const navigate = useNavigate();
 
     useEffect(() => {
+        console.log(user);
         fetchGoedDoel();
     }, [])
 
@@ -44,7 +46,8 @@ export default function DonatieGoedDoelPagina(props) {
         setIsSaving(true);
 
         try {
-            const gevondenDoel = await donatieService.getGoedDoelById(userAccesToken, goedDoelId);
+            const gevondenDoel = await donatieService.getGoedDoelById(user.jwtDonatieToken, goedDoelId);
+            console.log(gevondenDoel);
             setDoel(gevondenDoel);
         } catch (error) {
             console.log(error);
@@ -59,10 +62,11 @@ export default function DonatieGoedDoelPagina(props) {
         try {
             const bedrag = event.target[0].value;
             const tekst = event.target[2].value;
-            await donatieService.postDonatie(userAccesToken, goedDoelId, bedrag, tekst);
+            await donatieService.postDonatie(user.jwtDonatieToken, goedDoelId, bedrag, tekst);
             navigate('/doneren')
         } catch (error) {
             console.log(error);
+            SnackbarManager.showError(error);
         } finally {
             setIsSaving(false);
         }

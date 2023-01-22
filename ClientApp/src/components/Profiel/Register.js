@@ -12,7 +12,7 @@ export default class Register extends React.Component {
             UserName: "",
             password: "",
             confirmPassword: "",
-            PhoneNumber: "",
+            PhoneNumber: 0,
             error: "",
             succes: "",
             passwordShown: false,
@@ -122,7 +122,7 @@ export default class Register extends React.Component {
                                 <input
                                     required={false}
                                     message="Dit veld is optioneel"
-                                    type="number"
+                                    type="text"
                                     name="PhoneNumber"
                                     placeholder="+31612345678"
                                     value={this.state.PhoneNumber}
@@ -136,7 +136,7 @@ export default class Register extends React.Component {
                                         <div><input placeholder="Enter Captcha Value" id="user_captcha_input" name="user_captcha_input" type="text"></input></div>
                                     </div>
                                     <div className="col mt-3">
-                                        <div><button class="btn btn-primary" onClick={() => this.doSubmit()}>Submit</button></div>
+                                        <div><button className="btn btn-primary" onClick={() => this.doSubmit()}>Submit</button></div>
                                     </div>
                                 </div> */}
                                 <PasswordChecklist

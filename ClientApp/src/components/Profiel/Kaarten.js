@@ -2,26 +2,7 @@ import React from "react";
 import { useState } from "react";
 import { useEffect } from "react";
 import KaartenComponent from "./KaartenComponent";
-
-const fetchlist = 
-[{
-                id: 1,
-                Stoel: 25,
-                Rang: "a",
-                Zaal: "Zaal 1",
-                voorstelling: "Elvis",
-                naam: "Henk Krol",
-                datum: "2023-02-01"
-            },
-            {
-                id: 2,
-                Stoel: 15,
-                Rang: "b",
-                Zaal: "Zaal 3",
-                voorstelling: "Jan",
-                naam: "Henk Krol",
-                datum: "2023-01-01"
-            }]
+import reserveringService from "../Services/reserveringService";
 
 export function Kaarten(props) 
 {
@@ -32,11 +13,12 @@ export function Kaarten(props)
         fetchKaartenList();
     }, [])
 
-    function fetchKaartenList() {
+    async function fetchKaartenList() {
         setIsLoading(true);
 
         try {
-            setKaartenLijst(fetchlist);
+            // setKaartenLijst(fetchlist);
+            await setKaartenLijst
         } catch (error) {
             console.log(error);
         } finally {

@@ -37,7 +37,7 @@ builder.Services.AddSwaggerDocument(document =>
         Type = OpenApiSecuritySchemeType.ApiKey,
         Name = "Authorization",
         In = OpenApiSecurityApiKeyLocation.Header,
-        Description = "Type into the text box: Bearer {jour JWT token}."
+        Description = "Bearer "
     });
 
     document.OperationProcessors.Add(new AspNetCoreOperationSecurityScopeProcessor("JWT"));
@@ -53,9 +53,6 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.R
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
-builder.Services.AddIdentityServer()
-    .AddApiAuthorization<ApplicationUser, ApplicationDbContext>();
-
 builder.Services.AddAuthentication(opt =>
 {
     opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -70,7 +67,7 @@ builder.Services.AddAuthentication(opt =>
         ValidateIssuerSigningKey = true,
         ValidIssuer = "https://localhost:7242",
         ValidAudience = "https://localhost:7242",
-        IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes("awef98awef978haweof8g7aw789efhh789awef8h9awh89efh89awe98f89uawef9j8aw89hefawef"))
+        IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes("awef98awef978haweof8g7aw789efhh789awef8h9awh8911pascal11efh89awe98f89uawef9j8aw89hefawef"))
     };
 });
 
@@ -103,7 +100,6 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthentication();
-app.UseIdentityServer();
 app.UseAuthorization();
 
 app.UseCors();

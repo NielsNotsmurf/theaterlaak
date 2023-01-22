@@ -42,13 +42,17 @@ public async Task<IActionResult> authenticate([FromBody] LoginApplicationUser ap
         {
                 var secret = new SymmetricSecurityKey(
                     Encoding.UTF8.GetBytes(
-                        "awef98awef978haweof8g7aw789efhh789awef8h9awh89efh89awe98f89uawef"));
+                        "awef98awef978haweof8g7aw789efhh789awef8h9awh8911pascal11efh89awe98f89uawef9j8aw89hefawef"));
                 var signingCredentials = new SigningCredentials(secret, SecurityAlgorithms.HmacSha256);
                 var claims = new List<Claim> { new Claim(ClaimTypes.Name, _user.UserName) };
                 var roles = await _UserManager.GetRolesAsync(_user);
                 var Email = _user.UserName;
+                var rolesString = "";
                 foreach (var role in roles)
-                    claims.Add(new Claim(ClaimTypes.Role, role));
+                {
+                    rolesString += role + ", ";
+                }
+                claims.Add(new Claim("Roles", rolesString));
 
                 var tokenOptions = new JwtSecurityToken
                 (
@@ -80,6 +84,10 @@ public async Task<IActionResult> authenticate([FromBody] LoginApplicationUser ap
             // save 
             await _UserManager.CreateAsync(user, applicationUser.PasswordHash);
             await _UserManager.AddToRoleAsync(user, "Gebruiker");
+            if (applicationUser.UserName == "theaterlaak@gmail.com") {
+                await _UserManager.AddToRoleAsync(user, "Beheerder");
+            }
+
             return Ok();
         }
         catch (Exception ex)
@@ -132,5 +140,16 @@ public async Task<IActionResult> authenticate([FromBody] LoginApplicationUser ap
         
         return response;
         
+    }
+
+    [HttpGet]
+    public async Task<ActionResult<List<Reservering>>> getReserveringenFromUser(string id){
+       var user = await _UserManager.FindByIdAsync(id);
+       var applicationUser = new ApplicationUser
+        {
+            Email = user.UserName
+        };
+        var reserveringen = applicationUser.Reserveringen;
+        return (reserveringen);
     }
 }

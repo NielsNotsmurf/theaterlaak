@@ -51,7 +51,7 @@ public class ReserveringController : ControllerBase
     public async Task<ActionResult> AddReservering(Commands.AddOrUpdateReservering reservering)
     {
         await _reserveringService.AddReservering(reservering);
-        return NoContent();
+        return Ok();
     }
 
     [HttpPut("{id}")]

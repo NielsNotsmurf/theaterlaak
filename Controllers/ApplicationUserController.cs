@@ -48,4 +48,20 @@ public class ApplicationUserController : ControllerBase
 
         return user.ToDto();
     }
+
+    [HttpPut("{id}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult> UpdateUser(int id, Commands.UpdateUser user)
+    {
+        var updatingUser = await _dbContext.Users.FindAsync(id);
+        if (updatingUser == null)
+            throw new NotFoundException("Gebruiker is niet gevonden.");
+
+        updatingUser.JwtDonatieToken = user.JwtDonatieToken;
+        await _dbContext.SaveChangesAsync();
+        
+        return NoContent();
+    }
 }

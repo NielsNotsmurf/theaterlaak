@@ -12,10 +12,8 @@ public class Reservering
     [ForeignKey(nameof(Moment))]
     public int MomentId { get; set; }
     public Moment? Moment { get; set; }
+    public List<Stoel> GereserveerdeStoelen { get; set; } = new List<Stoel>();
 
-    public List<Stoel>? GereserveerdeStoelen { get; set; }
-
-    
     [ForeignKey(nameof(ApplicationUser))]
     public string UserId { get; set; } = string.Empty;
     public ApplicationUser? User { get; set; }

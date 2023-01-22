@@ -11,8 +11,8 @@ using theaterlaak.Data;
 namespace theaterlaak.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230117195301_WorkingMigration")]
-    partial class WorkingMigration
+    [Migration("20230121175051_fixtelefoonnummer")]
+    partial class fixtelefoonnummer
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -311,6 +311,9 @@ namespace theaterlaak.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("INTEGER");
 
+                    b.Property<string>("JwtDonatieToken")
+                        .HasColumnType("TEXT");
+
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("INTEGER");
 
@@ -325,14 +328,8 @@ namespace theaterlaak.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("TEXT");
 
-                    b.Property<byte[]>("Password")
-                        .HasColumnType("BLOB");
-
                     b.Property<string>("PasswordHash")
                         .HasColumnType("TEXT");
-
-                    b.Property<byte[]>("PasswordSalt")
-                        .HasColumnType("BLOB");
 
                     b.Property<string>("PhoneNumber")
                         .HasColumnType("TEXT");
@@ -341,6 +338,9 @@ namespace theaterlaak.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("SecurityStamp")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("TelefoonNummer")
                         .HasColumnType("TEXT");
 
                     b.Property<bool>("TwoFactorEnabled")

@@ -5,6 +5,7 @@ using theaterlaak.Converters;
 using theaterlaak.Data;
 using theaterlaak.Exceptions;
 using theaterlaak.Models;
+using theaterlaak.Entities;
 
 namespace theaterlaak.Services
 {
@@ -29,7 +30,7 @@ namespace theaterlaak.Services
             _context = context;
         }
 
-        public async Task<List<Reservering>> GetReserveringen()
+        public async Task<List<Models.Reservering>> GetReserveringen()
         {
             var reserveringQuery = _context.Reserveringen
             .AsNoTracking()
@@ -39,7 +40,7 @@ namespace theaterlaak.Services
             return reserveringen.ConvertAll(v => v.ToDto());
         }
 
-        public async Task<ActionResult<Reservering>> GetReservering(int id)
+        public async Task<ActionResult<Models.Reservering>> GetReservering(int id)
         {
             var reservering = await _context.Reserveringen
             .AsNoTracking()
@@ -82,10 +83,11 @@ namespace theaterlaak.Services
 
         public async Task AddReservering(AddOrUpdateReservering reservering)
         {
-            var newReservering = new Reservering
+            var newReservering = new Entities.Reservering
             {
                 MomentId = reservering.MomentId,
                 UserId = reservering.UserId,
+
             };
 
             _context.Add(newReservering);
@@ -99,6 +101,7 @@ namespace theaterlaak.Services
 
                 stoeltje.ReserveringId = newReservering.Id;
                 stoeltje.Bezet = true;
+                newReservering.GereserveerdeStoelen.Add(stoeltje);
             });
 
             await _context.SaveChangesAsync();

@@ -11,16 +11,18 @@ const reserveringService = {
 };
 export default reserveringService;
 
-function AddReservering(UserId, MomentId, GereserveerdeStoelenId) {
+async function AddReservering(UserId, MomentId, GereserveerdeStoelenId) {
     const body = { UserId: UserId, MomentId: MomentId, GereserveerdeStoelenId:GereserveerdeStoelenId};
-    return fetch('https://localhost:7242/api/reservering', {
+    
+    var response = await fetch('https://localhost:7242/api/reservering', {
         method: 'POST',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-        },
+        headers: authHeader(),
         body: JSON.stringify(body),
-    }).then(handleResponse, handleError);
+    });
+    if(await response != null){
+        return response;
+    }
+
 }
 
 function GetReserveringen() {
@@ -60,6 +62,8 @@ function getReserveringenByUserId(userId) {
         }
     }).json();
 }
+
+
 
 function DeleteReservering(id) {
     const requestOptions = {

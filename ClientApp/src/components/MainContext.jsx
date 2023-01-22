@@ -4,7 +4,8 @@ export const MainContext = createContext();
 
 export default function MainContextProvider(props) {
     const [state, setState] = useState({
-        user: { id: '1'},
+        user: null,
+        roles: [],
         updateContextState,
     });
 
