@@ -23,16 +23,18 @@ export default function PrivateRoute() {
         setIsLoading(true);
 
         try {
-            const jwtToken = jwtDecode(getLocalUser().accessToken);
-            if (new Date(jwtToken.exp * 1000) < new Date()) {
-                updateContextState({ user: undefined, roles: [] });
+            if ('accessToken' in getLocalUser()) {
+                const jwtToken = jwtDecode(getLocalUser().accessToken);
+                if (new Date(jwtToken.exp * 1000) < new Date()) {
+                    updateContextState({ user: undefined, roles: [] });
 
-                localStorage.clear();
-                navigate('/login');
-            } else {
-                const loggedInUser = await applicationUserService.getUserById(getLocalUser().id);
+                    localStorage.clear();
+                    navigate('/login');
+                } else {
+                    const loggedInUser = await applicationUserService.getUserById(getLocalUser().id);
 
-                updateContextState({ user: loggedInUser, roles: jwtToken.roles });
+                    updateContextState({ user: loggedInUser, roles: jwtToken.roles });
+                }
             }
         } catch (error) {
             console.log(error);

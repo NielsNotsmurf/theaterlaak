@@ -27,9 +27,8 @@ async function login(username, password) {
         if ("accessToken" in user) {
             localStorage.setItem('user', JSON.stringify(user));
         }
-        console.log(user);
     }
-    };
+};
 
 
 function register(voornaam,achternaam,username,password,confirmPassword,telefoonnummer) {
