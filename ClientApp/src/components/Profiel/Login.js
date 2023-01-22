@@ -14,7 +14,7 @@ export default class Login extends React.Component {
             password: "",
             succes: "",
             token: "",
-            // captcha: "",
+            captcha: "",
             passwordShown: false,
         };
         this.handleChange = this.handleChange.bind(this);
