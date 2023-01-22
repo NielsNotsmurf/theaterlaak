@@ -1,6 +1,6 @@
 import React from "react";
 import AccountService from "../Services/AccountService";
-// import { loadCaptchaEnginge, LoadCanvasTemplate, validateCaptcha } from 'react-simple-captcha';
+import { loadCaptchaEnginge, LoadCanvasTemplate, validateCaptcha } from 'react-simple-captcha';
 import applicationUserService from '../Services/applicationUserService';
 import { getLocalUser } from '../Helpers/storageHelper';
 import SnackbarManager from "../Componenten/Snackbar/SnackbarManager";
